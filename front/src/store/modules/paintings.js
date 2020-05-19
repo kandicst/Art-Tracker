@@ -1,17 +1,32 @@
 // import Vue from 'vue';
 
-const state = {};
+const state = {
+  artMovements: [
+    'Classicism',
+    'Post-Impressionism',
+    'Impressionism',
+    'Cubism',
+    'Romanticism',
+    'Gothic',
+    'Baroque',
+    'Modern',
+    'Renaissance',
+    'Humanism',
+  ],
+};
 
 const mutations = {};
 
 const actions = {};
 
-const getters = {};
+const getters = {
+    getArtMovements: state => state.artMovements,
+};
 
 export default {
-    namespaced: true,
-    state,
-    mutations,
-    getters,
-    actions,
+  namespaced: true,
+  state,
+  mutations,
+  getters,
+  actions,
 };
