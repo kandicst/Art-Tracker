@@ -68,8 +68,9 @@
     </v-form>
     <v-row class="mt-12">
       <v-col cols="6" class="pa-0" align="center" justify="begin">
-        <v-btn class="blue white--text">Submit</v-btn>
+        <v-btn @click="openAddDialog" class="blue white--text">Submit</v-btn>
       </v-col>
+      <ArtistsDialog/>
     </v-row>
 
 
@@ -77,7 +78,13 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+import ArtistsDialog from './dialogues/ArtistsDialog'
+
 export default {
+  components: {
+    ArtistsDialog
+  },
 
   data() {
     return {
@@ -86,6 +93,17 @@ export default {
         'Cubism', 'Romanticism', 'Gothic', 'Baroque', 'Modern', 
         'Renaissance', 'Humanism'
       ]
+    }
+  },
+
+  methods : {
+    ...mapMutations("artistsDialog", {
+      openAddDialog: "openAddDialog",
+      openEditDialog: "openEditDialog"
+    }),
+
+    met(){
+      alert('ejeejje')
     }
   }
 

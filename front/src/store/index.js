@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import snackbar from './modules/snackbar'
 import paintings from './modules/paintings'
 import artists from './modules/artists'
+import artistsDialog from './modules/artistsDialog'
 import map from './modules/map'
 
 
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     snackbar: snackbar,
     paintings: paintings,
     artists: artists,
-    map: map
+    artistsDialog: artistsDialog,
+    map: map,
   }
 })

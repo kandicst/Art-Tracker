@@ -100,18 +100,33 @@ export default {
 
     switchToRightTab() {
       this.tab = (this.tab + 1) % 3
-    }
+    },
+
+    switchMapUp() {
+      let index = this.mapOptions.findIndex(map => map.name == this.selectedMap.name);
+      index = (index + 1) % this.mapOptions.length;
+      this.selectedMap = this.mapChanged[index]
+    },
+
+    switchMapDown() {
+      alert('switched')
+      let index = this.mapOptions.findIndex(map => map.name == this.selectedMap.name);
+      index = (index - 1) % this.mapOptions.length;
+      this.selectedMap = this.mapChanged[index]
+    },
   },
 
   computed: {
 
-  ...mapGetters({
-    mapOptions: 'map/getMapOptions',
-    selectedMap: 'map/getSelectedMap'
-  }),
+    ...mapGetters({
+      mapOptions: 'map/getMapOptions',
+      selectedMap: 'map/getSelectedMap'
+    }),
 
-  keymap () {
+    keymap () {
       return {
+       'ctrl+up': this.switchMapUp,
+       'ctrl+down': this.switchMapDown,
        'ctrl+left': this.switchToLeftTab,
        'ctrl+right' : this.switchToRightTab,
        'tab' : this.theAction,

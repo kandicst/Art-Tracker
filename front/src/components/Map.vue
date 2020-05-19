@@ -4,6 +4,8 @@
     :mapStyle="mapStyle"
     @load="onMapLoaded"
     :maxBounds="selectedMap.bounds"
+    :zoom="selectedMap.zoom"
+    :center="selectedMap.center"
     :key="selectedMap.name"
   >
     <MglMarker
@@ -38,9 +40,6 @@ export default {
         'pk.eyJ1Ijoic3N0ZWYiLCJhIjoiY2thMDEzMXBpMGNpYjNmcG11Y2ozYTlucCJ9.GDzoIBfJMXOLfL1vxMuGnw',
       mapStyle: 'mapbox://styles/mapbox/streets-v9',
       markerCoordinates: [50, 50],
-//       bounds : [[-74.04728500751165, 40.68392799015035], // Southwest coordinates
-// [-73.91058699000139, 40.87764500765852]],
-      // bounds: [[],[]]
 
     };
   },
