@@ -11,11 +11,11 @@
           </div>
 
           <v-spacer></v-spacer>
-          <v-btn>DUGME</v-btn>
+          <v-switch>DUGME</v-switch>
+          <button v-hotkey="keymap"> DUGME </button>
       </v-row>
       <v-row class="mainRow">
         <v-col cols="4" class="ma-0 py-0 pr-0">
-
 
           <v-tabs-items v-model="tab">
             <v-tab-item key="painters" class=""> 
@@ -30,12 +30,17 @@
           </v-tabs-items>
         </v-col>
         
-        <v-col cols="8 blue">
+        <v-col cols="8">
           <!-- OVDE CE ICI MAPA -->
           <!-- <NavigationDrawer/> -->
-          <div class="blue"></div>
+          <div style="height:100%;">
+            <Map></Map>
+          </div>
+          <!-- <div class="blue"></div> -->
         </v-col>
       </v-row>
+      
+      <!-- button for changing tabs -->
     </v-container>
 </template>
 
@@ -44,17 +49,44 @@
 // import HelloWorld from '@/components/HelloWorld.vue'
 // import NavigationDrawer from "@/components/NavigationDrawer";
 import SideBar from "@/components/SideBar"
+import Map from '@/components/Map'
+
 
 export default {
   name: 'Home',
   components: {
-    SideBar
+    SideBar,
+    Map
     // NavigationDrawer
   },
 
   data() {
     return {
       tab : null,
+    }
+  },
+
+  methods: {
+    theAction() {
+      alert('lelelel')
+    },
+
+    switchToLeftTab() {
+      this.tab = (this.tab - 1) % 3
+    },
+
+    switchToRightTab() {
+      this.tab = (this.tab + 1) % 3
+    }
+  },
+
+  computed :{
+    keymap () {
+      return {
+       'ctrl+left': this.switchToLeftTab,
+       'ctrl+right' : this.switchToRightTab,
+       'tab' : this.theAction,
+      }
     }
   }
 }
