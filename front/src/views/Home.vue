@@ -1,5 +1,5 @@
 <template>
-    <v-container class=" mainContainer">
+    <v-container class=" mainContainer" v-hotkey="keymap">
 
       <v-row class="pa-5">
           <div >
@@ -11,8 +11,19 @@
           </div>
 
           <v-spacer></v-spacer>
-          <v-switch>DUGME</v-switch>
-          <button v-hotkey="keymap"> DUGME </button>
+          <!-- <v-switch>DUGME</v-switch> -->
+          <v-select
+            class="mapSelection mt-2 mr-3"
+            v-model="selectedMap.name"
+            :items="mapOptions"
+            hide-details
+            solo 
+            dense
+            @change="mapChanged"
+            item-text="name"
+            return-object
+          >
+          </v-select>
       </v-row>
       <v-row class="mainRow">
         <v-col cols="4" class="ma-0 py-0 pr-0">
@@ -50,6 +61,7 @@
 // import NavigationDrawer from "@/components/NavigationDrawer";
 import SideBar from "@/components/SideBar"
 import Map from '@/components/Map'
+import { mapGetters, mapActions } from 'vuex'
 
 
 export default {
@@ -63,12 +75,23 @@ export default {
   data() {
     return {
       tab : null,
+      // selectedMap : "World",
+      // mapOptions: ['World', 'Europe', 'United States', 'Serbia' ],
     }
   },
 
   methods: {
+    ...mapActions({
+      changeSelectedMapAction: 'map/changeSelectedMapAction',
+    }),
+
     theAction() {
       alert('lelelel')
+    },
+
+    mapChanged(val) {
+      console.log(val);
+      this.changeSelectedMapAction(val);
     },
 
     switchToLeftTab() {
@@ -80,8 +103,14 @@ export default {
     }
   },
 
-  computed :{
-    keymap () {
+  computed: {
+
+  ...mapGetters({
+    mapOptions: 'map/getMapOptions',
+    selectedMap: 'map/getSelectedMap'
+  }),
+
+  keymap () {
       return {
        'ctrl+left': this.switchToLeftTab,
        'ctrl+right' : this.switchToRightTab,
@@ -108,5 +137,8 @@ export default {
   height: 89%;
 }
 
+.mapSelection{
+  max-width: 170px !important;
+}
 
 </style>

@@ -1,18 +1,19 @@
 <template>
-  <MglMap 
-    :accessToken="accessToken" 
+  <MglMap
+    :accessToken="accessToken"
     :mapStyle="mapStyle"
     @load="onMapLoaded"
-    :key="selectedMap"
+    :maxBounds="selectedMap.bounds"
+    :key="selectedMap.name"
   >
-     <MglMarker
+    <MglMarker
       :coordinates.sync="markerCoordinates"
-      color='green'
+      color="green"
       @dragend="ale"
       :draggable="true"
     >
       <MglPopup>
-          <div>Hello, I'm popup!</div>
+        <div>Hello, I'm popup!</div>
       </MglPopup>
     </MglMarker>
     <MglNavigationControl position="bottom-right" :showCompass="false" />
@@ -20,20 +21,26 @@
 </template>
 
 <script>
-import Mapbox from "mapbox-gl";
-import { MglMap, MglMarker, MglNavigationControl, MglPopup } from "vue-mapbox";
+import Mapbox from 'mapbox-gl';
+import { MglMap, MglMarker, MglNavigationControl, MglPopup } from 'vue-mapbox';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   components: {
-    MglMap, MglMarker,
-    MglNavigationControl, MglPopup  
+    MglMap,
+    MglMarker,
+    MglNavigationControl,
+    MglPopup,
   },
   data() {
     return {
-      selectedMap : "",
-      accessToken: 'pk.eyJ1Ijoic3N0ZWYiLCJhIjoiY2thMDEzMXBpMGNpYjNmcG11Y2ozYTlucCJ9.GDzoIBfJMXOLfL1vxMuGnw', 
-      mapStyle : 'mapbox://styles/mapbox/streets-v9',
+      accessToken:
+        'pk.eyJ1Ijoic3N0ZWYiLCJhIjoiY2thMDEzMXBpMGNpYjNmcG11Y2ozYTlucCJ9.GDzoIBfJMXOLfL1vxMuGnw',
+      mapStyle: 'mapbox://styles/mapbox/streets-v9',
       markerCoordinates: [50, 50],
+//       bounds : [[-74.04728500751165, 40.68392799015035], // Southwest coordinates
+// [-73.91058699000139, 40.87764500765852]],
+      // bounds: [[],[]]
 
     };
   },
@@ -43,6 +50,12 @@ export default {
     this.mapbox = Mapbox;
   },
 
+  computed: {
+    ...mapGetters({
+      selectedMap: 'map/getSelectedMap',
+    }),
+  },
+
   methods: {
     onMapLoaded(event) {
       // in component
@@ -50,28 +63,23 @@ export default {
       // or just to store if you want have access from other components
       this.$store.map = event.map;
 
-      let options = {"draggable" : true}
+      let options = { draggable: true };
       var marker = new Mapbox.Marker(options)
-      .setLngLat([30.5, 50.5])
-      .addTo(this.$store.map)
-      .on('dragend', function(e) {
-        console.log(e);
-        console.log(e.target._lngLat)
-      })
-      .getElement().setAttribute('painterId', 'OMFG')
-
-
+        .setLngLat([30.5, 50.5])
+        .addTo(this.$store.map)
+        .on('dragend', function(e) {
+          console.log(e);
+          console.log(e.target._lngLat);
+        })
+        .getElement()
+        .setAttribute('painterId', 'OMFG');
     },
 
     ale(x) {
-      this.selectedMap += "11"
-      console.log(this.selectedMap)
       console.log(x);
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style>
-
-</style>
+<style></style>
