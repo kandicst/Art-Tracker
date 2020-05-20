@@ -1,6 +1,6 @@
 <template>
     <v-card>
-      <v-card-title>DEMO MODE</v-card-title>
+      <v-card-title>Shortcuts</v-card-title>
       <v-card-text>
         DDDDDDDDIJALOG
       </v-card-text>

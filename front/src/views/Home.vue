@@ -1,12 +1,12 @@
 <template>
   <v-container class=" mainContainer" v-hotkey="keymap">
-    <v-row class="px-5 pt-2 mb-5" align="center">
-      <div>
+    <v-row class="px-5 pt-2 mb-5" align="center" justify="end">
+      <v-col cols="4" class="ma-0 pa-0">
         <v-tabs v-model="tab" class="" background-color="transparent">
           <v-tab key="artists">Artists</v-tab>
           <v-tab key="paintings">Paintings</v-tab>
         </v-tabs>
-      </div>
+      </v-col>
 
       <v-spacer></v-spacer>
 
@@ -25,7 +25,7 @@
 
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn id="shortcuts" v-on="on" class=" ">
+            <v-btn id="shortcuts" v-on="on" @click.stop="shortcutDialog = true">
               <span
                 class="iconify"
                 data-icon="ri-command-fill"
@@ -38,7 +38,13 @@
 
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
-            <v-btn v-on="on" id="help" class="ml-4" icon>
+            <v-btn
+              v-on="on"
+              @click.stop="helpDialog = true"
+              id="help"
+              class="ml-4"
+              icon
+            >
               <span
                 class="iconify"
                 data-icon="bx:bx-help-circle"
@@ -71,6 +77,25 @@
         </div>
       </v-col>
     </v-row>
+
+    <!-- DIALOGS -->
+    <v-dialog
+      v-model="helpDialog"
+      width="35%"
+      @click:outside="helpDialog = false"
+      :retain-focus="false"
+    >
+      <HelpDialog />
+    </v-dialog>
+
+    <v-dialog
+      v-model="shortcutDialog"
+      width="35%"
+      @click:outside="shortcutDialog = false"
+      :retain-focus="false"
+    >
+      <ShortcutsDialog />
+    </v-dialog>
   </v-container>
 </template>
 
@@ -78,6 +103,8 @@
 // @ is an alias to /src
 import SideBar from '@/components/SideBar';
 import Map from '@/components/Map';
+import HelpDialog from '../components/dialogues/HelpDialog';
+import ShortcutsDialog from '../components/dialogues/ShortcutsDialog';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
@@ -85,11 +112,15 @@ export default {
   components: {
     SideBar,
     Map,
+    HelpDialog,
+    ShortcutsDialog,
   },
 
   data() {
     return {
       tab: null,
+      helpDialog: false,
+      shortcutDialog: false,
     };
   },
 

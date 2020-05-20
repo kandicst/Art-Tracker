@@ -68,9 +68,13 @@
     </v-form>
     <v-row class="mt-12">
       <v-col cols="6" class="pa-0" align="center" justify="begin">
-        <v-btn @click="openAddDialog" class="blue white--text" v-hotkey="keymap">Submit</v-btn>
+        <v-btn @click="openAddDialog" class="blue white--text" v-hotkey="keymap">Artist Dialog</v-btn>
+      </v-col>
+      <v-col cols="6" class="pa-0" align="center" justify="begin">
+        <v-btn @click="openPaintingsAddDialog" class="blue white--text" >Painting Dialog</v-btn>
       </v-col>
       <ArtistsDialog/>
+      <PaintingsDialog/>
     </v-row>
 
 
@@ -80,10 +84,12 @@
 <script>
 import { mapMutations, mapGetters } from 'vuex';
 import ArtistsDialog from './dialogues/ArtistsDialog'
+import PaintingsDialog from './dialogues/PaintingsDialog'
 
 export default {
   components: {
-    ArtistsDialog
+    ArtistsDialog,
+    PaintingsDialog
   },
 
   data() {
@@ -97,15 +103,16 @@ export default {
       openEditDialog: "openEditDialog"
     }),
 
-    met(){
-      alert('ejeejje')
-    }
+    // TEST
+    ...mapMutations("paintingsDialog", {
+      openPaintingsAddDialog: "openAddDialog",
+    }),
   },
 
   computed: {
     keymap(){
       return {
-       'ctrl+m': this.openAddDialog,
+       'ctrl+alt+n': this.openAddDialog,
       }
     },
 

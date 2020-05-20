@@ -2,32 +2,75 @@
   <v-dialog
     :value="dialog"
     width="35%"
-    min-width="800px"
     @click:outside="close"
     v-hotkey="keymap"
     :retain-focus="false"
   >
-    <v-card>
+    <v-card class="pa-3 ">
       <v-card-title v-if="type === 'add'">Add New Artist</v-card-title>
-      <v-card-title v-else>Edit Existing Artist</v-card-title>
+      <v-card-title v-else>Edit Artist</v-card-title>
       <v-card-text>
-        <v-form ref="form" class="ma-3" lazy-validation>
-          <v-text-field label="Name"></v-text-field>
-          <DatePicker />
-          <v-text-field label="Home Town"></v-text-field>
-          <v-text-field label="Nationality"></v-text-field>
+        <v-form ref="form" class="mt-5 mr-8" lazy-validation>
+          <v-text-field
+            v-model="artist.name"
+            label="Name"
+            id="nameInput"
+            prepend-icon="mdi-account"
+            autofocus
+          ></v-text-field>
+
+          <DatePicker
+            :day="artist.birthday.day"
+            @dayChanged="artist.birthday.day = $event"
+            :month="artist.birthday.month"
+            @monthChanged="artist.birthday.month = $event"
+            :year="artist.birthday.year"
+            @yearChanged="artist.birthday.year = $event"
+            icon="mdi-cake-variant"
+            hint="Date of birth"
+          />
+
+          <v-text-field
+            v-model="artist.birthplace"
+            label="Home Town"
+            prepend-icon="mdi-home-city"
+          ></v-text-field>
+
+          <v-text-field
+            v-model="artist.nationality"
+            label="Nationality"
+            prepend-icon="mdi-flag"
+          ></v-text-field>
+
           <v-select
             :items="artMovements"
+            v-model="artist.artMovement"
             menu-props="auto"
             label="Art movement"
             hide-details
             single-line
-          >
-          </v-select>
-          <DatePicker />
+            prepend-icon="mdi-timer-sand"
+          ></v-select>
+
+          <DatePicker
+            :day="artist.death.day"
+            @dayChanged="artist.death.day = $event"
+            :month="artist.death.month"
+            @monthChanged="artist.death.month = $event"
+            :year="artist.death.year"
+            @yearChanged="artist.death.year = $event"
+            icon="mdi-grave-stone"
+            hint="Death date (not required)"
+          />
+
+          <v-file-input
+            accept="image/*"
+            label="Image"
+            prepend-icon="mdi-camera"
+          ></v-file-input>
         </v-form>
       </v-card-text>
-      <v-card-actions>
+      <v-card-actions class="mr-8">
         <v-spacer></v-spacer>
         <v-btn @click="close" text>Cancel</v-btn>
         <v-btn v-if="type === 'add'" color="primary" @click="add" text
@@ -55,10 +98,17 @@ export default {
   methods: {
     ...mapMutations('artistsDialog', {
       close: 'closeDialog',
+      reset: 'resetDialogArtist',
     }),
 
-    add() {
-      console.log('add');
+    ...mapActions({
+      addArtistAction: 'artists/addArtistAction',
+    }),
+
+    async add() {
+      await this.addArtistAction(Object.assign({}, this.artist));
+      this.reset(); //reset input
+      document.getElementById('nameInput').focus();
     },
 
     update() {

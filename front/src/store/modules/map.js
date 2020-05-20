@@ -3,9 +3,9 @@
 const state = {
   mapOptions: [
     { name: 'World', bounds: [[-190, -55], [190, 85]]},
-    { name: 'Europe', bounds: [[-26.4, 30], [60, 73]],},
-    { name: 'United States', bounds: [[-190, -60], [190, 85]],},
-    { name: 'Serbia', bounds: [[-190, -60], [190, 85]], },
+    { name: 'Europe', bounds: [[-35, 25], [70, 73]], zoom: 2},
+    { name: 'United States', bounds: [[-150, 10], [-42, 65]], zoom: 4, center: [-99, 40]},
+    { name: 'Serbia', bounds: [[16, 40], [25, 47]], center: [20.65, 44], zoom: 6.6},
   ],
   selectedMap: { name: 'World', bounds: [[-190, -55], [190, 85]]},
 };

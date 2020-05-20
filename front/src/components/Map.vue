@@ -5,8 +5,9 @@
     @load="onMapLoaded"
     :maxBounds="selectedMap.bounds"
     :key="selectedMap.name"
+    :zoom="selectedMap.zoom"
+    :center="selectedMap.center"
   >
-    <!-- :zoom="selectedMap.zoom" -->
     <MglMarker
       :coordinates.sync="markerCoordinates"
       color="green"

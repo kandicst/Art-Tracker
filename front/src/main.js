@@ -3,14 +3,14 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
+import Axios from "axios";
 import VueShortKey from 'vue-shortkey'
 
 import VueHotkey from 'v-hotkey'
 
 Vue.use(VueHotkey)
+Vue.$axios = Axios;
 
-// Vue.use('vue-shortkey', { prevent: ['input', 'textarea'] })
-// Vue.use(require('vue-shortkey'))
 Vue.use(VueShortKey);
 Vue.config.productionTip = false
 
