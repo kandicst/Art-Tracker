@@ -7,6 +7,7 @@ import paintingsDialog from './modules/paintingsDialog'
 import artists from './modules/artists'
 import artistsDialog from './modules/artistsDialog'
 import map from './modules/map'
+import autocomplete from './modules/autocomplete'
 
 
 Vue.use(Vuex)
@@ -25,5 +26,6 @@ export default new Vuex.Store({
     artists: artists,
     artistsDialog: artistsDialog,
     map: map,
+    autocomplete: autocomplete
   }
 })

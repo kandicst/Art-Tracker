@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     :value="dialog"
-    width="35%"
+    width="600px"
     @click:outside="close"
     v-hotkey="keymap"
     :retain-focus="false"
@@ -30,11 +30,16 @@
             hint="Date of birth"
           />
 
-          <v-text-field
+          <!-- <v-text-field
             v-model="artist.birthplace"
             label="Home Town"
             prepend-icon="mdi-home-city"
-          ></v-text-field>
+          ></v-text-field> -->
+          <CityAutocomplete
+            :location="artist.birthplace"
+            @locationChanged="artist.birthplace = $event"
+            id="homeTownAutocomplete"
+          />
 
           <v-text-field
             v-model="artist.nationality"
@@ -85,10 +90,12 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import DatePicker from './../DatePicker';
+import CityAutocomplete from './../CityAutocomplete';
 
 export default {
   components: {
     DatePicker,
+    CityAutocomplete,
   },
 
   data() {
@@ -105,9 +112,20 @@ export default {
       addArtistAction: 'artists/addArtistAction',
     }),
 
+    async enterPressed(){
+      // if focused element is autocomplete allow enter to choose city
+      // else user is trying to finish changes so call add
+      const autocompleteElement = document.getElementById('homeTownAutocomplete')
+      if(!autocompleteElement || autocompleteElement.contains(document.activeElement))
+        return;
+      
+      await this.add();
+    },
+
     async add() {
       await this.addArtistAction(Object.assign({}, this.artist));
-      this.reset(); //reset input
+      //reset input
+      this.reset(); 
       document.getElementById('nameInput').focus();
     },
 
@@ -126,7 +144,7 @@ export default {
 
     keymap() {
       return {
-        enter: this.add,
+        enter: this.enterPressed,
         esc: this.close,
       };
     },

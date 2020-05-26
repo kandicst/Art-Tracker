@@ -1,12 +1,12 @@
 <template>
   <v-dialog
     :value="dialog"
-    width="35%"
+    width="600px"
     @click:outside="close"
     v-hotkey="keymap"
     :retain-focus="false"
   >
-    <v-card class="pa-3 ">
+    <v-card class="pa-3">
       <v-card-title v-if="type === 'add'">Add New Painting</v-card-title>
       <v-card-title v-else>Edit Painting</v-card-title>
       <v-card-text>
@@ -17,7 +17,8 @@
             id="paintingNameInput"
             prepend-icon="mdi-rename-box"
             autofocus
-          ></v-text-field>
+          >
+          </v-text-field>
 
           <v-select
             :items="artists"
@@ -40,12 +41,17 @@
             hint="Year that it was painted"
           ></v-text-field>
 
-          <v-text-field
+          <!-- <v-text-field
             v-model="painting.location"
             label="Location"
             prepend-icon="mdi-home-city"
             hint="Where the image is located today"
-          ></v-text-field>
+          ></v-text-field> -->
+          <CityAutocomplete
+            :location="painting.location"
+            @locationChanged="painting.location = $event"
+            id="locationAutocomplete"
+          />
 
           <v-select
             :items="artMovements"
@@ -98,8 +104,12 @@
 
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex';
+import CityAutocomplete from './../CityAutocomplete';
 
 export default {
+  components: {
+    CityAutocomplete,
+  },
   data() {
     return {
       mediums: [
@@ -130,6 +140,21 @@ export default {
       addPaintingAction: 'paintings/addPaintingAction',
     }),
 
+    async enterPressed() {
+      // if focused element is autocomplete allow enter to choose city
+      // else user is trying to finish changes so call add
+      const autocompleteElement = document.getElementById(
+        'locationAutocomplete'
+      );
+      if (
+        !autocompleteElement ||
+        autocompleteElement.contains(document.activeElement)
+      )
+        return;
+
+      await this.add();
+    },
+
     async add() {
       await this.addPaintingAction(Object.assign({}, this.painting));
       this.reset();
@@ -152,7 +177,7 @@ export default {
 
     keymap() {
       return {
-        enter: this.add,
+        enter: this.enterPressed,
         esc: this.close,
       };
     },

@@ -1,6 +1,6 @@
 <template>
-  <v-container class=" mainContainer" v-hotkey="keymap">
-    <v-row class="px-5 pt-2 mb-5" align="center" justify="end">
+  <v-container class=" mainContainer mt-0 pt-0" v-hotkey="keymap">
+    <v-row class="px-5 pt-7 mb-5">
       <v-col cols="4" class="ma-0 pa-0">
         <v-tabs v-model="tab" class="" background-color="transparent">
           <v-tab key="artists">Artists</v-tab>
@@ -8,53 +8,76 @@
         </v-tabs>
       </v-col>
 
-      <v-spacer></v-spacer>
-
-      <v-row justify="end" class="mt-2 mr-3">
-        <v-select
-          class="mapSelection mx-4"
-          v-model="selectedMap.name"
-          :items="mapOptions"
-          hide-details
-          solo
+      <!-- filled -->
+      <v-col sm="3" md="5" class="ma-0 pa-0 pt-2">
+        <v-text-field
+          class=""
+          outlined
+          filled
           dense
-          @change="mapChanged"
-          item-text="name"
-          return-object
-        ></v-select>
-
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-btn id="shortcuts" v-on="on" @click.stop="shortcutDialog = true">
-              <span
-                class="iconify"
-                data-icon="ri-command-fill"
-                data-inline="false"
-              ></span>
-            </v-btn>
+          single-line
+          placeholder="NJEMA"
+        >
+          <!-- prepend-inner-icon="mdi-map-search" -->
+          <template slot="prepend-inner">
+            <div class="mt-1 ml-2 mr-4 searchIcon">
+              <span class="iconify" data-icon="zondicons:search"></span>
+            </div>
           </template>
-          <span>Keyboard Shortcuts</span>
-        </v-tooltip>
+        </v-text-field>
+      </v-col>
 
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-btn
-              v-on="on"
-              @click.stop="helpDialog = true"
-              id="help"
-              class="ml-4"
-              icon
-            >
-              <span
-                class="iconify"
-                data-icon="bx:bx-help-circle"
-                data-inline="false"
-              ></span>
-            </v-btn>
-          </template>
-          <span>Demo mode</span>
-        </v-tooltip>
-      </v-row>
+      <v-col sm="5" md="3" class="ma-0 pa-0">
+        <v-row justify="end" class="mt-2 mr-3">
+          <v-select
+            class="mapSelection mx-4"
+            v-model="selectedMap.name"
+            :items="mapOptions"
+            hide-details
+            solo
+            dense
+            @change="mapChanged"
+            item-text="name"
+            return-object
+          ></v-select>
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                id="shortcuts"
+                v-on="on"
+                @click.stop="shortcutDialog = true"
+              >
+                <span
+                  class="iconify"
+                  data-icon="ri-command-fill"
+                  data-inline="false"
+                ></span>
+              </v-btn>
+            </template>
+            <span>Keyboard Shortcuts</span>
+          </v-tooltip>
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                v-on="on"
+                @click.stop="helpDialog = true"
+                id="help"
+                class="ml-4"
+                icon
+              >
+                <span
+                  class="iconify"
+                  data-icon="bx:bx-help-circle"
+                  data-inline="false"
+                ></span>
+              </v-btn>
+            </template>
+            <span>Demo mode</span>
+          </v-tooltip>
+        </v-row>
+      </v-col>
     </v-row>
 
     <!-- Page Content -->
@@ -208,4 +231,9 @@ export default {
   width: 25px;
   height: 25px;
 }
+
+/* .searchIcon .iconify {
+  width: 20px;
+  height: 20px;
+} */
 </style>
