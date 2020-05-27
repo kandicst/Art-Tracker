@@ -10,21 +10,26 @@
 
       <!-- filled -->
       <v-col sm="3" md="5" class="ma-0 pa-0 pt-2">
-        <v-text-field
-          class=""
-          outlined
-          filled
-          dense
-          single-line
-          placeholder="NJEMA"
-        >
-          <!-- prepend-inner-icon="mdi-map-search" -->
-          <template slot="prepend-inner">
-            <div class="mt-1 ml-2 mr-4 searchIcon">
-              <span class="iconify" data-icon="zondicons:search"></span>
-            </div>
-          </template>
-        </v-text-field>
+        <v-row class="ma-0 pa-0">
+          <v-col cols="8" class="ma-0 pa-0">
+            <v-text-field
+              class=""
+              outlined
+              dense
+              single-line
+              placeholder="NJEMA"
+            >
+              <template slot="prepend-inner">
+                <div class="mt-1 ml-2 mr-4 searchIcon">
+                  <span class="iconify" data-icon="zondicons:search"></span>
+                </div>
+              </template>
+            </v-text-field>
+          </v-col>
+          <v-col cols="2" class="ma-0 pa-0">
+            <FilterComponent/>
+          </v-col>
+        </v-row>
       </v-col>
 
       <v-col sm="5" md="3" class="ma-0 pa-0">
@@ -94,9 +99,8 @@
       </v-col>
 
       <v-col md="8">
-        <!-- OVDE CE ICI MAPA -->
         <div style="height:100%;">
-          <Map></Map>
+          <Map />
         </div>
       </v-col>
     </v-row>
@@ -126,6 +130,7 @@
 // @ is an alias to /src
 import SideBar from '@/components/SideBar';
 import Map from '@/components/Map';
+import FilterComponent from '@/components/FilterComponent'
 import HelpDialog from '../components/dialogues/HelpDialog';
 import ShortcutsDialog from '../components/dialogues/ShortcutsDialog';
 import { mapGetters, mapActions } from 'vuex';
@@ -137,6 +142,7 @@ export default {
     Map,
     HelpDialog,
     ShortcutsDialog,
+    FilterComponent
   },
 
   data() {
@@ -229,6 +235,11 @@ export default {
 
 #help .iconify {
   width: 25px;
+  height: 25px;
+}
+
+.filterIcon .iconify {
+  width: 20px;
   height: 25px;
 }
 

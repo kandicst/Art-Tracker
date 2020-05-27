@@ -1,0 +1,94 @@
+<template>
+  <v-menu
+    v-model="menu"
+    offset-y
+    :close-on-content-click="false"
+  >
+    <template v-slot:activator="{ on }">
+      <v-btn
+        class="text-none"
+        depressed
+        outlined
+        dense
+        v-on="on"
+        min-height="40px"
+      >
+        Filter
+        <div class="ml-6 filterIcon">
+          <span class="iconify" data-icon="bi:filter"></span>
+        </div>
+      </v-btn>
+    </template>
+    <v-card>
+      <v-list>
+        <v-list-item>
+          <v-list-item-avatar>
+            <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+          </v-list-item-avatar>
+
+          <v-list-item-content>
+            <v-list-item-title>John Leider</v-list-item-title>
+            <v-list-item-subtitle>Founder of Vuetify.js</v-list-item-subtitle>
+          </v-list-item-content>
+
+          <v-list-item-action>
+            <v-btn :class="fav ? 'red--text' : ''" icon @click="fav = !fav">
+              <v-icon>mdi-heart</v-icon>
+            </v-btn>
+          </v-list-item-action>
+        </v-list-item>
+      </v-list>
+
+      <v-divider></v-divider>
+
+      <v-list>
+        <v-list-item>
+          <v-list-item-action>
+            <v-switch v-model="message" color="purple"></v-switch>
+          </v-list-item-action>
+          <v-list-item-title>Enable messages</v-list-item-title>
+        </v-list-item>
+
+        <v-list-item>
+          <v-list-item-action>
+            <v-switch v-model="hints" color="purple"></v-switch>
+          </v-list-item-action>
+          <v-list-item-title>Enable hints</v-list-item-title>
+        </v-list-item>
+      </v-list>
+
+      <v-divider class="mx-4"></v-divider>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+
+        <v-btn class="text-none" text @click="menu = false">Cancel</v-btn>
+        <v-btn class="text-none" color="primary" text @click="menu = false"
+          >Apply</v-btn
+        >
+      </v-card-actions>
+    </v-card>
+  </v-menu>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      fav: true,
+      menu: false,
+      message: false,
+      hints: true,
+    };
+  },
+
+  methods: {
+    close() {
+      console.log(this.menu);
+      this.menu = false;
+    },
+  },
+};
+</script>
+
+<style></style>
