@@ -110,6 +110,7 @@ export default {
 
     ...mapActions({
       addArtistAction: 'artists/addArtistAction',
+      geocodeForward: 'geocoder/geocodeForward',
     }),
 
     async enterPressed(){
@@ -123,6 +124,7 @@ export default {
     },
 
     async add() {
+      this.artist.coord = await this.geocodeForward(this.artist.birthplace);
       await this.addArtistAction(Object.assign({}, this.artist));
       //reset input
       this.reset(); 

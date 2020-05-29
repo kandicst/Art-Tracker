@@ -6,16 +6,17 @@
   >
     <template v-slot:activator="{ on }">
       <v-btn
-        class="text-none"
+        class="text-none grey--text"
         depressed
         outlined
         dense
+        tile
         v-on="on"
         min-height="40px"
       >
         Filter
-        <div class="ml-6 filterIcon">
-          <span class="iconify" data-icon="bi:filter"></span>
+        <div class="ml-4 mt-1 filterIcon">
+          <span class="iconify" data-icon="bx:bx-slider-alt"></span>
         </div>
       </v-btn>
     </template>
@@ -91,4 +92,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+
+.filterIcon .iconify {
+  width: 25px;
+  height: 25px;
+}
+
+</style>

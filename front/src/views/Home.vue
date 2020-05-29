@@ -27,60 +27,61 @@
             </v-text-field>
           </v-col>
           <v-col cols="2" class="ma-0 pa-0">
-            <FilterComponent/>
+            <FilterComponent />
           </v-col>
         </v-row>
       </v-col>
-
+      
       <v-col sm="5" md="3" class="ma-0 pa-0">
-        <v-row justify="end" class="mt-2 mr-3">
-          <v-select
-            class="mapSelection mx-4"
-            v-model="selectedMap.name"
-            :items="mapOptions"
-            hide-details
-            solo
-            dense
-            @change="mapChanged"
-            item-text="name"
-            return-object
-          ></v-select>
+        <v-row justify="start" align="end"  class="mt-2 mr-3">
+            <v-spacer></v-spacer>
+            <v-select
+              class="mapSelection mx-4"
+              v-model="selectedMap.name"
+              :items="mapOptions"
+              hide-details
+              solo
+              dense
+              @change="mapChanged"
+              item-text="name"
+              return-object
+            ></v-select>
 
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-btn
-                id="shortcuts"
-                v-on="on"
-                @click.stop="shortcutDialog = true"
-              >
-                <span
-                  class="iconify"
-                  data-icon="ri-command-fill"
-                  data-inline="false"
-                ></span>
-              </v-btn>
-            </template>
-            <span>Keyboard Shortcuts</span>
-          </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  id="shortcuts"
+                  v-on="on"
+                  @click.stop="shortcutDialog = true"
+                >
+                  <span
+                    class="iconify"
+                    data-icon="ri-command-fill"
+                    data-inline="false"
+                  ></span>
+                </v-btn>
+              </template>
+              <span>Keyboard Shortcuts</span>
+            </v-tooltip>
 
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on }">
-              <v-btn
-                v-on="on"
-                @click.stop="helpDialog = true"
-                id="help"
-                class="ml-4"
-                icon
-              >
-                <span
-                  class="iconify"
-                  data-icon="bx:bx-help-circle"
-                  data-inline="false"
-                ></span>
-              </v-btn>
-            </template>
-            <span>Demo mode</span>
-          </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  v-on="on"
+                  @click.stop="helpDialog = true"
+                  id="help"
+                  class="ml-4"
+                  icon
+                >
+                  <span
+                    class="iconify"
+                    data-icon="bx:bx-help-circle"
+                    data-inline="false"
+                  ></span>
+                </v-btn>
+              </template>
+              <span>Demo mode</span>
+            </v-tooltip>
         </v-row>
       </v-col>
     </v-row>
@@ -88,8 +89,8 @@
     <!-- Page Content -->
     <v-row class="mainRow">
       <v-col md="4" class="ma-0 py-0 pr-0">
-        <v-tabs-items v-model="tab">
-          <v-tab-item key="artists" class="">
+        <v-tabs-items v-model="tab" style="height:100%;">
+          <v-tab-item key="artists" style="height:100%;">
             <SideBar class="leftSideBar" />
           </v-tab-item>
           <v-tab-item key="paintings" class="">
@@ -130,7 +131,7 @@
 // @ is an alias to /src
 import SideBar from '@/components/SideBar';
 import Map from '@/components/Map';
-import FilterComponent from '@/components/FilterComponent'
+import FilterComponent from '@/components/FilterComponent';
 import HelpDialog from '../components/dialogues/HelpDialog';
 import ShortcutsDialog from '../components/dialogues/ShortcutsDialog';
 import { mapGetters, mapActions } from 'vuex';
@@ -142,7 +143,7 @@ export default {
     Map,
     HelpDialog,
     ShortcutsDialog,
-    FilterComponent
+    FilterComponent,
   },
 
   data() {
@@ -235,11 +236,6 @@ export default {
 
 #help .iconify {
   width: 25px;
-  height: 25px;
-}
-
-.filterIcon .iconify {
-  width: 20px;
   height: 25px;
 }
 

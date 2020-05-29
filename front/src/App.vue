@@ -22,7 +22,7 @@ export default {
 
 
 <style >
-html {
-    height: 100%;
-}
+
+html,body { height:100%; }
+
 </style>
