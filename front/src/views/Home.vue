@@ -13,11 +13,11 @@
         <v-row class="ma-0 pa-0">
           <v-col cols="8" class="ma-0 pa-0">
             <v-text-field
-              class=""
+              class="searchInput"
               outlined
               dense
               single-line
-              placeholder="NJEMA"
+              placeholder="Search..."
             >
               <template slot="prepend-inner">
                 <div class="mt-1 ml-2 mr-4 searchIcon">
@@ -88,10 +88,10 @@
 
     <!-- Page Content -->
     <v-row class="mainRow">
-      <v-col md="4" class="ma-0 py-0 pr-0">
+      <v-col md="4" class="ma-0 py-0 px-1">
         <v-tabs-items v-model="tab" style="height:100%;">
           <v-tab-item key="artists" style="height:100%;">
-            <SideBar class="leftSideBar" />
+            <SideBar class="leftSideBar pl-0 pr-0" />
           </v-tab-item>
           <v-tab-item key="paintings" class="">
             <SideBar class="leftSideBar" />
@@ -239,8 +239,14 @@ export default {
   height: 25px;
 }
 
-/* .searchIcon .iconify {
-  width: 20px;
-  height: 20px;
-} */
+.searchInput{
+  border-radius:0px!important;
+  
+}
+
+.searchIcon .iconify {
+  width: 15px;
+  height: 15px;
+  color: grey;
+}
 </style>

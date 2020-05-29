@@ -8,7 +8,7 @@
     :zoom="selectedMap.zoom"
     :center="selectedMap.center"
   >
-        <!-- :coordinates.sync="artist.coord" -->
+    <!-- :coordinates.sync="artist.coord" -->
     <template v-for="artist in artists">
       <MglMarker
         :id="artist.name"
@@ -17,9 +17,20 @@
         :key="artist.name"
         @dragend="markerDragEnd"
         :draggable="true"
+        anchor="bottom"
       >
-        <MglPopup>
-          <div>{{ artist.name }}</div>
+        <v-img slot="marker" v-if="artist.img" class="marker-img-artist" :src="artist.img">
+        </v-img>
+        <!-- IF Artists has no img put initials -->
+        <avatar slot="marker" color="steelblue" v-else :fullname="artist.name" :size='35'> </avatar>
+
+
+        <MglPopup class="pa-0" anchor="bottom">
+          <v-card class="ma-0 pa-0">
+            <v-card-title>
+              {{ artist.name }}
+            </v-card-title>
+          </v-card>
         </MglPopup>
       </MglMarker>
     </template>
@@ -33,8 +44,9 @@ import Mapbox from 'mapbox-gl';
 import { MglMap, MglMarker, MglNavigationControl, MglPopup } from 'vue-mapbox';
 import { mapGetters, mapActions } from 'vuex';
 import NodeGeocoder from 'node-geocoder';
-const opencage = require('opencage-api-client');
 import Vue from 'vue';
+import Avatar from 'vue-avatar-component'
+const opencage = require('opencage-api-client');
 
 // const NodeGeocoder = require('node-geocoder');
 
@@ -44,6 +56,7 @@ export default {
     MglMarker,
     MglNavigationControl,
     MglPopup,
+    Avatar
   },
   data() {
     return {
@@ -68,7 +81,6 @@ export default {
   },
 
   methods: {
-
     ...mapActions({
       geocodeForward: 'geocoder/geocodeForward',
     }),
@@ -90,7 +102,13 @@ export default {
       //   .getElement()
       //   .setAttribute('painterId', 'OMFG');
 
+      var el = document.createElement('div');
+      el.className = 'marker';
 
+      // make a marker for each feature and add to the map
+      let x = new Mapbox.Marker(el);
+      x._draggable = true;
+      // x.setLngLat([30.5, 50.5]).addTo(this.$store.map);
     },
 
     ale(x) {
@@ -98,22 +116,42 @@ export default {
     },
 
     async forwardGeoLocate(city) {
-      const url = `https://api.opencagedata.com/geocode/v1/json?q=${city}&key=${this.$cageApiKey}`
+      const url = `https://api.opencagedata.com/geocode/v1/json?q=${city}&key=${this.$cageApiKey}`;
       const { data } = await Vue.$axios.get(url);
       const coord = data.results[0].geometry;
       // console.log(coord);
-      return [coord.lat, coord.lng]
+      return [coord.lat, coord.lng];
     },
 
     async markerDragEnd(event) {
       const artist = event.component.$el.id;
       const coords = event.marker._lngLat;
-      const url = `https://api.opencagedata.com/geocode/v1/json?q=${coords.lat}+${coords.lng}&key=${this.$cageApiKey}`
+      const url = `https://api.opencagedata.com/geocode/v1/json?q=${coords.lat}+${coords.lng}&key=${this.$cageApiKey}`;
       const { data } = await Vue.$axios.get(url);
-      // console.log(data.results[0].components);
+      console.log(data.results[0].components);
     },
   },
 };
 </script>
 
-<style></style>
+<style>
+.marker {
+  /* background-image: url('https://upload-icon.s3.us-east-2.amazonaws.com/uploads/icons/png/9445674921540553618-512.png'); */
+  background-image: url('https://www.biography.com/.image/t_share/MTY2NTIzNTAyNjgwMDg5ODQy/pablo-picasso-at-his-home-in-cannes-circa-1960-photo-by-popperfoto_getty-images.jpg');
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.marker-img-artist {
+  max-width: 40px;
+  max-height: 40px;
+  border-radius: 30px;
+}
+
+.mapboxgl-popup-content {
+  padding: 0px;
+}
+</style>

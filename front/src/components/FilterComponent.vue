@@ -1,12 +1,8 @@
 <template>
-  <v-menu
-    v-model="menu"
-    offset-y
-    :close-on-content-click="false"
-  >
+  <v-menu v-model="menu" offset-y :close-on-content-click="false">
     <template v-slot:activator="{ on }">
       <v-btn
-        class="text-none grey--text"
+        class="text-none filterBtn"
         depressed
         outlined
         dense
@@ -93,10 +89,16 @@ export default {
 </script>
 
 <style>
-
 .filterIcon .iconify {
   width: 25px;
   height: 25px;
+  color: #616161 !important;
 }
 
+.filterBtn {
+  /* color: #616161 !important; */
+  border-color: grey;
+  /* border-left: none; */
+  color: black!important;
+}
 </style>

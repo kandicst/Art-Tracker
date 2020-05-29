@@ -6,11 +6,13 @@
       </v-col>
     </v-row>
 
-    <v-row class="scro" justify="space-between" style="direction:rtl;">
+    <v-container class="scro" style="direction:rtl;">
+    <v-row justify="space-between">
         <v-col cols="6" v-for="n in 20" :key="n">
           <GridComponent />
         </v-col>
     </v-row>
+    </v-container>
 
     <v-row class="mt-12">
       <v-col cols="6" class="pa-0" align="center" justify="begin">
@@ -78,7 +80,7 @@ export default {
 }
 
 .scro {
-  max-height: 500px;
+  max-height: 650px;
   overflow-y: scroll;
 }
 </style>

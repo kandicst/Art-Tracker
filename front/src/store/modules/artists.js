@@ -3,22 +3,34 @@ import Vue from 'vue';
 const state = {
   artists: [
     {
-      name: 'Picasso',
+      name: 'Pablo Picasso',
       birthday: { day: '25', month: 'June', year: '1998' },
-      birthplace: 'Stara Pazova, Serbia',
+      birthplace: 'Malaga, Spain',
       nationality: 'French',
       artMovement: 'Imperialism',
-      coord: [19.84, 45.255],
+      coord: [-4.4260, 36.7167],
       death: { day: '', month: '', year: '' },
+      img: "https://www.biography.com/.image/t_share/MTY2NTIzNTAyNjgwMDg5ODQy/pablo-picasso-at-his-home-in-cannes-circa-1960-photo-by-popperfoto_getty-images.jpg"
     },
     {
-      name: 'Bethoven',
+      name: 'Ludwig van Bethoven',
       birthday: { day: '25', month: 'June', year: '1998' },
       birthplace: 'Novi Sad, Serbia',
       nationality: 'French',
       artMovement: 'Imperialism',
       coord: [20.15, 44.98],
       death: { day: '', month: '', year: '' },
+      img: ""
+    },
+    {
+      name: 'Leonardo da Vinci',
+      birthday: { day: '25', month: 'June', year: '1998' },
+      birthplace: 'Florence, Italy',
+      nationality: 'French',
+      artMovement: 'Imperialism',
+      coord: [11.2558, 43.7696],
+      death: { day: '', month: '', year: '' },
+      img: "https://www.biography.com/.image/t_share/MTY2MzU4MjUzMDA4MDcwMzE4/portrait-of-leonardo-da-vinci-1452-1519-getty.jpg"
     },
   ],
 };
