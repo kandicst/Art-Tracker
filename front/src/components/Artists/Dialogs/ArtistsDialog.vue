@@ -89,8 +89,8 @@
 
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex';
-import DatePicker from './../DatePicker';
-import CityAutocomplete from './../CityAutocomplete';
+import DatePicker from './../../global/DatePicker';
+import CityAutocomplete from './../../global/CityAutocomplete';
 
 export default {
   components: {

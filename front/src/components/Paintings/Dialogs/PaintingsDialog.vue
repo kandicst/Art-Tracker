@@ -104,7 +104,7 @@
 
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex';
-import CityAutocomplete from './../CityAutocomplete';
+import CityAutocomplete from './../../global/CityAutocomplete';
 
 export default {
   components: {

@@ -91,10 +91,10 @@
       <v-col md="4" class="ma-0 py-0 px-1">
         <v-tabs-items v-model="tab" style="height:100%;">
           <v-tab-item key="artists" style="height:100%;">
-            <SideBar class="leftSideBar pl-0 pr-0" />
+            <ArtistSideBar class="leftSideBar pl-0 pr-0" />
           </v-tab-item>
           <v-tab-item key="paintings" class="">
-            <SideBar class="leftSideBar" />
+            <PaintingSideBar class="leftSideBar pl-0 pr-0" />
           </v-tab-item>
         </v-tabs-items>
       </v-col>
@@ -129,17 +129,19 @@
 
 <script>
 // @ is an alias to /src
-import SideBar from '@/components/SideBar';
-import Map from '@/components/Map';
-import FilterComponent from '@/components/FilterComponent';
-import HelpDialog from '../components/dialogues/HelpDialog';
-import ShortcutsDialog from '../components/dialogues/ShortcutsDialog';
+import ArtistSideBar from './../components/Artists/ArtistSideBar';
+import PaintingSideBar from './../components/Paintings/PaintingSideBar'
+import Map from './../components/global/Map';
+import FilterComponent from './../components/global/FilterComponent';
+import HelpDialog from './../components/global/Dialogs/HelpDialog';
+import ShortcutsDialog from './../components/global/Dialogs/ShortcutsDialog';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Home',
   components: {
-    SideBar,
+    ArtistSideBar,
+    PaintingSideBar,
     Map,
     HelpDialog,
     ShortcutsDialog,

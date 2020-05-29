@@ -16,7 +16,7 @@
         </div>
       </v-btn>
     </template>
-    <v-card>
+    <v-card class="px-4">
       <v-list>
         <v-list-item>
           <v-list-item-avatar>
@@ -54,9 +54,10 @@
         </v-list-item>
       </v-list>
 
-      <v-divider class="mx-4"></v-divider>
+      <v-divider></v-divider>
 
       <v-card-actions>
+        <v-btn class="text-none red--text" text>Clear All Filters</v-btn>
         <v-spacer></v-spacer>
 
         <v-btn class="text-none" text @click="menu = false">Cancel</v-btn>
