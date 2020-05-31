@@ -7,6 +7,11 @@ import Axios from "axios";
 import VueShortKey from 'vue-shortkey'
 import VueHotkey from 'v-hotkey'
 
+import VueCroppie from 'vue-croppie';
+import 'croppie/croppie.css' // import the croppie css manually
+
+Vue.use(VueCroppie);
+
 let nodeGeocoder = require('node-geocoder');
 let options = {provider: 'openstreetmap'};
 

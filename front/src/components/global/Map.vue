@@ -13,17 +13,30 @@
       <MglMarker
         :id="artist.name"
         :coordinates.sync="artist.coord"
-        color="green"
         :key="artist.name"
         @dragend="markerDragEnd"
         :draggable="true"
         anchor="center"
       >
-        <v-img v-if="artist.img" slot="marker"  class="marker-img-artist" :src="artist.img">
+        <v-img
+          v-if="artist.img"
+          class="marker-img-artist"
+          aspect-ratio="1"
+          width="40px"
+          height="40px"
+          slot="marker"
+          :src="artist.img"
+        >
         </v-img>
         <!-- IF Artists has no img put initials -->
-        <avatar v-else slot="marker" color="steelblue" :fullname="artist.name" :size='35'> </avatar>
-
+        <avatar
+          v-else
+          slot="marker"
+          color="steelblue"
+          :fullname="artist.name"
+          :size="40"
+        >
+        </avatar>
 
         <MglPopup class="pa-0" anchor="bottom">
           <v-card class="ma-0 pa-0">
@@ -45,7 +58,7 @@ import { MglMap, MglMarker, MglNavigationControl, MglPopup } from 'vue-mapbox';
 import { mapGetters, mapActions } from 'vuex';
 import NodeGeocoder from 'node-geocoder';
 import Vue from 'vue';
-import Avatar from 'vue-avatar-component'
+import Avatar from 'vue-avatar-component';
 const opencage = require('opencage-api-client');
 
 // const NodeGeocoder = require('node-geocoder');
@@ -56,7 +69,7 @@ export default {
     MglMarker,
     MglNavigationControl,
     MglPopup,
-    Avatar
+    Avatar,
   },
   data() {
     return {
@@ -146,12 +159,15 @@ export default {
 }
 
 .marker-img-artist {
-  max-width: 40px;
-  max-height: 40px;
   border-radius: 30px;
 }
 
 .mapboxgl-popup-content {
   padding: 0px;
+}
+
+.mapboxgl-marker {
+  position: absolute;
+  top: 0;
 }
 </style>

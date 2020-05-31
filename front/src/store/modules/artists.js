@@ -40,7 +40,7 @@ const state = {
       artMovement: 'Baroque',
       coord: [-80.0060, 50.7128],
       death: { day: '13', month: 'May', year: '2003' },
-      img: "https://i.insider.com/5e287d5cab49fd6d1a787977?width=1100&format=jpeg&auto=webp"
+      img: "https://i.insider.com/5e287d5cab49fd6d1a787977?width=825&format=jpeg&auto=webp"
     },
     {
       name: 'Michelangelo Buonarroti',
@@ -50,7 +50,7 @@ const state = {
       artMovement: 'Impressionism',
       coord: [11.9871, 43.6415],
       death: { day: '13', month: 'May', year: '2003' },
-      img: "https://www.biography.com/.image/t_share/MTY2NzA3MjM3ODkxMzUxODQ0/michelangelo-buonarroti-1474---1563-circa-1525-original-publication-people-disc---ha0420-photo-by-hulton-archive_getty-images.jpg"
+      img: ""
     },
   ],
 };
