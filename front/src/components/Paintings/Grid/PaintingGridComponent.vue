@@ -3,8 +3,8 @@
     class="d-inline-block mx-auto rounded-card"
     width="275px"
     hover
-    @click="hover = true"
-    @mouseleave="hover = false"
+    @click="hover = !hover"
+    @mouseleave="hover = false; show = false;"
   >
     <v-container class="ma-0 pa-0">
       <v-row>
@@ -46,10 +46,11 @@
         <v-btn text class="text-none">Edit</v-btn>
         <v-btn text class="text-none" color="red">Delete</v-btn>
         <v-spacer></v-spacer>
-        <v-btn icon @click="show = !show">
+        <v-btn icon @click.stop="show = !show">
           <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
         </v-btn>
       </v-card-actions>
+    </v-container>
 
       <v-expand-transition>
         <div v-show="show">
@@ -59,7 +60,6 @@
           </v-card-text>
         </div>
       </v-expand-transition>
-    </v-container>
   </v-card>
 </template>
 
