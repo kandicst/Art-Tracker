@@ -1,8 +1,8 @@
 <template>
   <v-container class="scro mt-5" style="direction:rtl;">
     <v-row style="direction:ltr;">
-      <v-col sm="12" lg="6" align="center" v-for="artist in artists" :key="artist.name">
-        <ArtistGridComponent :artist="artist" />
+      <v-col sm="12" lg="6" align="center" v-for="painting in paintings" :key="painting.name">
+        <PaintingGridComponent :painting="painting"/>
       </v-col>
     </v-row>
   </v-container>
@@ -10,16 +10,16 @@
 
 <script>
 import { mapMutations, mapGetters } from 'vuex';
-import ArtistGridComponent from './ArtistGridComponent';
+import PaintingGridComponent from './PaintingGridComponent';
 
 export default {
   components: {
-    ArtistGridComponent,
+    PaintingGridComponent,
   },
 
   computed: {
     ...mapGetters({
-      artists: 'artists/getArtists',
+      paintings: 'paintings/getPaintings',
     }),
   },
 };

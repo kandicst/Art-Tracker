@@ -99,9 +99,9 @@
         </v-tabs-items>
       </v-col>
 
-      <v-col md="8">
+      <v-col md="8" class="pt-0">
         <div style="height:100%;">
-          <Map />
+          <Map/>
         </div>
       </v-col>
     </v-row>

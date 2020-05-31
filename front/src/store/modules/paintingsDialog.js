@@ -9,7 +9,7 @@ const state = {
     medium: '',
     description: '',
     artMovement: '',
-    image: '',
+    img: '',
   },
   showDialog: false,
   dialogType: 'add',
@@ -25,7 +25,7 @@ const mutations = {
       medium: '',
       description: '',
       artMovement: '',
-      image: '',
+      img: '',
     };
     Object.assign(state.dialogPainting, painting);
     state.showDialog = true;
@@ -51,7 +51,7 @@ const mutations = {
       medium: '',
       description: '',
       artMovement: '',
-      image: '',
+      img: '',
     };
     Object.assign(state.dialogPainting, painting);
   },

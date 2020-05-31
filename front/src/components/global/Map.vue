@@ -17,12 +17,12 @@
         :key="artist.name"
         @dragend="markerDragEnd"
         :draggable="true"
-        anchor="bottom"
+        anchor="center"
       >
-        <v-img slot="marker" v-if="artist.img" class="marker-img-artist" :src="artist.img">
+        <v-img v-if="artist.img" slot="marker"  class="marker-img-artist" :src="artist.img">
         </v-img>
         <!-- IF Artists has no img put initials -->
-        <avatar slot="marker" color="steelblue" v-else :fullname="artist.name" :size='35'> </avatar>
+        <avatar v-else slot="marker" color="steelblue" :fullname="artist.name" :size='35'> </avatar>
 
 
         <MglPopup class="pa-0" anchor="bottom">

@@ -1,6 +1,6 @@
 <template>
   <v-container class="top-cont px-6 pt-2">
-    <v-row class="mr-10 ml-5">
+    <v-row class="mr-3 ml-5">
       <v-spacer></v-spacer>
       <v-btn @click="addPainting" class="mx-5 text-none blue--text" tile>
         <v-icon class="mr-5 black--text">mdi-plus</v-icon>
@@ -12,7 +12,8 @@
       </v-btn-toggle>
     </v-row>
 
-    <ArtistGridView />
+    <PaintingGridView :hidden="selectedView == 1"/>
+    <PaintingListView :hidden="selectedView == 0"/>
 
     <PaintingsDialog />
   </v-container>
@@ -21,12 +22,14 @@
 <script>
 import { mapMutations, mapGetters } from 'vuex';
 import PaintingsDialog from './Dialogs/PaintingsDialog';
-import ArtistGridView from './../Artists/Grid/ArtistGridView';
+import PaintingGridView from './Grid/PaintingGridView'
+import PaintingListView from './List/PaintingListView'
 
 export default {
   components: {
     PaintingsDialog,
-    ArtistGridView,
+    PaintingGridView,
+    PaintingListView
   },
 
   data() {
@@ -66,7 +69,7 @@ export default {
 }
 
 .scro {
-  max-height: 750px;
+  max-height: 770px;
   overflow-y: scroll;
 }
 </style>
