@@ -51,6 +51,7 @@
               <template v-slot:activator="{ on }">
                 <v-btn
                   id="shortcuts"
+                  class="hidden-md-and-down"
                   v-on="on"
                   @click.stop="shortcutDialog = true"
                 >
@@ -70,7 +71,7 @@
                   v-on="on"
                   @click.stop="helpDialog = true"
                   id="help"
-                  class="ml-4"
+                  class="hidden-md-and-down ml-4"
                   icon
                 >
                   <span

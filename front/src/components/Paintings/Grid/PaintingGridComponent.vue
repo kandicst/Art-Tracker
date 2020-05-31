@@ -3,7 +3,7 @@
     class="d-inline-block mx-auto rounded-card"
     width="275px"
     hover
-    @click="hover = !hover"
+    @click="hover = !hover; show = false"
     @mouseleave="hover = false; show = false;"
   >
     <v-container class="ma-0 pa-0">
@@ -50,7 +50,6 @@
           <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
         </v-btn>
       </v-card-actions>
-    </v-container>
 
       <v-expand-transition>
         <div v-show="show">
@@ -60,6 +59,7 @@
           </v-card-text>
         </div>
       </v-expand-transition>
+    </v-container>
   </v-card>
 </template>
 
