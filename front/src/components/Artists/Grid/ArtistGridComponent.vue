@@ -1,12 +1,12 @@
 <template>
-  <v-card class="d-inline-block mx-auto rounded-card" min-width="275px">
+  <v-card class="d-inline-block mx-auto rounded-card" width="275px">
     <v-container class="ma-0 pa-0">
-      <v-row style="max-height:150px;">
+      <v-row style="height:200px;">
         <v-col class="ma-0 pa-0">
           <v-img
             v-if="artist.img"
             class="rounded-card"
-            height="150"
+            height="200"
             width="275"
             :src="artist.img"
           ></v-img>
@@ -76,8 +76,8 @@ export default {
 
 .avatar-image {
   width: 275px!important;
-  height: 150px!important;
-  font-size: 56px!important;
+  height: 200px!important;
+  font-size: 64px!important;
 }
 
 .iconify {

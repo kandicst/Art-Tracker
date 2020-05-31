@@ -69,8 +69,4 @@ export default {
   height: 100%;
 }
 
-.scro {
-  max-height: 770px;
-  overflow-y: scroll;
-}
 </style>

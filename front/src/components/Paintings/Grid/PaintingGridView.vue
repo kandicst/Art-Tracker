@@ -27,7 +27,7 @@ export default {
 
 <style scoped>
 .scro {
-  max-height: 650px;
-  overflow-y: scroll;
+  max-height: 770px;
+  overflow-y: auto;
 }
 </style>
