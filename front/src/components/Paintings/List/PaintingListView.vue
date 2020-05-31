@@ -1,93 +1,137 @@
 <template>
   <div class="ma-5" >
-    <v-data-table :headers="headers" :items="desserts" class="elevation-1">
-      <template v-slot:item.glutenfree="{ item }">
-        <v-simple-checkbox
-          v-model="item.glutenfree"
-          disabled
-        ></v-simple-checkbox>
+    <v-data-table
+      :headers="headers"
+      :items="paintings"
+
+    >
+      <template v-slot:top>
+        <v-toolbar flat color="white">
+          <v-toolbar-title>Paintings</v-toolbar-title>
+        </v-toolbar>
+      </template>
+
+      <template v-slot:header.name="{ header }">
+        {{ header.text.toUpperCase() }}  <v-icon small color="green lighten-2" >mdi-palette-advanced</v-icon>
+      </template>
+
+      <template v-slot:header.created="{ header }">
+        {{ header.text.toUpperCase() }}  <v-icon small color="orange lighten-2">mdi-palette</v-icon> 
+      </template>
+
+      <template v-slot:header.location="{ header }">
+        {{ header.text.toUpperCase() }}  <v-icon small color="purple lighten-2">mdi-map-marker</v-icon>
+      </template>
+
+      <template v-slot:header.medium="{ header }">
+        {{ header.text.toUpperCase() }}  <v-icon small color="red lighten-2" >mdi-brush</v-icon>
+      </template>
+
+      <template v-slot:header.artMovement="{ header }">
+        {{ header.text.toUpperCase() }}  <v-icon small color="blue lighten-2">mdi-timer-sand</v-icon>
+      </template>
+
+      <template v-slot:header.img="{ header }">
+        {{ header.text.toUpperCase() }}  <v-icon small color="blue lighten-2">mdi-timer-sand</v-icon>
+      </template>
+      
+
+      <template v-slot:item.img="{ item }">
+        <v-img
+            height="50"
+            width="50"
+            class="ma-4"
+            :src="item.img"
+            contain
+          >
+        </v-img>
+      </template>
+
+      <template v-slot:item.actions="{ item }">
+        <v-icon
+          small
+          class="mr-2"
+          @click="editItem(item)"
+        >
+          mdi-pencil
+        </v-icon>
+        <v-icon
+          small
+          @click="deleteItem(item)"
+        >
+          mdi-delete
+        </v-icon>
       </template>
     </v-data-table>
   </div>
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      desserts: [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: '1%',
-          glutenfree: true,
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: '1%',
-          glutenfree: false,
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: '7%',
-          glutenfree: false,
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: '0%',
-          glutenfree: true,
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: '2%',
-          glutenfree: true,
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: '6%',
-          glutenfree: false,
-        },
-      ],
+import { mapMutations, mapGetters, mapActions } from 'vuex';
+  export default {
+    data: () => ({
+      dialog: false, 
       headers: [
         {
-          text: 'Dessert (100g serving)',
+          text: 'Painting',
           align: 'start',
-          sortable: false,
           value: 'name',
         },
-        { text: 'Calories', value: 'calories' },
-        { text: 'Fat (g)', value: 'fat' },
-        { text: 'Carbs (g)', value: 'carbs' },
-        { text: 'Protein (g)', value: 'protein' },
-        { text: 'Iron (%)', value: 'iron' },
-        { text: 'Gluten-Free', value: 'glutenfree' },
-      ],
-    }
-  },
-};
+        { text: 'Created', value: 'created' },
+        { text: 'Location', value: 'location' },
+        { text: 'Medium', value: 'medium' },
+        { text: 'movement', value: 'artMovement' },
+        { text: "IMAGE", value: 'img', sortable: false},
+        { text: 'Actions', value: 'actions', sortable: false },
+      ]
+    }),
+
+    computed: {
+      
+      ...mapGetters({
+        paintings: 'paintings/getPaintings',
+      }),
+    },
+
+
+    methods: {
+      ...mapMutations('paintingsDialog', {
+      openEditDialog: 'openEditDialog',
+      }),
+
+      ...mapActions({
+      removePaintingAction: 'paintings/removePaintingAction'
+      }),
+
+      editItem (item) {
+        this.openEditDialog(item);
+      },
+
+      deleteItem (item) {
+        this.removePaintingAction(Object.assign({}, this.item));
+      },
+
+      close () {
+        this.dialog = false
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        })
+      },
+
+      save () {
+        if (this.editedIndex > -1) {
+          Object.assign(this.paintings[this.editedIndex], this.editedItem)
+        } else {
+          this.paintings.push(this.editedItem)
+        }
+        this.close()
+      },
+    },
+  }
 </script>
 
-<style></style>
+<style>
+
+
+</style>
