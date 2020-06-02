@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 const state = {
-  cageApiKey: '3aa4e25981264231b8f61b3e2cede9d7',
+  cageApiKey: '0153a27f5a664fe284e2b88db6bc44c7',
   entries: [],
 };
 

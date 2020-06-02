@@ -12,7 +12,7 @@ let options = {provider: 'openstreetmap'};
 let geoCoder = nodeGeocoder(options);
 
 Vue.prototype.$geoCoder = geoCoder;
-Vue.prototype.$cageApiKey = '3aa4e25981264231b8f61b3e2cede9d7'
+Vue.prototype.$cageApiKey = '0153a27f5a664fe284e2b88db6bc44c7'
 
 Vue.use(VueHotkey)
 Vue.$axios = Axios;
