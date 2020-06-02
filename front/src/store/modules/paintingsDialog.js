@@ -35,7 +35,7 @@ const mutations = {
   openEditDialog(state, painting) {
     Object.assign(state.dialogPainting, painting);
     state.showDialog = true;
-    state.dialogType = 'add';
+    state.dialogType = 'edit';
   },
 
   closeDialog(state) {

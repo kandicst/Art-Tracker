@@ -138,6 +138,7 @@ export default {
 
     ...mapActions({
       addPaintingAction: 'paintings/addPaintingAction',
+      updatePaintingAction: 'paintings/updatePaintingAction'
     }),
 
     async enterPressed() {
@@ -162,7 +163,8 @@ export default {
     },
 
     update() {
-      console.log('update');
+      this.updatePaintingAction(Object.assign({}, this.painting));
+      this.close();
     },
   },
 
