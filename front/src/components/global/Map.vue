@@ -8,7 +8,6 @@
     :zoom="selectedMap.zoom"
     :center="selectedMap.center"
   >
-    <!-- :coordinates.sync="artist.coord" -->
     <template v-for="artist in artists">
       <MglMarker
         :id="artist.name"
@@ -42,6 +41,35 @@
           <v-card class="ma-0 pa-0">
             <v-card-title>
               {{ artist.name }}
+            </v-card-title>
+          </v-card>
+        </MglPopup>
+      </MglMarker>
+    </template>
+
+    <template v-for="painting in paintings">
+      <MglMarker
+        :id="painting.name"
+        :coordinates.sync="painting.coord"
+        :key="painting.name"
+        @dragend="markerDragEnd"
+        :draggable="true"
+        anchor="center"
+      >
+        <v-img
+          class="marker-img-artist"
+          aspect-ratio="1"
+          width="40px"
+          height="40px"
+          slot="marker"
+          :src="painting.img"
+        >
+        </v-img>
+
+        <MglPopup class="pa-0" anchor="bottom">
+          <v-card class="ma-0 pa-0">
+            <v-card-title>
+              {{ painting.name }}
             </v-card-title>
           </v-card>
         </MglPopup>
@@ -90,6 +118,7 @@ export default {
     ...mapGetters({
       selectedMap: 'map/getSelectedMap',
       artists: 'artists/getArtists',
+      paintings: 'paintings/getPaintings',
     }),
   },
 
