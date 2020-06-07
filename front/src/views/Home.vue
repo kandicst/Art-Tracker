@@ -88,8 +88,8 @@
     </v-row>
 
     <!-- Page Content -->
-    <v-row class="mainRow">
-      <v-col md="4" class="ma-0 pb-0 px-1">
+    <v-row class="mainRow" id="style-1">
+      <v-col lg="5" xl="8" class="ma-0 pb-0 px-1">
         <v-tabs-items v-model="tab" style="height:100%;">
           <v-tab-item key="artists" style="height:100%;">
             <ArtistSideBar class="leftSideBar pl-0 pr-0" />
@@ -100,7 +100,7 @@
         </v-tabs-items>
       </v-col>
 
-      <v-col md="8" class="py-0" style="height:100%;">
+      <v-col lg="7" xl="8" class="py-0" style="height:100%;">
           <Map/>
       </v-col>
     </v-row>

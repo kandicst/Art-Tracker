@@ -1,7 +1,7 @@
 <template>
-  <v-container class="scro mt-5" style="direction:rtl;">
+  <v-container class="scrollable mt-5" id="" style="direction:rtl;">
     <v-row style="direction:ltr;">
-      <v-col sm="12" xl="6" align="center" v-for="artist in artists" :key="artist.name">
+      <v-col sm="12" lg="6" align="center" v-for="artist in artists" :key="artist.name">
         <ArtistGridComponent :artist="artist" />
       </v-col>
     </v-row>
@@ -25,10 +25,8 @@ export default {
 };
 </script>
 
-<style scoped>
-.scro {
-  /* max-height: 770px; */
-  /* overflow-y: auto; */
+<style>
+.scrollable {
   position: absolute;
   left: 0;
   right: 0;
@@ -36,4 +34,25 @@ export default {
   bottom: 0;
   overflow-y: scroll ;
 }
+
+.scrollable::-webkit-scrollbar {
+    background-color:#fff;
+    width:16px;
+}
+
+/* background of the scrollbar except button or resizer */
+.scrollable::-webkit-scrollbar-track {
+    background-color:#fff;
+}
+
+/* scrollbar itself */
+.scrollable::-webkit-scrollbar-thumb {
+    background-color:#babac0;
+    border-radius:16px;
+    border:4px solid #fff;
+}
+
+/* set button(top and bottom of the scrollbar) */
+.scrollable::-webkit-scrollbar-button {display:none}
+
 </style>

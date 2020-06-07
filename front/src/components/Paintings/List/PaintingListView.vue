@@ -81,7 +81,6 @@ import { mapMutations, mapGetters, mapActions } from 'vuex';
         { text: 'Location', value: 'location' },
         { text: 'Medium', value: 'medium' },
         { text: 'movement', value: 'artMovement' },
-        { text: "IMAGE", value: 'img', sortable: false},
         { text: 'Actions', value: 'actions', sortable: false },
       ]
     }),
