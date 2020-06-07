@@ -1,7 +1,7 @@
 <template>
   <v-container class="scro mt-5" style="direction:rtl;">
     <v-row style="direction:ltr;">
-      <v-col sm="12" xl="6" align="center" v-for="artist in artists" :key="artist.name">
+      <v-col sm="12" lg="6" align="center" v-for="artist in artists" :key="artist.name">
         <ArtistGridComponent :artist="artist" />
       </v-col>
     </v-row>
