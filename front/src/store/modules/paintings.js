@@ -7,7 +7,7 @@ const state = {
       artist: { name: 'Leonardo da Vinci' },
       created: '1939',
       location: 'Paris, France',
-      coord: [2.3522, 48.8566],
+      coords: [2.3522, 48.8566],
       medium: 'Brush',
       description: 'This is one of the best dfkjlskfd fldkaskljfs fdsla fljkf dsla lfdjs fldsk',
       artMovement: 'Impressionism',
@@ -18,7 +18,7 @@ const state = {
       artist: { name: 'Leonardo da Vinci' },
       created: '1939',
       location: 'Barcelona, Spain',
-      coord: [2.1734, 41.3851],
+      coords: [2.1734, 41.3851],
       medium: 'Brush',
       description: 'This is one of the best dfkjlskfd fldkaskljfs fdsla fljkf dsla lfdjs fldsk',
       artMovement: 'Impressionism',
@@ -29,7 +29,7 @@ const state = {
       artist: { name: 'Leonardo da Vinci' },
       created: '1939',
       location: 'Madrid, Spain',
-      coord: [-3.7038, 40.4168],
+      coords: [-3.7038, 40.4168],
       medium: 'Brush',
       description: 'This is one of the best dfkjlskfd fldkaskljfs fdsla fljkf dsla lfdjs fldsk',
       artMovement: 'Impressionism',
@@ -40,7 +40,7 @@ const state = {
       artist: { name: 'Leonardo da Vinci' },
       created: '1939',
       location: 'Amsterdam, Netherlands',
-      coord: [4.8945, 52.3667],
+      coords: [4.8945, 52.3667],
       medium: 'Brush',
       description: 'This is one of the best dfkjlskfd fldkaskljfs fdsla fljkf dsla lfdjs fldsk',
       artMovement: 'Impressionism',
@@ -51,7 +51,7 @@ const state = {
       artist: { name: 'Leonardo da Vinci' },
       created: '1939',
       location: 'Londong, United Kingdom',
-      coord: [-0.1278, 51.5074],
+      coords: [-0.1278, 51.5074],
       medium: 'Brush',
       description: 'This is one of the best dfkjlskfd fldkaskljfs fdsla fljkf dsla lfdjs fldsk',
       artMovement: 'Impressionism',
@@ -86,6 +86,11 @@ const mutations = {
       painting => painting.id == newPainting.id
     );
     Object.assign(state.paintings[index], newPainting);
+  },
+
+  movePaintingOnMap(state, payload){
+    const index = state.paintings.findIndex(painting => painting.name == payload.name);
+    state.paintings[index].coords = [payload.coords.lng, payload.coords.lat];
   },
 
   removePainting(state, paintingId) {

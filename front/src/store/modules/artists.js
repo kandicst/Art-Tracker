@@ -8,7 +8,7 @@ const state = {
       birthplace: 'Malaga, Spain',
       nationality: 'French',
       artMovement: 'Imperialism',
-      coord: [-4.4260, 36.7167],
+      coords: [-4.4260, 36.7167],
       death: { day: '', month: '', year: '' },
       img: "https://www.biography.com/.image/t_share/MTY2NTIzNTAyNjgwMDg5ODQy/pablo-picasso-at-his-home-in-cannes-circa-1960-photo-by-popperfoto_getty-images.jpg"
     },
@@ -18,7 +18,7 @@ const state = {
       birthplace: 'Novi Sad, Serbia',
       nationality: 'French',
       artMovement: 'Humanism',
-      coord: [20.15, 44.98],
+      coords: [20.15, 44.98],
       death: { day: '', month: '', year: '' },
       img: ""
     },
@@ -28,7 +28,7 @@ const state = {
       birthplace: 'Florence, Italy',
       nationality: 'French',
       artMovement: 'Humanism',
-      coord: [11.2558, 43.7696],
+      coords: [11.2558, 43.7696],
       death: { day: '13', month: 'May', year: '2003' },
       img: "https://www.biography.com/.image/t_share/MTY2MzU4MjUzMDA4MDcwMzE4/portrait-of-leonardo-da-vinci-1452-1519-getty.jpg"
     },
@@ -38,7 +38,7 @@ const state = {
       birthplace: 'New York, USA',
       nationality: 'Murican',
       artMovement: 'Baroque',
-      coord: [-80.0060, 50.7128],
+      coords: [-80.0060, 50.7128],
       death: { day: '13', month: 'May', year: '2003' },
       img: "https://i.insider.com/5e287d5cab49fd6d1a787977?width=825&format=jpeg&auto=webp"
     },
@@ -48,7 +48,7 @@ const state = {
       birthplace: 'Caprese Michelangelo, Italy',
       nationality: 'Italian',
       artMovement: 'Impressionism',
-      coord: [11.9871, 43.6415],
+      coords: [11.9871, 43.6415],
       death: { day: '13', month: 'May', year: '2003' },
       img: ""
     },
@@ -67,6 +67,11 @@ const mutations = {
   updateArtist(state, newArtist) {
     const index = state.artists.findIndex(artist => artist.id == newArtist.id);
     Object.assign(state.artists[index], newArtist);
+  },
+
+  moveArtistOnMap(state, payload){
+    const index = state.artists.findIndex(artist => artist.name == payload.name);
+    state.artists[index].coords = [payload.coords.lng, payload.coords.lat];
   },
 
   removeArtist(state, artistId) {

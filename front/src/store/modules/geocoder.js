@@ -32,15 +32,15 @@ const actions = {
   async geocodeForward({commit}, city){
     const url = `https://api.opencagedata.com/geocode/v1/json?q=${city}&key=${state.cageApiKey}`
     const { data } = await Vue.$axios.get(url);
-    const coord = data.results[0].geometry;
-    return [coord.lng, coord.lat]
+    const coords = data.results[0].geometry;
+    return [coords.lng, coords.lat]
   },
 
   async geocodeReverse({commit}, city){
     const url = `https://api.opencagedata.com/geocode/v1/json?q=${city}&key=${state.cageApiKey}`
     const { data } = await Vue.$axios.get(url);
-    const coord = data.results[0].geometry;
-    return [coord.lat, coord.lng]
+    const coords = data.results[0].geometry;
+    return [coords.lat, coords.lng]
   },
 
 };

@@ -11,9 +11,9 @@
     <template v-for="artist in artists">
       <MglMarker
         :id="artist.name"
-        :coordinates.sync="artist.coord"
+        :coordinates.sync="artist.coords"
         :key="artist.name"
-        @dragend="markerDragEnd"
+        @dragend="artistMarkerDragEnd"
         :draggable="true"
         anchor="center"
       >
@@ -50,9 +50,9 @@
     <template v-for="painting in paintings">
       <MglMarker
         :id="painting.name"
-        :coordinates.sync="painting.coord"
+        :coordinates.sync="painting.coords"
         :key="painting.name"
-        @dragend="markerDragEnd"
+        @dragend="paintingMarkerDragEnd"
         :draggable="true"
         anchor="center"
       >
@@ -76,6 +76,7 @@
       </MglMarker>
     </template>
 
+    <MapLine :key="bool" :changed="changed" />
     <MglNavigationControl position="bottom-right" :showCompass="false" />
   </MglMap>
 </template>
@@ -83,10 +84,11 @@
 <script>
 import Mapbox from 'mapbox-gl';
 import { MglMap, MglMarker, MglNavigationControl, MglPopup } from 'vue-mapbox';
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 import NodeGeocoder from 'node-geocoder';
 import Vue from 'vue';
 import Avatar from 'vue-avatar-component';
+import MapLine from './MapLine';
 const opencage = require('opencage-api-client');
 
 // const NodeGeocoder = require('node-geocoder');
@@ -98,6 +100,7 @@ export default {
     MglNavigationControl,
     MglPopup,
     Avatar,
+    MapLine,
   },
   data() {
     return {
@@ -106,6 +109,8 @@ export default {
         'pk.eyJ1Ijoic3N0ZWYiLCJhIjoiY2thMDEzMXBpMGNpYjNmcG11Y2ozYTlucCJ9.GDzoIBfJMXOLfL1vxMuGnw',
       mapStyle: 'mapbox://styles/mapbox/streets-v9',
       markerCoordinates: [50, 50],
+      bool: false,
+      changed: '',
     };
   },
 
@@ -127,50 +132,52 @@ export default {
       geocodeForward: 'geocoder/geocodeForward',
     }),
 
+    ...mapMutations({
+      moveArtistOnMap: 'artists/moveArtistOnMap',
+      movePaintingOnMap: 'paintings/movePaintingOnMap'
+    }),
+
     async onMapLoaded(event) {
       // in component
       this.map = event.map;
       // or just to store if you want have access from other components
       this.$store.map = event.map;
-
-      // let options = { draggable: true };
-      // var marker = new Mapbox.Marker(options)
-      //   .setLngLat([30.5, 50.5])
-      //   .addTo(this.$store.map)
-      //   .on('dragend', function(e) {
-      //     console.log(e);
-      //     console.log(e.target._lngLat);
-      //   })
-      //   .getElement()
-      //   .setAttribute('painterId', 'OMFG');
-
-      var el = document.createElement('div');
-      el.className = 'marker';
-
-      // make a marker for each feature and add to the map
-      let x = new Mapbox.Marker(el);
-      x._draggable = true;
-      // x.setLngLat([30.5, 50.5]).addTo(this.$store.map);
-    },
-
-    ale(x) {
-      console.log(x);
     },
 
     async forwardGeoLocate(city) {
       const url = `https://api.opencagedata.com/geocode/v1/json?q=${city}&key=${this.$cageApiKey}`;
       const { data } = await Vue.$axios.get(url);
-      const coord = data.results[0].geometry;
-      // console.log(coord);
-      return [coord.lat, coord.lng];
+      const coords = data.results[0].geometry;
+      // console.log(coords);
+      return [coords.lat, coords.lng];
     },
 
-    async markerDragEnd(event) {
-      const artist = event.component.$el.id;
+    async artistMarkerDragEnd(event) {
+      const name = event.component.$el.id;
       const coords = event.marker._lngLat;
       const url = `https://api.opencagedata.com/geocode/v1/json?q=${coords.lat}+${coords.lng}&key=${this.$cageApiKey}`;
       const { data } = await Vue.$axios.get(url);
-      console.log(data.results[0].components);
+      let payload = {
+        name,
+        coords,
+      };
+      await this.moveArtistOnMap(payload);
+      this.changed = name;
+      this.bool = !this.bool;
+    },
+
+    async paintingMarkerDragEnd(event) {
+      const name = event.component.$el.id;
+      const coords = event.marker._lngLat;
+      const url = `https://api.opencagedata.com/geocode/v1/json?q=${coords.lat}+${coords.lng}&key=${this.$cageApiKey}`;
+      const { data } = await Vue.$axios.get(url);
+      let payload = {
+        name,
+        coords,
+      };
+      await this.movePaintingOnMap(payload);
+      this.changed = name;
+      this.bool = !this.bool;
     },
   },
 };

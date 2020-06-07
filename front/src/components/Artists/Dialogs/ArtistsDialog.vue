@@ -124,7 +124,7 @@ export default {
     },
 
     async add() {
-      this.artist.coord = await this.geocodeForward(this.artist.birthplace);
+      this.artist.coords = await this.geocodeForward(this.artist.birthplace);
       await this.addArtistAction(Object.assign({}, this.artist));
       //reset input
       this.reset(); 
