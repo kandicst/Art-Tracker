@@ -4,32 +4,40 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import { bus } from '../../main';
+
 export default {
-  props: ['changed'],
   data() {
     return {
-      // origin: [11.2558, 43.7696],
-      // destination: [2.3522, 48.8566],
     };
   },
 
   mounted() {
-    for (let artist of this.artists) {
-      for (let painting of this.paintings) {
-        // only draw if point was changed or if
-        // user is loading the page for the first time
-        if (
-          artist.name == painting.artist.name &&
-          (artist.name == this.changed ||
-            painting.name == this.changed ||
-            this.changed == '')
-        )
-          this.drawLine(artist, painting);
-      }
-    }
+    // listen to any changes to update the lines
+    bus.$on('markerChanged', data => this.connectArtistsAndPaintings(data));
+
+    // but first initialize all lines
+    this.connectArtistsAndPaintings('');
   },
 
   methods: {
+    connectArtistsAndPaintings(changed) {
+      for (let artist of this.artists) {
+        for (let painting of this.paintings) {
+          // only draw if point was changed or if
+          // user is loading the page for the first time
+          if (
+            artist.name == painting.artist.name &&
+            (artist.name == changed ||
+              painting.name == changed ||
+              changed == '')
+          ){
+            this.drawLine(artist, painting);
+          }
+        }
+      }
+    },
+
     drawLine(artist, painting) {
       const key = artist.name + '|' + painting.name;
       if (this.$store.map.getSource(key)) {

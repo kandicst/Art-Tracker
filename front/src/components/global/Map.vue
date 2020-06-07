@@ -76,7 +76,8 @@
       </MglMarker>
     </template>
 
-    <MapLine :key="bool" :changed="changed" />
+    <!-- <MapLine :key="bool" :changed="changed" /> -->
+    <MapLine/>
     <MglNavigationControl position="bottom-right" :showCompass="false" />
   </MglMap>
 </template>
@@ -89,9 +90,9 @@ import NodeGeocoder from 'node-geocoder';
 import Vue from 'vue';
 import Avatar from 'vue-avatar-component';
 import MapLine from './MapLine';
+import { bus } from '../../main'
 const opencage = require('opencage-api-client');
 
-// const NodeGeocoder = require('node-geocoder');
 
 export default {
   components: {
@@ -148,7 +149,6 @@ export default {
       const url = `https://api.opencagedata.com/geocode/v1/json?q=${city}&key=${this.$cageApiKey}`;
       const { data } = await Vue.$axios.get(url);
       const coords = data.results[0].geometry;
-      // console.log(coords);
       return [coords.lat, coords.lng];
     },
 
@@ -161,9 +161,8 @@ export default {
         name,
         coords,
       };
-      await this.moveArtistOnMap(payload);
-      this.changed = name;
-      this.bool = !this.bool;
+      this.moveArtistOnMap(payload);
+      this.emitMarkerChanged(name);
     },
 
     async paintingMarkerDragEnd(event) {
@@ -175,9 +174,12 @@ export default {
         name,
         coords,
       };
-      await this.movePaintingOnMap(payload);
-      this.changed = name;
-      this.bool = !this.bool;
+      this.movePaintingOnMap(payload);
+      this.emitMarkerChanged(name);
+    },
+
+    emitMarkerChanged(data){
+      bus.$emit('markerChanged', data);
     },
   },
 };

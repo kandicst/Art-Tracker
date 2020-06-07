@@ -105,6 +105,7 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import CityAutocomplete from './../../global/CityAutocomplete';
+import { bus } from '../../../main'
 
 export default {
   components: {
@@ -138,6 +139,7 @@ export default {
 
     ...mapActions({
       addPaintingAction: 'paintings/addPaintingAction',
+      geocodeForward: 'geocoder/geocodeForward',
       updatePaintingAction: 'paintings/updatePaintingAction'
     }),
 
@@ -157,7 +159,10 @@ export default {
     },
 
     async add() {
+      this.painting.coords = await this.geocodeForward(this.painting.location);
+      this.painting.img = 'https://i.ytimg.com/vi/IwtuO6kkMTA/maxresdefault.jpg';
       await this.addPaintingAction(Object.assign({}, this.painting));
+      this.emitPaintingChanged(this.painting.name);
       this.reset();
       document.getElementById('paintingNameInput').focus();
     },
@@ -165,6 +170,10 @@ export default {
     update() {
       this.updatePaintingAction(Object.assign({}, this.painting));
       this.close();
+    },
+
+    emitPaintingChanged(data){
+      bus.$emit('markerChanged', data);
     },
   },
 
