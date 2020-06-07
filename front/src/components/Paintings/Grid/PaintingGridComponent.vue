@@ -43,8 +43,8 @@
       </v-card-text>
 
       <v-card-actions class="my-0 py-0" v-show="hover">
-        <v-btn text class="text-none">Edit</v-btn>
-        <v-btn text class="text-none" color="red">Delete</v-btn>
+        <v-btn text @click.stop="openEditDialog" class="text-none">Edit</v-btn>
+        <v-btn text @click.stop="openDeleteDialog" class="text-none" color="red">Delete</v-btn>
         <v-spacer></v-spacer>
         <v-btn icon @click.stop="show = !show">
           <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
@@ -72,6 +72,16 @@ export default {
       hover: false,
     };
   },
+
+  methods: {
+    openEditDialog(){
+
+    },
+
+    openDeleteDialog() {
+
+    }
+  }
 };
 </script>
 

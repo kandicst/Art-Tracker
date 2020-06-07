@@ -12,7 +12,7 @@
       </v-btn-toggle>
     </v-row>
 
-    <PaintingGridView :hidden="selectedView == 1"/>
+    <PaintingGridView class="mt-12" :hidden="selectedView == 1"/>
     <PaintingListView :hidden="selectedView == 0"/>
 
     <PaintingsDialog />

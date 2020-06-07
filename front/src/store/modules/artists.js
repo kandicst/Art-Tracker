@@ -71,7 +71,10 @@ const mutations = {
 
   moveArtistOnMap(state, payload){
     const index = state.artists.findIndex(artist => artist.name == payload.name);
-    state.artists[index].coords = [payload.coords.lng, payload.coords.lat];
+    let newArtist = {...state.artists[index]};
+    newArtist.coords = [payload.coords.lng, payload.coords.lat];
+    newArtist.nationality = 'Serbian';
+    Object.assign(state.artists[index], newArtist);
   },
 
   removeArtist(state, artistId) {

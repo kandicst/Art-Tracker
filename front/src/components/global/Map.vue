@@ -7,6 +7,7 @@
     :key="selectedMap.name"
     :zoom="selectedMap.zoom"
     :center="selectedMap.center"
+    class="main-map"
   >
     <template v-for="artist in artists">
       <MglMarker
@@ -207,5 +208,12 @@ export default {
 .mapboxgl-marker {
   position: absolute;
   top: 0;
+}
+
+.mapboxgl-map{
+  border-top-left-radius: 15px !important;
+  border-top-right-radius: 15px !important;
+  border-bottom-left-radius: 15px !important;
+  border-bottom-right-radius: 15px !important;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <v-container class=" mainContainer mt-0 pt-0" v-hotkey="keymap">
-    <v-row class="px-5 pt-7 mb-5">
+    <v-row class="px-5 pt-7 mb-5" :height="102">
       <v-col cols="4" class="ma-0 pa-0">
         <v-tabs v-model="tab" class="" background-color="transparent">
           <v-tab key="artists">Artists</v-tab>
@@ -89,7 +89,7 @@
 
     <!-- Page Content -->
     <v-row class="mainRow">
-      <v-col md="4" class="ma-0 py-0 px-1">
+      <v-col md="4" class="ma-0 pb-0 px-1">
         <v-tabs-items v-model="tab" style="height:100%;">
           <v-tab-item key="artists" style="height:100%;">
             <ArtistSideBar class="leftSideBar pl-0 pr-0" />
@@ -100,10 +100,8 @@
         </v-tabs-items>
       </v-col>
 
-      <v-col md="8" class="pt-0">
-        <div style="height:100%;">
+      <v-col md="8" class="py-0" style="height:100%;">
           <Map/>
-        </div>
       </v-col>
     </v-row>
 
@@ -221,11 +219,12 @@ export default {
 
 .mainContainer {
   height: 100%;
-  max-width: 5000px;
+  max-width: 100%;
 }
 
 .mainRow {
-  height: 89%;
+  /* height: 89%; */
+  height: calc(100% - 102px - 5*4px);
 }
 
 .mapSelection {

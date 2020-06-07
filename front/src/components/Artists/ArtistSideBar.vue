@@ -12,7 +12,7 @@
       </v-btn-toggle>
     </v-row>
 
-    <ArtistGridView :hidden="selectedView == 1" />
+    <ArtistGridView class="mt-12" :hidden="selectedView == 1" />
     <ArtistListView :hidden="selectedView == 0"/>
 
     <ArtistsDialog />
