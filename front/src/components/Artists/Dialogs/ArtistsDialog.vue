@@ -145,14 +145,16 @@ export default {
         'homeTownAutocomplete'
       );
       if (
-        !autocompleteElement ||
-        autocompleteElement.contains(document.activeElement)
+        !this.valid
       )
         return;
 
       await this.add();
     },
-
+    closeArtist (){
+      this.close();
+      this.$refs.form.reset();
+    },
     async add() {
       console.log(artistsDB)
       this.artist.coords = await this.geocodeForward(this.artist.birthplace);
@@ -161,6 +163,7 @@ export default {
       // await this.addArtistAction(Object.assign({}, this.artist));
       //reset input
       this.reset();
+      this.$refs.form.reset();
       document.getElementById('nameInput').focus();
     },
 
@@ -180,8 +183,8 @@ export default {
 
     keymap() {
       return {
-        enter: this.enterPressed,
-        esc: this.close,
+        "ctrl+enter": this.enterPressed,
+        esc: this.closeArtist,
       };
     },
   },
