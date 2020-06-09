@@ -145,11 +145,12 @@ const actions = {
 
 const getters = {
   getAllArtists: state => state.artists,
-  getArtistById(state) {
-    return id => {
-      return state.artists.filter(item => item.id == id)[0];
-    };
-  },
+  // getArtistById(state) {
+  //   return id => {
+  //     return state.artists.filter(item => item.id == id)[0];
+  //   };
+  // },
+  getArtistById: state => id =>  state.artists.filter(item => item.id == id)[0],
   // get Artists based on current map
   getArtists: (state, getters, rootState, rootGetters) => {
     const map = rootGetters['map/getSelectedMap'].name;
