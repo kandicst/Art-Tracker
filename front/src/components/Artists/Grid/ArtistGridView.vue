@@ -36,20 +36,23 @@ export default {
 }
 
 .scrollable::-webkit-scrollbar {
-    background-color:#fff;
+    /* background-color:#fff; */
+    background-color: rgb(227, 231, 248);
     width:16px;
 }
 
 /* background of the scrollbar except button or resizer */
 .scrollable::-webkit-scrollbar-track {
-    background-color:#fff;
+    /* background-color:#fff; */
+    background-color: rgb(227, 231, 248);
 }
 
 /* scrollbar itself */
 .scrollable::-webkit-scrollbar-thumb {
     background-color:#babac0;
     border-radius:16px;
-    border:4px solid #fff;
+    /* border:4px solid #fff; */
+    border:4px solid rgb(227, 231, 248);
 }
 
 /* set button(top and bottom of the scrollbar) */

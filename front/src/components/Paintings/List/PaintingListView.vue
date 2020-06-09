@@ -1,9 +1,8 @@
 <template>
-  <div class="ma-5" >
+  <div class="ma-5">
     <v-data-table
       :headers="headers"
       :items="paintings"
-
     >
       <template v-slot:top>
         <v-toolbar flat color="white">

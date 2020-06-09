@@ -1,5 +1,5 @@
 <template>
-  <v-container class="top-cont px-6 pt-2">
+  <v-container class="top-cont px-6 pt-2 content-color">
     <v-row class="mr-3 ml-5">
       <v-spacer></v-spacer>
       <v-btn @click="addPainting" class="mx-5 text-none blue--text" tile>

@@ -1,49 +1,51 @@
 <template>
-  <v-container class=" mainContainer mt-0 pt-0" v-hotkey="keymap">
-    <v-row class="px-5 pt-7 mb-5" :height="102">
-      <v-col cols="4" class="ma-0 pa-0">
-        <v-tabs v-model="tab" class="" background-color="transparent">
-          <v-tab key="artists">Artists</v-tab>
-          <v-tab key="paintings">Paintings</v-tab>
-        </v-tabs>
-      </v-col>
+  <v-container class=" mainContainer mt-0 pa-0" v-hotkey="keymap">
+    <v-card class="" style="">
+      <v-row class="px-5 pt-7" :height="82">
+        <v-col cols="4" class="ma-0 pa-0">
+          <v-tabs v-model="tab" class="" background-color="transparent">
+            <v-tab key="artists">Artists</v-tab>
+            <v-tab key="paintings">Paintings</v-tab>
+          </v-tabs>
+        </v-col>
 
-      <!-- filled -->
-      <v-col sm="3" md="5" class="ma-0 pa-0 pt-2">
-        <v-row class="ma-0 pa-0">
-          <v-col cols="8" class="ma-0 pa-0">
-            <v-text-field
-              class="searchInput"
-              outlined
-              dense
-              single-line
-              placeholder="Search..."
-            >
-              <template slot="prepend-inner">
-                <div class="mt-1 ml-2 mr-4 searchIcon">
-                  <span class="iconify" data-icon="zondicons:search"></span>
-                </div>
-              </template>
-            </v-text-field>
-          </v-col>
-          <v-col cols="2" class="ma-0 pa-0">
-            <FilterComponent />
-          </v-col>
-        </v-row>
-      </v-col>
-      
-      <v-col sm="5" md="3" class="ma-0 pa-0">
-        <v-row justify="start" align="end"  class="mt-2 mr-3">
+        <!-- filled -->
+        <v-col sm="3" md="5" class="ma-0 pa-0 pt-2">
+          <v-row class="ma-0 pa-0">
+            <v-col cols="8" class="ma-0 pa-0">
+              <v-text-field
+                class="searchInput"
+                outlined
+                dense
+                single-line
+                placeholder="Search..."
+              >
+                <template slot="prepend-inner">
+                  <div class="mt-1 ml-2 mr-4 searchIcon">
+                    <span class="iconify" data-icon="zondicons:search"></span>
+                  </div>
+                </template>
+              </v-text-field>
+            </v-col>
+            <v-col cols="2" class="ma-0 pa-0">
+              <FilterComponent />
+            </v-col>
+          </v-row>
+        </v-col>
+
+        <v-col sm="5" md="3" class="ma-0 pa-0">
+          <v-row justify="start" align="end" class="mt-2 mr-3">
             <v-spacer></v-spacer>
             <v-select
               class="mapSelection mx-4"
               v-model="selectedMap.name"
               :items="mapOptions"
               hide-details
-              solo
+              outlined
               dense
               @change="mapChanged"
               item-text="name"
+              style="border-radius:0px!important;"
               return-object
             ></v-select>
 
@@ -51,7 +53,11 @@
               <template v-slot:activator="{ on }">
                 <v-btn
                   id="shortcuts"
-                  class="hidden-md-and-down"
+                  class="hidden-md-and-down grey--text"
+                  height="40px"
+                  depressed
+                  tile
+                  outlined
                   v-on="on"
                   @click.stop="shortcutDialog = true"
                 >
@@ -72,6 +78,7 @@
                   @click.stop="helpDialog = true"
                   id="help"
                   class="hidden-md-and-down ml-4"
+                  height="40px"
                   icon
                 >
                   <span
@@ -83,25 +90,26 @@
               </template>
               <span>Demo mode</span>
             </v-tooltip>
-        </v-row>
-      </v-col>
-    </v-row>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-card>
 
     <!-- Page Content -->
-    <v-row class="mainRow">
+    <v-row class="mainRow content-color pt-5 px-3">
       <v-col lg="5" xl="4" class="ma-0 pb-0 px-1">
         <v-tabs-items v-model="tab" style="height:100%;">
           <v-tab-item key="artists" style="height:100%;">
             <ArtistSideBar class="leftSideBar pl-0 pr-0" />
           </v-tab-item>
-          <v-tab-item key="paintings" class="">
+          <v-tab-item key="paintings" style="height:100%;">
             <PaintingSideBar class="leftSideBar pl-0 pr-0" />
           </v-tab-item>
         </v-tabs-items>
       </v-col>
 
-      <v-col lg="7" xl="8" class="py-0" style="height:100%;">
-          <Map/>
+      <v-col lg="7" xl="8" class="pb-6" style="height:100%;">
+        <Map />
       </v-col>
     </v-row>
 
@@ -129,7 +137,7 @@
 <script>
 // @ is an alias to /src
 import ArtistSideBar from './../components/Artists/ArtistSideBar';
-import PaintingSideBar from './../components/Paintings/PaintingSideBar'
+import PaintingSideBar from './../components/Paintings/PaintingSideBar';
 import Map from './../components/global/Map';
 import FilterComponent from './../components/global/FilterComponent';
 import HelpDialog from './../components/global/Dialogs/HelpDialog';
@@ -159,10 +167,6 @@ export default {
     ...mapActions({
       changeSelectedMapAction: 'map/changeSelectedMapAction',
     }),
-
-    theAction() {
-      alert('lelelel');
-    },
 
     mapChanged(val) {
       this.changeSelectedMapAction(val);
@@ -212,7 +216,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .leftSideBar {
   height: 100%;
 }
@@ -224,7 +228,7 @@ export default {
 
 .mainRow {
   /* height: 89%; */
-  height: calc(100% - 102px - 5*4px);
+  height: calc(100% - 82px - 5 * 4px);
 }
 
 .mapSelection {
@@ -237,13 +241,16 @@ export default {
 }
 
 #help .iconify {
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
 }
 
-.searchInput{
-  border-radius:0px!important;
-  
+.content-color {
+  background-color: rgb(227, 231, 248) !important;
+}
+
+.searchInput {
+  border-radius: 0px !important;
 }
 
 .searchIcon .iconify {
