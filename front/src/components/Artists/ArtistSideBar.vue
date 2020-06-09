@@ -13,7 +13,7 @@
     </v-row>
 
     <ArtistGridView class="mt-12" :hidden="selectedView == 1" />
-    <ArtistListView :hidden="selectedView == 0"/>
+    <ArtistListView :hidden="selectedView == 0" />
 
     <ArtistsDialog />
   </v-container>
@@ -23,18 +23,18 @@
 import { mapMutations, mapGetters } from 'vuex';
 import ArtistsDialog from './Dialogs/ArtistsDialog';
 import ArtistGridView from './Grid/ArtistGridView';
-import ArtistListView from './List/ArtistListView'
+import ArtistListView from './List/ArtistListView';
 
 export default {
   components: {
     ArtistsDialog,
     ArtistGridView,
-    ArtistListView
+    ArtistListView,
   },
 
   data() {
     return {
-      selectedView: '',
+      selectedView: 0,
     };
   },
 
@@ -68,5 +68,4 @@ export default {
 .top-cont {
   height: 100%;
 }
-
 </style>

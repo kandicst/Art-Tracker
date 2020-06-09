@@ -30,11 +30,6 @@
             hint="Date of birth"
           />
 
-          <!-- <v-text-field
-            v-model="artist.birthplace"
-            label="Home Town"
-            prepend-icon="mdi-home-city"
-          ></v-text-field> -->
           <CityAutocomplete
             :location="artist.birthplace"
             @locationChanged="artist.birthplace = $event"
@@ -46,6 +41,17 @@
             label="Nationality"
             prepend-icon="mdi-flag"
           ></v-text-field>
+
+          <v-select
+            :items="mapNames"
+            v-model="artist.map"
+            menu-props="auto"
+            class="pb-3"
+            label="Map"
+            hide-details
+            single-line
+            prepend-icon="mdi-map"
+          ></v-select>
 
           <v-select
             :items="artMovements"
@@ -113,13 +119,18 @@ export default {
       geocodeForward: 'geocoder/geocodeForward',
     }),
 
-    async enterPressed(){
+    async enterPressed() {
       // if focused element is autocomplete allow enter to choose city
       // else user is trying to finish changes so call add
-      const autocompleteElement = document.getElementById('homeTownAutocomplete')
-      if(!autocompleteElement || autocompleteElement.contains(document.activeElement))
+      const autocompleteElement = document.getElementById(
+        'homeTownAutocomplete'
+      );
+      if (
+        !autocompleteElement ||
+        autocompleteElement.contains(document.activeElement)
+      )
         return;
-      
+
       await this.add();
     },
 
@@ -127,7 +138,7 @@ export default {
       this.artist.coords = await this.geocodeForward(this.artist.birthplace);
       await this.addArtistAction(Object.assign({}, this.artist));
       //reset input
-      this.reset(); 
+      this.reset();
       document.getElementById('nameInput').focus();
     },
 
@@ -142,6 +153,7 @@ export default {
       artist: 'artistsDialog/getDialogArtist',
       type: 'artistsDialog/getDialogType',
       artMovements: 'paintings/getArtMovements',
+      mapNames: 'map/getMapNames',
     }),
 
     keymap() {

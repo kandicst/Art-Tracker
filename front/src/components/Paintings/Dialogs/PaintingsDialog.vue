@@ -21,16 +21,17 @@
           </v-text-field>
 
           <v-select
-            :items="artists"
-            v-model="painting.artist"
+            :items="getAllArtists"
+            v-model="painting.artistId"
             item-text="name"
-            return-object
             menu-props="auto"
             label="Artist"
             hide-details
             single-line
             prepend-icon="mdi-account"
+            item-value="id"
           ></v-select>
+            <!-- return-object -->
 
           <v-text-field
             v-model="painting.created"
@@ -41,12 +42,6 @@
             hint="Year that it was painted"
           ></v-text-field>
 
-          <!-- <v-text-field
-            v-model="painting.location"
-            label="Location"
-            prepend-icon="mdi-home-city"
-            hint="Where the image is located today"
-          ></v-text-field> -->
           <CityAutocomplete
             :location="painting.location"
             @locationChanged="painting.location = $event"
@@ -184,6 +179,7 @@ export default {
       type: 'paintingsDialog/getDialogType',
       artMovements: 'paintings/getArtMovements',
       artists: 'artists/getArtists',
+      getAllArtists: 'artists/getAllArtists'
     }),
 
     keymap() {
