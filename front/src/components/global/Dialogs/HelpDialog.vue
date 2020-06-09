@@ -8,7 +8,20 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    close(){
+      this.$emit("zatvori");
+    }
+  },
+  computed: {
+    keymap() {
+      return {
+        esc: this.close,
+      };
+    },
+  },
+};
 </script>
 
 <style></style>

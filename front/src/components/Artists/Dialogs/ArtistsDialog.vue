@@ -144,8 +144,7 @@ export default {
         'homeTownAutocomplete'
       );
       if (
-        !autocompleteElement ||
-        autocompleteElement.contains(document.activeElement)
+        !this.valid
       )
         return;
 

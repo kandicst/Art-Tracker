@@ -120,16 +120,16 @@
       @click:outside="helpDialog = false"
       :retain-focus="false"
     >
-      <HelpDialog />
+      <HelpDialog v-on:zatvori="shortcutDialog = false"/>
     </v-dialog>
 
     <v-dialog
       v-model="shortcutDialog"
-      width="35%"
+      width="50%"
       @click:outside="shortcutDialog = false"
       :retain-focus="false"
     >
-      <ShortcutsDialog />
+      <ShortcutsDialog v-on:zatvori="shortcutDialog = false" />
     </v-dialog>
   </v-container>
 </template>
@@ -196,6 +196,15 @@ export default {
       else index = index - 1;
       this.changeSelectedMapAction(this.mapOptions[index]);
     },
+
+    showShorcut(){
+      this.shortcutDialog = true;
+      this.helpDialog = false;
+    },
+    showHelp(){
+      this.helpDialog = true;
+      this.shortcutDialog = false;
+    }
   },
 
   computed: {
@@ -210,6 +219,8 @@ export default {
         'ctrl+down': this.switchMapDown,
         'ctrl+left': this.switchToLeftTab,
         'ctrl+right': this.switchToRightTab,
+        'ctrl+alt+s': this.showShorcut,
+        'ctrl+alt+h': this.showHelp
       };
     },
   },
