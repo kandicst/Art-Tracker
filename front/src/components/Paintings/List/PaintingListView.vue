@@ -30,21 +30,8 @@
         {{ header.text.toUpperCase() }}  <v-icon small color="blue lighten-2">mdi-timer-sand</v-icon>
       </template>
 
-      <template v-slot:header.img="{ header }">
-        {{ header.text.toUpperCase() }}  <v-icon small color="blue lighten-2">mdi-timer-sand</v-icon>
-      </template>
-      
 
-      <template v-slot:item.img="{ item }">
-        <v-img
-            height="50"
-            width="50"
-            class="ma-4"
-            :src="item.img"
-            contain
-          >
-        </v-img>
-      </template>
+      
 
       <template v-slot:item.actions="{ item }">
         <v-icon
@@ -102,7 +89,7 @@ import { mapMutations, mapGetters, mapActions } from 'vuex';
       }),
 
       editItem (item) {
-        this.openEditDialog(item);
+        this.openEditDialog(Object.assign({},item));
       },
 
       deleteItem (item) {
