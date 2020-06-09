@@ -48,7 +48,6 @@ export default {
 
     addArtist() {
       this.openAddDialog();
-      alert('otvori mi svoja vrata')
       console.log(this.selectedView);
     },
   },
