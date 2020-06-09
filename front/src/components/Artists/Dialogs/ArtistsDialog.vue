@@ -97,6 +97,7 @@
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import DatePicker from './../../global/DatePicker';
 import CityAutocomplete from './../../global/CityAutocomplete';
+import { artistsDB } from './../../../firebase';
 
 export default {
   components: {
@@ -105,7 +106,9 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      slika: '',
+    };
   },
 
   methods: {
@@ -135,8 +138,11 @@ export default {
     },
 
     async add() {
+      console.log(artistsDB)
       this.artist.coords = await this.geocodeForward(this.artist.birthplace);
-      await this.addArtistAction(Object.assign({}, this.artist));
+      this.artist.img = ''
+      artistsDB.push(this.artist);
+      // await this.addArtistAction(Object.assign({}, this.artist));
       //reset input
       this.reset();
       document.getElementById('nameInput').focus();
