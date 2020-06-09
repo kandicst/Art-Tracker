@@ -9,29 +9,6 @@
           <v-toolbar-title>Artists</v-toolbar-title>
         </v-toolbar>
       </template>
-
-      <template v-slot:header.name="{ header }">
-        {{ header.text.toUpperCase() }}  <v-icon small color="green lighten-2" >mdi-palette-advanced</v-icon>
-      </template>
-
-      <template v-slot:header.birthday="{ header }">
-        {{ header.text.toUpperCase() }}  <v-icon small color="orange lighten-2">mdi-party-popper</v-icon> 
-      </template>
-
-      <template v-slot:header.birthplace="{ header }">
-        {{ header.text.toUpperCase() }}  <v-icon small color="purple lighten-2">mdi-map-marker</v-icon>
-      </template>
-
-      <template v-slot:header.artMovement="{ header }">
-        {{ header.text.toUpperCase() }}  <v-icon small color="blue lighten-2">mdi-timer-sand</v-icon>
-      </template>
-
-      <template v-slot:header.death="{ header }">
-        {{ header.text.toUpperCase() }}  <v-icon small color="black lighten-2">mdi-clock</v-icon>
-      </template>
-
-      
-
       <template v-slot:item.death="{ item }">
         <span v-if="item.death.day != ''">
 

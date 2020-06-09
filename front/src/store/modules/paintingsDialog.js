@@ -3,7 +3,7 @@ import Vue from 'vue';
 const state = {
   dialogPainting: {
     name: '',
-    artist: { name: '' },
+    artistId: '',
     created: '',
     location: '',
     medium: '',
@@ -19,7 +19,7 @@ const mutations = {
   openAddDialog(state) {
     const painting = {
       name: '',
-      artist: { name: '' },
+      artistId: '',
       created: '',
       location: '',
       medium: '',
@@ -45,7 +45,7 @@ const mutations = {
   resetDialogPainting(state) {
     const painting = {
       name: '',
-      artist: { name: '' },
+      artistId: '',
       created: '',
       location: '',
       medium: '',

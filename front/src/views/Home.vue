@@ -246,7 +246,8 @@ export default {
 }
 
 .content-color {
-  background-color: rgb(227, 231, 248) !important;
+  /* background-color: rgb(227, 231, 248) !important; */
+  background-color: #E7EAF2;
 }
 
 .searchInput {
