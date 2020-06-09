@@ -25,6 +25,8 @@ import ArtistsDialog from './Dialogs/ArtistsDialog';
 import ArtistGridView from './Grid/ArtistGridView';
 import ArtistListView from './List/ArtistListView';
 
+import { artistsDB } from './../../firebase';
+
 export default {
   components: {
     ArtistsDialog,
