@@ -1,5 +1,5 @@
 <template>
-  <div class="ma-5">
+  <div class="my-5">
     <v-data-table
       :headers="headers"
       :items="paintings"
@@ -8,42 +8,6 @@
         <v-toolbar flat color="white">
           <v-toolbar-title>Paintings</v-toolbar-title>
         </v-toolbar>
-      </template>
-
-      <template v-slot:header.name="{ header }">
-        {{ header.text.toUpperCase() }}  <v-icon small color="green lighten-2" >mdi-palette-advanced</v-icon>
-      </template>
-
-      <template v-slot:header.created="{ header }">
-        {{ header.text.toUpperCase() }}  <v-icon small color="orange lighten-2">mdi-palette</v-icon> 
-      </template>
-
-      <template v-slot:header.location="{ header }">
-        {{ header.text.toUpperCase() }}  <v-icon small color="purple lighten-2">mdi-map-marker</v-icon>
-      </template>
-
-      <template v-slot:header.medium="{ header }">
-        {{ header.text.toUpperCase() }}  <v-icon small color="red lighten-2" >mdi-brush</v-icon>
-      </template>
-
-      <template v-slot:header.artMovement="{ header }">
-        {{ header.text.toUpperCase() }}  <v-icon small color="blue lighten-2">mdi-timer-sand</v-icon>
-      </template>
-
-      <template v-slot:header.img="{ header }">
-        {{ header.text.toUpperCase() }}  <v-icon small color="blue lighten-2">mdi-timer-sand</v-icon>
-      </template>
-      
-
-      <template v-slot:item.img="{ item }">
-        <v-img
-            height="50"
-            width="50"
-            class="ma-4"
-            :src="item.img"
-            contain
-          >
-        </v-img>
       </template>
 
       <template v-slot:item.actions="{ item }">
@@ -79,7 +43,7 @@ import { mapMutations, mapGetters, mapActions } from 'vuex';
         { text: 'Created', value: 'created' },
         { text: 'Location', value: 'location' },
         { text: 'Medium', value: 'medium' },
-        { text: 'movement', value: 'artMovement' },
+        { text: 'Movement', value: 'artMovement' },
         { text: 'Actions', value: 'actions', sortable: false },
       ]
     }),
@@ -131,5 +95,8 @@ import { mapMutations, mapGetters, mapActions } from 'vuex';
 
 <style>
 
+.v-data-table-header th {
+  white-space: nowrap;
+}
 
 </style>

@@ -30,6 +30,7 @@ const actions = {
 
 const getters = {
   getMapOptions: state => state.mapOptions,
+  getMapNames: state => state.mapOptions.map(map => map.name),
   getSelectedMap: state => state.selectedMap,
 };
 

@@ -58,10 +58,16 @@ export default {
         setTimeout(() => (this.isUpdating = false), 3000);
       }
     },
+
     async search(val) {
       if (!val) return;
       await this.searchEntries(val);
     },
+
+    location(val) {
+      if (this.getEntries.filter(loc => loc == val).length == 0)
+        this.getEntries.push(val);
+    }
   },
 };
 </script>

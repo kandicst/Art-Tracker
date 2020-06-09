@@ -5,6 +5,7 @@ const state = {
     name: '',
     birthday: { day: '', month: '', year: '' },
     birthplace: '',
+    map: '',
     nationality: '',
     artMovement: '',
     death: { day: '', month: '', year: '' },
@@ -20,6 +21,7 @@ const mutations = {
       birthday: { day: '', month: '', year: '' },
       birthplace: '',
       nationality: '',
+      map: '',
       artMovement: '',
       death: { day: '', month: '', year: '' },
     };
@@ -44,6 +46,7 @@ const mutations = {
         birthday: {day: '', month: '', year: ''},
         birthplace: '',
         nationality: '',
+        map: '',
         artMovement: '',
         death: {day: '', month: '', year: ''},
     };

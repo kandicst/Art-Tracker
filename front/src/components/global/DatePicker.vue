@@ -1,6 +1,6 @@
 <template>
-  <v-row>
-    <v-col>
+  <v-row >
+    <v-col >
       <v-text-field
         v-model="dayProp"
         :prepend-icon="icon"

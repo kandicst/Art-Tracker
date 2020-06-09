@@ -3,8 +3,14 @@
     class="d-inline-block mx-auto rounded-card"
     width="275px"
     hover
-    @click="hover = !hover; show = false"
-    @mouseleave="hover = false; show = false;"
+    @click="
+      hover = !hover;
+      show = false;
+    "
+    @mouseleave="
+      hover = false;
+      show = false;
+    "
   >
     <v-container class="ma-0 pa-0">
       <v-row>
@@ -21,7 +27,7 @@
       <v-card-title>{{ painting.name }}</v-card-title>
 
       <v-card-subtitle style="text-align:left;">
-        {{ painting.artist.name }}, {{ painting.created }}
+        {{ artistById }}, {{ painting.created }}
       </v-card-subtitle>
 
       <v-card-text>
@@ -44,7 +50,9 @@
 
       <v-card-actions class="my-0 py-0" v-show="hover">
         <v-btn text @click.stop="openEditDialog" class="text-none">Edit</v-btn>
-        <v-btn text @click.stop="openDeleteDialog" class="text-none" color="red">Delete</v-btn>
+        <v-btn text @click.stop="openDeleteDialog" class="text-none" color="red"
+          >Delete</v-btn
+        >
         <v-spacer></v-spacer>
         <v-btn icon @click.stop="show = !show">
           <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
@@ -64,6 +72,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions, mapMutations } from 'vuex';
+
 export default {
   props: ['painting'],
   data() {
@@ -74,12 +84,17 @@ export default {
   },
 
   methods: {
-    openEditDialog(){
+    ...mapGetters({
+    }),
 
-    },
+    openEditDialog() {},
 
-    openDeleteDialog() {
+    openDeleteDialog() {},
+  },
 
+  computed: {
+    artistById() {
+      return this.$store.getters["artists/getArtistById"](this.painting.artistId).name;
     }
   }
 };

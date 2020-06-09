@@ -4,7 +4,7 @@ const state = {
   paintings: [
     {
       name: 'Mona Lisa',
-      artist: { name: 'Leonardo da Vinci' },
+      artistId: 3,
       created: '1939',
       location: 'Paris, France',
       coords: [2.3522, 48.8566],
@@ -15,7 +15,7 @@ const state = {
     },
     {
       name: 'Mona Lisa2',
-      artist: { name: 'Leonardo da Vinci' },
+      artistId: 3,
       created: '1939',
       location: 'Barcelona, Spain',
       coords: [2.1734, 41.3851],
@@ -26,7 +26,7 @@ const state = {
     },
     {
       name: 'Mona Lisa3',
-      artist: { name: 'Leonardo da Vinci' },
+      artistId: 3,
       created: '1939',
       location: 'Madrid, Spain',
       coords: [-3.7038, 40.4168],
@@ -37,7 +37,7 @@ const state = {
     },
     {
       name: 'Mona Lisa4',
-      artist: { name: 'Leonardo da Vinci' },
+      artistId: 2,
       created: '1939',
       location: 'Amsterdam, Netherlands',
       coords: [4.8945, 52.3667],
@@ -48,7 +48,7 @@ const state = {
     },
     {
       name: 'Mona Lisa5',
-      artist: { name: 'Leonardo da Vinci' },
+      artistId: 1,
       created: '1939',
       location: 'Londong, United Kingdom',
       coords: [-0.1278, 51.5074],
@@ -79,6 +79,7 @@ const mutations = {
 
   addPainting(state, newPainting) {
     state.paintings.push(newPainting);
+    console.log(newPainting);
   },
 
   updatePainting(state, newPainting) {
@@ -146,7 +147,19 @@ const actions = {
 
 const getters = {
   getArtMovements: state => state.artMovements,
-  getPaintings: state => state.paintings,
+  getAllPaintings: state => state.paintings,
+  // get paintings by  map
+  getPaintings: (state, getters, rootState, rootGetters) => {
+    
+    const map = rootGetters["map/getSelectedMap"].name;
+
+    state.paintings.map(painting => {
+      painting.artist = rootGetters["artists/getArtistById"](painting.artistId);
+    });
+    
+    console.log(state.paintings);
+    return state.paintings.filter(item => item.artist.map == map);
+  },
 };
 
 export default {
