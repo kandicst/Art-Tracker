@@ -137,8 +137,8 @@ export default {
     ...mapMutations({
       moveArtistOnMap: 'artists/moveArtistOnMap',
       movePaintingOnMap: 'paintings/movePaintingOnMap',
-            setArtist: 'artists/setArtist',
-      setPaintings: 'paintings/setPaintings'
+      setArtist: 'artists/setArtist',
+      setPaintings: 'paintings/setPaintings',
     }),
 
     async onMapLoaded(event) {
@@ -150,26 +150,22 @@ export default {
       let artists = [];
       let paintings = [];
 
-      await artistsDB.once('value', async function(data) {
-        artists = [];
-        let items = data.val();
-        for (let key in items) {
-          items[key].id = key;
-          artists.push(items[key]);
-        }
-      });
-      await this.setArtist(artists);
+      console.log('0---fdsfdsfd');
+      const snap = await artistsDB.once('value');
+      const items = snap.val();
+      for (let key in items) {
+        items[key].id = key;
+        artists.push(items[key]);
+      }
+      this.setArtist(artists);
 
-      await paintingsDB.once('value', async function(data) {
-        paintings = [];
-        let items = data.val();
-        for (let key in items) {
-          items[key].id = key;
-          paintings.push(items[key]);
-        }
-      });
+      const snap2 = await paintingsDB.once('value');
+      const items2 = snap2.val();
+      for (let key in items2) {
+        items2[key].id = key;
+        paintings.push(items2[key]);
+      }
       await this.setPaintings(paintings);
-
       bus.$emit('markerChanged', '');
     },
 
