@@ -179,9 +179,13 @@ export default {
       // await this.addPaintingAction(Object.assign({}, this.painting));
       this.emitPaintingChanged(this.painting.name);
       this.reset();
+      this.$refs.form.reset();
       document.getElementById('paintingNameInput').focus();
     },
-
+    closePaint(){
+      this.close();
+      this.$refs.form.reset();
+    },
     update() {
       this.updatePaintingAction(Object.assign({}, this.painting));
       this.close();
@@ -204,8 +208,8 @@ export default {
 
     keymap() {
       return {
-        enter: this.enterPressed,
-        esc: this.close,
+        "ctrl+enter": this.enterPressed,
+        esc: this.closePaint,
       };
     },
   },

@@ -102,8 +102,7 @@ export default {
             { combination: 'ctrl +', icon: 'mdi-arrow-left', action: 'Go to artist tab'},
             { combination: 'ctrl + ', icon: 'mdi-arrow-down', action: 'Switch to next map'},
             { combination: 'ctrl + ', icon: 'mdi-arrow-up', action: 'Switch to previuse map'},
-            { combination: 'ctrl+alt+h', action: 'Show help dialog'},
-            { combination: 'ctrl + alt +  n', action: 'Add artist/painting'},
+            { combination: 'ctrl + alt + n', action: 'Add artist/painting'},
             { combination: 'ctrl + alt + h', action: 'Show help dialog'},
             { combination: 'ctrl + alt + s', action: 'Show shortcut dialog'},
           ]
@@ -111,14 +110,14 @@ export default {
         {
           title: 'Artist Dialog',
           shortcuts: [
-            { combination: 'enter', action: 'Add/Change artist'},
+            { combination: 'ctrl + enter', action: 'Add/Change artist'},
             { combination: 'esc', action: 'Exit dialog'},
           ]
         },
         {
           title: 'Painting Dialog',
           shortcuts: [
-            { combination: 'enter', action: 'Add/Change painting'},
+            { combination: 'ctrl + enter', action: 'Add/Change painting'},
             { combination: 'esc', action: 'Exit dialog'},
           ]
         },
