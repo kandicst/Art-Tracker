@@ -10,17 +10,20 @@
       <v-card-title v-if="type === 'add'">Add New Artist</v-card-title>
       <v-card-title v-else>Edit Artist</v-card-title>
       <v-card-text>
-        <v-form ref="form" class="mt-5 mr-8" lazy-validation>
+        <v-form ref="form" class="mt-5 mr-8" lazy-validation v-model="valid">
           <v-text-field
             v-model="artist.name"
             label="Name"
             id="nameInput"
+            :rules="rule"
+            required
             prepend-icon="mdi-account"
             autofocus
           ></v-text-field>
 
           <DatePicker
             :day="artist.birthday.day"
+            v-bind:rule="rule"
             @dayChanged="artist.birthday.day = $event"
             :month="artist.birthday.month"
             @monthChanged="artist.birthday.month = $event"
@@ -33,6 +36,9 @@
           <CityAutocomplete
             :location="artist.birthplace"
             @locationChanged="artist.birthplace = $event"
+            
+            v-bind:rule="rule"
+            required
             id="homeTownAutocomplete"
           />
 
@@ -40,6 +46,8 @@
             v-model="artist.nationality"
             label="Nationality"
             prepend-icon="mdi-flag"
+            :rules="rule"
+            required
           ></v-text-field>
 
           <v-select
@@ -48,6 +56,8 @@
             menu-props="auto"
             class="pb-3"
             label="Map"
+            :rules="rule"
+            required
             hide-details
             single-line
             prepend-icon="mdi-map"
@@ -59,6 +69,8 @@
             menu-props="auto"
             label="Art movement"
             hide-details
+            :rules="rule"
+            required
             single-line
             prepend-icon="mdi-timer-sand"
           ></v-select>
@@ -83,11 +95,11 @@
       </v-card-text>
       <v-card-actions class="mr-8">
         <v-spacer></v-spacer>
-        <v-btn @click="close" text>Cancel</v-btn>
+        <v-btn @click="close" text >Cancel</v-btn>
         <v-btn v-if="type === 'add'" color="primary" @click="add" text
-          >Add</v-btn
+          :disabled="!valid">Add</v-btn
         >
-        <v-btn v-else color="primary" @click="update" text>Update</v-btn>
+        <v-btn v-else color="primary" @click="update" text :disabled="!valid">Update</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -105,7 +117,13 @@ export default {
   },
 
   data() {
-    return {};
+    return {
+      
+      valid: true,
+      rule: [
+          v => !!v || 'Obavezno polje'
+        ],
+    };
   },
 
   methods: {
