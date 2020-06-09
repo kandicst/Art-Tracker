@@ -66,7 +66,7 @@ import { mapMutations, mapGetters, mapActions } from 'vuex';
       }),
 
       editItem (item) {
-        this.openEditDialog(item);
+        this.openEditDialog(Object.assign({},item));
       },
 
       deleteItem (item) {

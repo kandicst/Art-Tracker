@@ -7,6 +7,7 @@
     :items="getEntries"
     :search-input.sync="search"
     :loading="isLoading"
+    :rules="rule"
     hide-no-data
     hide-selected
     label="Location"
@@ -20,7 +21,7 @@
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
-  props: ['location'],
+  props: ['location','rule'],
   data() {
     return {
       isLoading: false,

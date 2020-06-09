@@ -1,92 +1,114 @@
 <template>
   <div class="ma-5" >
-    <v-data-table :headers="headers" :items="desserts" class="elevation-1">
-      <template v-slot:item.glutenfree="{ item }">
-        <v-simple-checkbox
-          v-model="item.glutenfree"
-          disabled
-        ></v-simple-checkbox>
+    <v-data-table
+      :headers="headers"
+      :items="artists"
+    >
+      <template v-slot:top>
+        <v-toolbar flat color="white">
+          <v-toolbar-title>Artists</v-toolbar-title>
+        </v-toolbar>
+      </template>
+      <template v-slot:item.death="{ item }">
+        <span v-if="item.death.day != ''">
+
+        {{ item.death.month }}
+        {{ item.death.day }}
+        {{ item.death.year }}
+        </span>
+        <span v-else>Alive</span>
+      </template>
+
+      <template v-slot:item.birthday="{ item }">
+
+        {{ item.birthday.month }}
+        {{ item.birthday.day }}
+        {{ item.birthday.year }}
+      </template>
+
+
+      <template v-slot:item.actions="{ item }">
+        <v-icon
+          small
+          class="mr-2"
+          @click="editItem(item)"
+        >
+          mdi-pencil
+        </v-icon>
+        <v-icon
+          small
+          @click="deleteItem(item)"
+        >
+          mdi-delete
+        </v-icon>
       </template>
     </v-data-table>
   </div>
 </template>
 
 <script>
+import { mapMutations, mapGetters, mapActions } from 'vuex';
 export default {
   data () {
     return {
-      desserts: [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: '1%',
-          glutenfree: true,
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: '1%',
-          glutenfree: false,
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: '7%',
-          glutenfree: false,
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: '0%',
-          glutenfree: true,
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: '2%',
-          glutenfree: true,
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: '6%',
-          glutenfree: false,
-        },
-      ],
+      dialog: false, 
       headers: [
         {
-          text: 'Dessert (100g serving)',
+          text: 'Artist',
           align: 'start',
-          sortable: false,
           value: 'name',
         },
-        { text: 'Calories', value: 'calories' },
-        { text: 'Fat (g)', value: 'fat' },
-        { text: 'Carbs (g)', value: 'carbs' },
-        { text: 'Protein (g)', value: 'protein' },
-        { text: 'Iron (%)', value: 'iron' },
-        { text: 'Gluten-Free', value: 'glutenfree' },
-      ],
+        { text: 'Birth', value: 'birthday' },
+        { text: 'Place', value: 'birthplace' },
+        { text: 'Death', value: 'death' },
+        { text: 'Movement', value: 'artMovement' },
+        { text: 'ACTIONS', value: 'actions', sortable: false },
+      ]
     }
   },
+
+  computed: {
+      
+      ...mapGetters({
+        artists: 'artists/getArtists',
+      }),
+    },
+
+
+    methods: {
+      ...mapMutations('artistsDialog', {
+      openEditDialog: 'openEditDialog',
+      }),
+
+      ...mapActions({
+      removeArtistAction: 'artists/removeArtistAction'
+      }),
+
+      editItem (item) {
+        this.openEditDialog(item);
+      },
+
+      deleteItem (item) {
+        this.removeArtistAction(Object.assign({}, this.item));
+      },
+
+      close () {
+        this.dialog = false
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        })
+      },
+
+      save () {
+        if (this.editedIndex > -1) {
+          Object.assign(this.artists[this.editedIndex], this.editedItem)
+        } else {
+          this.paintings.push(this.editedItem)
+        }
+        this.close()
+      },
+    },
 };
 </script>
 

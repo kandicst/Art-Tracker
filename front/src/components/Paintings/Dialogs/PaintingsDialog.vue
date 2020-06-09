@@ -10,10 +10,12 @@
       <v-card-title v-if="type === 'add'">Add New Painting</v-card-title>
       <v-card-title v-else>Edit Painting</v-card-title>
       <v-card-text>
-        <v-form ref="form" class="mt-5 mr-8" lazy-validation>
+        <v-form ref="form" class="mt-5 mr-8" lazy-validation v-model="valid">
           <v-text-field
             v-model="painting.name"
             label="Name"
+            :rules="rule"
+            required
             id="paintingNameInput"
             prepend-icon="mdi-rename-box"
             autofocus
@@ -26,6 +28,8 @@
             item-text="name"
             menu-props="auto"
             label="Artist"
+            :rules="rule"
+            required
             hide-details
             single-line
             prepend-icon="mdi-account"
@@ -35,6 +39,8 @@
 
           <v-text-field
             v-model="painting.created"
+            :rules="rule"
+            required
             class="mt-5"
             label="Created"
             type="number"
@@ -45,11 +51,15 @@
           <CityAutocomplete
             :location="painting.location"
             @locationChanged="painting.location = $event"
+            v-bind:rule="rule"
+            required
             id="locationAutocomplete"
           />
 
           <v-select
             :items="artMovements"
+            :rules="rule"
+            required
             v-model="painting.artMovement"
             menu-props="auto"
             label="Art movement"
@@ -60,6 +70,8 @@
 
           <v-select
             :items="mediums"
+            :rules="rule"
+            required
             class="mt-5"
             v-model="painting.medium"
             menu-props="auto"
@@ -71,6 +83,8 @@
 
           <v-textarea
             v-model="painting.description"
+            :rules="rule"
+            required
             class="mt-5"
             label="Description"
             rows="2"
@@ -89,9 +103,9 @@
         <v-spacer></v-spacer>
         <v-btn @click="close" text>Cancel</v-btn>
         <v-btn v-if="type === 'add'" color="primary" @click="add" text
-          >Add</v-btn
+          :disabled="!valid">Add</v-btn
         >
-        <v-btn v-else color="primary" @click="update" text>Update</v-btn>
+        <v-btn v-else color="primary" @click="update" text :disabled="!valid">Update</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -125,6 +139,10 @@ export default {
         'Mozaik',
         'Enakustika',
       ],
+      valid: true,
+      rule: [
+          v => !!v || 'Obavezno polje'
+        ],
     };
   },
 

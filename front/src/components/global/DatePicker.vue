@@ -5,22 +5,23 @@
         v-model="dayProp"
         :prepend-icon="icon"
         :hint="hint"
+        :rules="rule"
         type="number"
         label="Day"
       />
     </v-col>
     <v-col>
-      <v-select :items="monthsOfYear" v-model="monthProp" label="Month" />
+      <v-select :items="monthsOfYear" v-model="monthProp" label="Month" :rules="rule" />
     </v-col>
     <v-col>
-      <v-text-field v-model="yearProp" label="Year" type="number" />
+      <v-text-field v-model="yearProp" label="Year" type="number" :rules="rule" />
     </v-col>
   </v-row>
 </template>
 
 <script>
 export default {
-  props: ['day', 'month', 'year', 'icon', 'hint'],
+  props: ['day', 'month', 'year', 'icon', 'hint','rule'],
   data() {
     return {
       monthsOfYear: [
@@ -39,7 +40,6 @@ export default {
       ],
     };
   },
-
   computed: {
     dayProp: {
       get() {
