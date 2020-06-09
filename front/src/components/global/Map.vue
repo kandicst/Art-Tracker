@@ -78,7 +78,7 @@
     </template>
 
     <!-- <MapLine :key="bool" :changed="changed" /> -->
-    <MapLine/>
+    <MapLine />
     <MglNavigationControl position="bottom-right" :showCompass="false" />
   </MglMap>
 </template>
@@ -91,9 +91,9 @@ import NodeGeocoder from 'node-geocoder';
 import Vue from 'vue';
 import Avatar from 'vue-avatar-component';
 import MapLine from './MapLine';
-import { bus } from '../../main'
+import { bus } from '../../main';
+import { artistsDB, paintingsDB } from './../../firebase';
 const opencage = require('opencage-api-client');
-
 
 export default {
   components: {
@@ -136,7 +136,9 @@ export default {
 
     ...mapMutations({
       moveArtistOnMap: 'artists/moveArtistOnMap',
-      movePaintingOnMap: 'paintings/movePaintingOnMap'
+      movePaintingOnMap: 'paintings/movePaintingOnMap',
+            setArtist: 'artists/setArtist',
+      setPaintings: 'paintings/setPaintings'
     }),
 
     async onMapLoaded(event) {
@@ -144,6 +146,31 @@ export default {
       this.map = event.map;
       // or just to store if you want have access from other components
       this.$store.map = event.map;
+
+      let artists = [];
+      let paintings = [];
+
+      await artistsDB.once('value', async function(data) {
+        artists = [];
+        let items = data.val();
+        for (let key in items) {
+          items[key].id = key;
+          artists.push(items[key]);
+        }
+      });
+      await this.setArtist(artists);
+
+      await paintingsDB.once('value', async function(data) {
+        paintings = [];
+        let items = data.val();
+        for (let key in items) {
+          items[key].id = key;
+          paintings.push(items[key]);
+        }
+      });
+      await this.setPaintings(paintings);
+
+      bus.$emit('markerChanged', '');
     },
 
     async forwardGeoLocate(city) {
@@ -179,7 +206,7 @@ export default {
       this.emitMarkerChanged(name);
     },
 
-    emitMarkerChanged(data){
+    emitMarkerChanged(data) {
       bus.$emit('markerChanged', data);
     },
   },
@@ -210,7 +237,7 @@ export default {
   top: 0;
 }
 
-.mapboxgl-map{
+.mapboxgl-map {
   border-top-left-radius: 15px !important;
   border-top-right-radius: 15px !important;
   border-bottom-left-radius: 15px !important;

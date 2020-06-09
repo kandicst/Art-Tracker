@@ -115,6 +115,8 @@
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import CityAutocomplete from './../../global/CityAutocomplete';
 import { bus } from '../../../main'
+import { paintingsDB } from './../../../firebase';
+
 
 export default {
   components: {
@@ -173,7 +175,8 @@ export default {
     async add() {
       this.painting.coords = await this.geocodeForward(this.painting.location);
       this.painting.img = 'https://i.ytimg.com/vi/IwtuO6kkMTA/maxresdefault.jpg';
-      await this.addPaintingAction(Object.assign({}, this.painting));
+      paintingsDB.push(this.painting);
+      // await this.addPaintingAction(Object.assign({}, this.painting));
       this.emitPaintingChanged(this.painting.name);
       this.reset();
       document.getElementById('paintingNameInput').focus();
