@@ -155,12 +155,14 @@ export default {
       this.close();
       this.$refs.form.reset();
     },
+    
     async add() {
       console.log(artistsDB)
       this.artist.coords = await this.geocodeForward(this.artist.birthplace);
       this.artist.img = ''
       artistsDB.push(this.artist);
       // await this.addArtistAction(Object.assign({}, this.artist));
+
       //reset input
       this.reset();
       this.$refs.form.reset();

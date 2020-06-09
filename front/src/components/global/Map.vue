@@ -13,7 +13,7 @@
       <MglMarker
         :id="artist.name"
         :coordinates.sync="artist.coords"
-        :key="artist.name"
+        :key="artist.id"
         @dragend="artistMarkerDragEnd"
         :draggable="true"
         anchor="center"
