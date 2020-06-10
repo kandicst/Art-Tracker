@@ -5,9 +5,6 @@ import store from './store'
 import vuetify from './plugins/vuetify';
 import Axios from "axios";
 import VueHotkey from 'v-hotkey'
-import './firebase'
-import { firestorePlugin } from 'vuefire'
-
 
 
 let nodeGeocoder = require('node-geocoder');
@@ -18,7 +15,7 @@ Vue.prototype.$geoCoder = geoCoder;
 Vue.prototype.$cageApiKey = '0153a27f5a664fe284e2b88db6bc44c7'
 
 Vue.use(VueHotkey)
-Vue.use(firestorePlugin)
+// Vue.use(firestorePlugin)
 Vue.$axios = Axios;
 
 Vue.config.productionTip = false

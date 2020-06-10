@@ -1,7 +1,7 @@
 <template>
   <v-container class="scrollable mt-5" id="" style="direction:rtl;">
     <v-row style="direction:ltr;">
-      <v-col sm="12" lg="6" align="center" v-for="artist in artists" :key="artist.id">
+      <v-col sm="12" lg="6" align="center" v-for="artist in artists" :key="artist['.key']">
         <!-- {{loguj(artist.name)}} -->
         <ArtistGridComponent :artist="artist"/>
       </v-col>

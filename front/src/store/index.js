@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import { vuexfireMutations } from 'vuexfire'
 import snackbar from './modules/snackbar'
 import paintings from './modules/paintings'
 import paintingsDialog from './modules/paintingsDialog'
@@ -11,12 +11,14 @@ import autocomplete from './modules/autocomplete'
 import geocoder from './modules/geocoder'
 
 
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
   },
   mutations: {
+    ...vuexfireMutations,
   },
   actions: {
   },
