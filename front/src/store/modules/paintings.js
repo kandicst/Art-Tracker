@@ -28,7 +28,8 @@ const mutations = {
     paintingsDB.push(newPainting);
   },
 
-  updatePainting(state, newPainting, key) {
+  updatePainting(state, payload) {
+    const {key, newPainting} = payload;
     paintingsDB.child(key).update(newPainting);
   },
 
@@ -62,9 +63,9 @@ const actions = {
 
   async updatePaintingAction({ commit, dispatch }, payload) {
     try {
-      // request to back-end
       commit('updatePainting', payload);
     } catch (error) {
+      console.log(error);
       dispatch('snackbar/showError', error.response.data, { root: true });
     }
   },

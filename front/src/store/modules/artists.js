@@ -16,7 +16,8 @@ const mutations = {
     artistsDB.push(newArtist);
   },
 
-  updateArtist(state, newArtist, key) {
+  updateArtist(state, payload) {
+    const {key, newArtist} = payload;
     artistsDB.child(key).update(newArtist);
   },
 

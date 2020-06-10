@@ -194,7 +194,12 @@ export default {
     },
 
     update() {
-      this.updatePaintingAction(Object.assign({}, this.painting));
+      this.updatePaintingAction({
+        key: this.key,
+        newPainting: this.painting,
+      });
+      this.$refs.form.reset();
+      this.reset();
       this.close();
     },
 

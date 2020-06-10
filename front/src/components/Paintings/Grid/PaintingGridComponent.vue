@@ -73,7 +73,7 @@
 
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex';
-import {bus} from '@/main'
+import { bus } from '@/main';
 
 export default {
   props: ['painting'],
@@ -85,21 +85,32 @@ export default {
   },
 
   methods: {
-    ...mapGetters({
-    }),
+    ...mapGetters({}),
 
-    openEditDialog() {},
+    openEditDialog() {
+      bus.$emit('openPaintingDialog', {
+        painting: this.painting,
+        type: 'edit',
+        key: this.painting['.key'],
+      });
+    },
 
     openDeleteDialog() {
-      bus.$emit('onDelete', {type: 'Painting', object: this.painting, key: this.painting['.key']});
+      bus.$emit('onDelete', {
+        type: 'Painting',
+        object: this.painting,
+        key: this.painting['.key'],
+      });
     },
   },
 
   computed: {
     artistById() {
-      return this.$store.getters["artists/getArtistById"](this.painting.artistId).name;
-    }
-  }
+      return this.$store.getters['artists/getArtistById'](
+        this.painting.artistId
+      ).name;
+    },
+  },
 };
 </script>
 
