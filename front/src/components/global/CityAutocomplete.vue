@@ -65,9 +65,9 @@ export default {
       await this.searchEntries(val);
     },
 
-    location(val) {
-      if (this.getEntries.filter(loc => loc == val).length == 0)
-        this.getEntries.push(val);
+    async location(val) {
+      if (val && this.getEntries.filter(loc => loc == val).length == 0)
+        await this.getEntries.push(val);
     }
   },
 };

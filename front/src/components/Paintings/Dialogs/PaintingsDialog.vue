@@ -209,6 +209,7 @@ export default {
 
     close() {
       this.dialog = false;
+      this.reset();
       this.$refs.form.reset();
     },
 
@@ -243,7 +244,6 @@ export default {
 
   created() {
     bus.$on('openPaintingDialog', data => {
-      console.log('received');
       if (data.painting) this.painting = { ...data.painting };
       this.type = data.type;
       this.key = data.key;

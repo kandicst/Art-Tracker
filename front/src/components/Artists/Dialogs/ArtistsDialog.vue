@@ -146,6 +146,7 @@ export default {
   methods: {
     ...mapActions({
       addArtistAction: 'artists/addArtistAction',
+      updateArtistAction: 'artists/updateArtistAction',
       geocodeForward: 'geocoder/geocodeForward',
     }),
 
@@ -160,8 +161,9 @@ export default {
       await this.add();
     },
 
-    close(){
+    close() {
       this.dialog = false;
+      this.reset();
       this.$refs.form.reset();
     },
 
@@ -190,7 +192,13 @@ export default {
     },
 
     update() {
-      console.log('update');
+      this.updateArtistAction({
+        key: this.key,
+        newArtist: this.artist,
+      });
+      this.$refs.form.reset();
+      this.reset();
+      this.close();
     },
   },
 
@@ -198,6 +206,7 @@ export default {
     ...mapGetters({
       artMovements: 'paintings/getArtMovements',
       mapNames: 'map/getMapNames',
+      getEntries: 'autocomplete/getEntries',
     }),
 
     keymap() {
@@ -210,11 +219,11 @@ export default {
 
   created() {
     bus.$on('openArtistDialog', data => {
-      if (data.artist)
-        this.artist = { ...data.artist };
+      if (data.artist) this.artist =  {... data.artist};
       this.type = data.type;
       this.key = data.key;
       this.dialog = true;
+      this.getEntries.push(this.artist.birthplace)
     });
   },
 };
