@@ -144,7 +144,7 @@ const actions = {
 };
 
 const getters = {
-  getAllArtists: state => state.artists,
+  getAllArtists: state => { console.log(state.artists);return state.artists},
   // getArtistById(state) {
   //   return id => {
   //     return state.artists.filter(item => item.id == id)[0];
