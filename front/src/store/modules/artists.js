@@ -1,70 +1,9 @@
 import Vue from 'vue';
+import { vuexfireMutations, firebaseAction } from 'vuexfire'
+import {artistsDB} from '@/firebase'
 
 const state = {
   artists: [
-    // {
-    //   id: 1,
-    //   name: 'Pablo Picasso',
-    //   birthday: { day: '25', month: 'June', year: '1998' },
-    //   birthplace: 'Malaga, Spain',
-    //   nationality: 'French',
-    //   artMovement: 'Imperialism',
-    //   map: 'World',
-    //   coords: [-4.426, 36.7167],
-    //   death: { day: '', month: '', year: '' },
-    //   img:
-    //     'https://www.biography.com/.image/t_share/MTY2NTIzNTAyNjgwMDg5ODQy/pablo-picasso-at-his-home-in-cannes-circa-1960-photo-by-popperfoto_getty-images.jpg',
-    // },
-    // {
-    //   id: 2,
-    //   name: 'Ludwig van Bethoven',
-    //   birthday: { day: '25', month: 'June', year: '1998' },
-    //   birthplace: 'Novi Sad, Serbia',
-    //   nationality: 'French',
-    //   map: 'World',
-    //   artMovement: 'Humanism',
-    //   coords: [20.15, 44.98],
-    //   death: { day: '', month: '', year: '' },
-    //   img: '',
-    // },
-    // {
-    //   id: 3,
-    //   name: 'Leonardo da Vinci',
-    //   birthday: { day: '25', month: 'June', year: '1998' },
-    //   birthplace: 'Florence, Italy',
-    //   nationality: 'French',
-    //   artMovement: 'Humanism',
-    //   map: 'World',
-    //   coords: [11.2558, 43.7696],
-    //   death: { day: '13', month: 'May', year: '2003' },
-    //   img:
-    //     'https://www.biography.com/.image/t_share/MTY2MzU4MjUzMDA4MDcwMzE4/portrait-of-leonardo-da-vinci-1452-1519-getty.jpg',
-    // },
-    // {
-    //   id: 4,
-    //   name: 'Leonardo di Caprio',
-    //   birthday: { day: '25', month: 'June', year: '1998' },
-    //   birthplace: 'New York, USA',
-    //   nationality: 'Murican',
-    //   artMovement: 'Baroque',
-    //   map: 'United States',
-    //   coords: [-80.006, 50.7128],
-    //   death: { day: '13', month: 'May', year: '2003' },
-    //   img:
-    //     'https://i.insider.com/5e287d5cab49fd6d1a787977?width=825&format=jpeg&auto=webp',
-    // },
-    // {
-    //   id: 5,
-    //   name: 'Michelangelo Buonarroti',
-    //   birthday: { day: '25', month: 'June', year: '1998' },
-    //   birthplace: 'Caprese Michelangelo, Italy',
-    //   nationality: 'Italian',
-    //   artMovement: 'Impressionism',
-    //   map: 'Europe',
-    //   coords: [11.9871, 43.6415],
-    //   death: { day: '13', month: 'May', year: '2003' },
-    //   img: '',
-    // },
   ],
 };
 
@@ -88,8 +27,7 @@ const mutations = {
     );
     let newArtist = { ...state.artists[index] };
     newArtist.coords = [payload.coords.lng, payload.coords.lat];
-    newArtist.nationality = 'Serbian';
-    Object.assign(state.artists[index], newArtist);
+    artistsDB.child(state.artists[index]['.key']).update(newArtist);
   },
 
   removeArtist(state, artistId) {
@@ -108,6 +46,11 @@ const actions = {
       dispatch('snackbar/showError', error.response.data, { root: true });
     }
   },
+
+  bindArtists: firebaseAction(({ bindFirebaseRef }) => {
+    // return the promise returned by `bindFirebaseRef`
+    return bindFirebaseRef('artists', artistsDB)
+  }),
 
   async addArtistAction({ commit, dispatch }, payload) {
     try {
@@ -144,13 +87,8 @@ const actions = {
 };
 
 const getters = {
-  getAllArtists: state => { console.log(state.artists);return state.artists},
-  // getArtistById(state) {
-  //   return id => {
-  //     return state.artists.filter(item => item.id == id)[0];
-  //   };
-  // },
-  getArtistById: state => id =>  state.artists.filter(item => item.id == id)[0],
+  getAllArtists: state => state.artists,
+  getArtistById: state => id =>  state.artists.filter(item => item['.key'] == id)[0],
   // get Artists based on current map
   getArtists: (state, getters, rootState, rootGetters) => {
     const map = rootGetters['map/getSelectedMap'].name;

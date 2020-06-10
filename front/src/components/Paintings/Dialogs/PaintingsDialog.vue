@@ -33,7 +33,7 @@
             hide-details
             single-line
             prepend-icon="mdi-account"
-            item-value="id"
+            item-value=".key"
           ></v-select>
             <!-- return-object -->
 

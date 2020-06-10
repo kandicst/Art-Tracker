@@ -1,5 +1,5 @@
 <template>
-  <v-container class="top-cont px-6 pt-1 content-color">
+  <v-container class="top-cont px-6 pt-1 content-color" v-hotkey="keymap">
     <v-row class="mr-3 ml-5">
       <v-spacer></v-spacer>
       <v-btn @click="addArtist" class="mx-5 text-none blue--text" tile>

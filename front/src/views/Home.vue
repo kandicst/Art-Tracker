@@ -120,7 +120,7 @@
       @click:outside="helpDialog = false"
       :retain-focus="false"
     >
-      <HelpDialog v-on:zatvori="shortcutDialog = false"/>
+      <HelpDialog v-on:zatvori="shortcutDialog = false" />
     </v-dialog>
 
     <v-dialog
@@ -142,7 +142,7 @@ import Map from './../components/global/Map';
 import FilterComponent from './../components/global/FilterComponent';
 import HelpDialog from './../components/global/Dialogs/HelpDialog';
 import ShortcutsDialog from './../components/global/Dialogs/ShortcutsDialog';
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {
   name: 'Home',
@@ -166,6 +166,11 @@ export default {
   methods: {
     ...mapActions({
       changeSelectedMapAction: 'map/changeSelectedMapAction',
+    }),
+
+    ...mapMutations({
+      openArtistDialog: 'artistsDialog/openAddDialog',
+      openPaintingDialog: 'paintingsDialog/openAddDialog',
     }),
 
     mapChanged(val) {
@@ -197,14 +202,21 @@ export default {
       this.changeSelectedMapAction(this.mapOptions[index]);
     },
 
-    showShorcut(){
+    showShorcut() {
       this.shortcutDialog = true;
       this.helpDialog = false;
     },
-    showHelp(){
+    showHelp() {
       this.helpDialog = true;
       this.shortcutDialog = false;
-    }
+    },
+
+    openDialog() {
+      if (this.tab == 0) this.openArtistDialog();
+
+      this.openPaintingDialog();
+      console.log('dialog');
+    },
   },
 
   computed: {
@@ -220,7 +232,7 @@ export default {
         'ctrl+left': this.switchToLeftTab,
         'ctrl+right': this.switchToRightTab,
         'ctrl+alt+s': this.showShorcut,
-        'ctrl+alt+h': this.showHelp
+        'ctrl+alt+h': this.showHelp,
       };
     },
   },
@@ -258,7 +270,7 @@ export default {
 
 .content-color {
   /* background-color: rgb(227, 231, 248) !important; */
-  background-color: #E7EAF2;
+  background-color: #e7eaf2;
 }
 
 .searchInput {

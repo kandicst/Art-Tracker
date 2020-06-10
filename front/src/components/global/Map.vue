@@ -13,7 +13,7 @@
       <MglMarker
         :id="artist.name"
         :coordinates.sync="artist.coords"
-        :key="artist.name"
+        :key="artist['.key']"
         @dragend="artistMarkerDragEnd"
         :draggable="true"
         anchor="center"
@@ -52,7 +52,7 @@
       <MglMarker
         :id="painting.name"
         :coordinates.sync="painting.coords"
-        :key="painting.name"
+        :key="painting['.key']"
         @dragend="paintingMarkerDragEnd"
         :draggable="true"
         anchor="center"
@@ -132,6 +132,8 @@ export default {
   methods: {
     ...mapActions({
       geocodeForward: 'geocoder/geocodeForward',
+      bindArtists: 'artists/bindArtists',
+      bindPaintings: 'paintings/bindPaintings'
     }),
 
     ...mapMutations({
@@ -147,25 +149,29 @@ export default {
       // or just to store if you want have access from other components
       this.$store.map = event.map;
 
-      let artists = [];
-      let paintings = [];
+      await this.bindArtists();
+      await this.bindPaintings();
 
-      console.log('0---fdsfdsfd');
-      const snap = await artistsDB.once('value');
-      const items = snap.val();
-      for (let key in items) {
-        items[key].id = key;
-        artists.push(items[key]);
-      }
-      this.setArtist(artists);
+      // let artists = [];
+      // let paintings = [];
 
-      const snap2 = await paintingsDB.once('value');
-      const items2 = snap2.val();
-      for (let key in items2) {
-        items2[key].id = key;
-        paintings.push(items2[key]);
-      }
-      await this.setPaintings(paintings);
+      // const snap = await artistsDB.once('value');
+      // const items = snap.val();
+      // for (let key in items) {
+      //   items[key].id = key;
+      //   artists.push(items[key]);
+      // }
+      // this.setArtist(artists);
+
+      // const snap2 = await paintingsDB.once('value');
+      // const items2 = snap2.val();
+      // for (let key in items2) {
+      //   items2[key].id = key;
+      //   paintings.push(items2[key]);
+      // }
+      // await this.setPaintings(paintings);
+
+      
       bus.$emit('markerChanged', '');
     },
 
@@ -198,6 +204,9 @@ export default {
         name,
         coords,
       };
+      console.log("COOOOOOORDS: ")
+      console.log(coords)
+
       this.movePaintingOnMap(payload);
       this.emitMarkerChanged(name);
     },

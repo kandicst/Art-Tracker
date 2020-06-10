@@ -1,6 +1,7 @@
-import { initializeApp } from 'firebase';
+import firebase from 'firebase/app'
+import 'firebase/database'
 
-const app = initializeApp({
+const app = firebase.initializeApp({
   apiKey: 'AIzaSyAM-gW4VpBSos4SOTa6GwcJSBm9S7Sf9Xc',
   authDomain: 'hci-grupni.firebaseapp.com',
   databaseURL: 'https://hci-grupni.firebaseio.com',

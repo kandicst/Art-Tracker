@@ -1,63 +1,9 @@
 // import Vue from 'vue';
+import { vuexfireMutations, firebaseAction } from 'vuexfire';
+import { paintingsDB } from '@/firebase';
 
 const state = {
-  paintings: [
-    // {
-    //   name: 'Mona Lisa',
-    //   artistId: 3,
-    //   created: '1939',
-    //   location: 'Paris, France',
-    //   coords: [2.3522, 48.8566],
-    //   medium: 'Brush',
-    //   description: 'This is one of the best dfkjlskfd fldkaskljfs fdsla fljkf dsla lfdjs fldsk',
-    //   artMovement: 'Impressionism',
-    //   img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/300px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg',
-    // },
-    // {
-    //   name: 'Mona Lisa2',
-    //   artistId: 3,
-    //   created: '1939',
-    //   location: 'Barcelona, Spain',
-    //   coords: [2.1734, 41.3851],
-    //   medium: 'Brush',
-    //   description: 'This is one of the best dfkjlskfd fldkaskljfs fdsla fljkf dsla lfdjs fldsk',
-    //   artMovement: 'Impressionism',
-    //   img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/300px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg',
-    // },
-    // {
-    //   name: 'Mona Lisa3',
-    //   artistId: 3,
-    //   created: '1939',
-    //   location: 'Madrid, Spain',
-    //   coords: [-3.7038, 40.4168],
-    //   medium: 'Brush',
-    //   description: 'This is one of the best dfkjlskfd fldkaskljfs fdsla fljkf dsla lfdjs fldsk',
-    //   artMovement: 'Impressionism',
-    //   img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/300px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg',
-    // },
-    // {
-    //   name: 'Mona Lisa4',
-    //   artistId: 2,
-    //   created: '1939',
-    //   location: 'Amsterdam, Netherlands',
-    //   coords: [4.8945, 52.3667],
-    //   medium: 'Brush',
-    //   description: 'This is one of the best dfkjlskfd fldkaskljfs fdsla fljkf dsla lfdjs fldsk',
-    //   artMovement: 'Impressionism',
-    //   img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/300px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg',
-    // },
-    // {
-    //   name: 'Mona Lisa5',
-    //   artistId: 1,
-    //   created: '1939',
-    //   location: 'Londong, United Kingdom',
-    //   coords: [-0.1278, 51.5074],
-    //   medium: 'Brush',
-    //   description: 'This is one of the best dfkjlskfd fldkaskljfs fdsla fljkf dsla lfdjs fldsk',
-    //   artMovement: 'Impressionism',
-    //   img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/300px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg',
-    // },
-  ],
+  paintings: [],
   artMovements: [
     'Classicism',
     'Post-Impressionism',
@@ -84,15 +30,20 @@ const mutations = {
   },
 
   updatePainting(state, newPainting) {
+    // ne radi jos
     const index = state.paintings.findIndex(
       painting => painting.id == newPainting.id
     );
-    Object.assign(state.paintings[index], newPainting);
+    paintingsDB.child(state.paintings[index]['.key']).update(newPainting);
   },
 
-  movePaintingOnMap(state, payload){
-    const index = state.paintings.findIndex(painting => painting.name == payload.name);
-    state.paintings[index].coords = [payload.coords.lng, payload.coords.lat];
+  movePaintingOnMap(state, payload) {
+    const index = state.paintings.findIndex(
+      painting => painting.name == payload.name
+    );
+    let newPainting = { ...state.paintings[index] };
+    newPainting.coords = [payload.coords.lng, payload.coords.lat];
+    paintingsDB.child(state.paintings[index]['.key']).update(newPainting);
   },
 
   removePainting(state, paintingId) {
@@ -104,15 +55,10 @@ const mutations = {
 };
 
 const actions = {
-  async getPaintingsAction({ commit, dispatch }) {
-    try {
-      // request to back-end
-      const data = {};
-      commit('setPaintings', data);
-    } catch (error) {
-      dispatch('snackbar/showError', error.response.data, { root: true });
-    }
-  },
+  bindPaintings: firebaseAction(({ bindFirebaseRef }) => {
+    // return the promise returned by `bindFirebaseRef`
+    return bindFirebaseRef('paintings', paintingsDB);
+  }),
 
   async addPaintingAction({ commit, dispatch }, payload) {
     try {
@@ -151,15 +97,15 @@ const getters = {
   getAllPaintings: state => state.paintings,
   // get paintings by  map
   getPaintings: (state, getters, rootState, rootGetters) => {
-    
-    const map = rootGetters["map/getSelectedMap"].name;
-
+    const map = rootGetters['map/getSelectedMap'].name;
     state.paintings.map(painting => {
-      painting.artist = rootGetters["artists/getArtistById"](painting.artistId);
+      painting.artist = rootGetters['artists/getArtistById'](painting.artistId);
     });
-    
-    console.log(state.paintings);
-    return state.paintings.filter(item => item.artist.map == map);
+
+    return state.paintings.filter(item => {
+      if (item.artist) return item.artist.map == map;
+      return false;
+    });
   },
 };
 
