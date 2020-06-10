@@ -25,7 +25,6 @@ const mutations = {
   },
 
   addPainting(state, newPainting) {
-    state.paintings.push(newPainting);
     paintingsDB.push(newPainting);
   },
 

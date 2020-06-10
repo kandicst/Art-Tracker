@@ -36,7 +36,6 @@
           <CityAutocomplete
             :location="artist.birthplace"
             @locationChanged="artist.birthplace = $event"
-            
             v-bind:rule="rule"
             required
             id="homeTownAutocomplete"
@@ -95,11 +94,18 @@
       </v-card-text>
       <v-card-actions class="mr-8">
         <v-spacer></v-spacer>
-        <v-btn @click="close" text >Cancel</v-btn>
-        <v-btn v-if="type === 'add'" color="primary" @click="add" text
-          :disabled="!valid">Add</v-btn
+        <v-btn @click="close" text>Cancel</v-btn>
+        <v-btn
+          v-if="type === 'add'"
+          color="primary"
+          @click="add"
+          text
+          :disabled="!valid"
+          >Add</v-btn
         >
-        <v-btn v-else color="primary" @click="update" text :disabled="!valid">Update</v-btn>
+        <v-btn v-else color="primary" @click="update" text :disabled="!valid"
+          >Update</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -110,6 +116,7 @@ import { mapGetters, mapActions, mapMutations } from 'vuex';
 import DatePicker from './../../global/DatePicker';
 import CityAutocomplete from './../../global/CityAutocomplete';
 import { artistsDB } from './../../../firebase';
+import { bus } from '@/main';
 
 export default {
   components: {
@@ -120,18 +127,23 @@ export default {
   data() {
     return {
       valid: true,
-      rule: [
-          v => !!v || 'Obavezno polje'
-        ],
+      rule: [v => !!v || 'Obavezno polje'],
+      type: '',
+      key: '',
+      dialog: false,
+      artist: {
+        name: '',
+        birthday: { day: '', month: '', year: '' },
+        birthplace: '',
+        nationality: '',
+        map: '',
+        artMovement: '',
+        death: { day: '', month: '', year: '' },
+      },
     };
   },
 
   methods: {
-    ...mapMutations('artistsDialog', {
-      close: 'closeDialog',
-      reset: 'resetDialogArtist',
-    }),
-
     ...mapActions({
       addArtistAction: 'artists/addArtistAction',
       geocodeForward: 'geocoder/geocodeForward',
@@ -143,23 +155,33 @@ export default {
       const autocompleteElement = document.getElementById(
         'homeTownAutocomplete'
       );
-      if (
-        !this.valid
-      )
-        return;
+      if (!this.valid) return;
 
       await this.add();
     },
-    closeArtist (){
-      this.close();
+
+    close(){
+      this.dialog = false;
       this.$refs.form.reset();
     },
-    
+
+    reset() {
+      this.artist = {
+        name: '',
+        birthday: { day: '', month: '', year: '' },
+        birthplace: '',
+        nationality: '',
+        map: '',
+        artMovement: '',
+        death: { day: '', month: '', year: '' },
+      };
+    },
+
     async add() {
       this.artist.coords = await this.geocodeForward(this.artist.birthplace);
-      this.artist.img = ''
-      artistsDB.push(this.artist);
-      // await this.addArtistAction(Object.assign({}, this.artist));
+      this.artist.img = '';
+      // artistsDB.push(this.artist);
+      await this.addArtistAction(this.artist);
 
       //reset input
       this.reset();
@@ -170,25 +192,30 @@ export default {
     update() {
       console.log('update');
     },
-
-    
   },
 
   computed: {
     ...mapGetters({
-      dialog: 'artistsDialog/getShowDialog',
-      artist: 'artistsDialog/getDialogArtist',
-      type: 'artistsDialog/getDialogType',
       artMovements: 'paintings/getArtMovements',
       mapNames: 'map/getMapNames',
     }),
 
     keymap() {
       return {
-        "ctrl+enter": this.enterPressed,
-        esc: this.closeArtist,
+        'ctrl+enter': this.enterPressed,
+        esc: this.close,
       };
     },
+  },
+
+  created() {
+    bus.$on('openArtistDialog', data => {
+      if (data.artist)
+        this.artist = { ...data.artist };
+      this.type = data.type;
+      this.key = data.key;
+      this.dialog = true;
+    });
   },
 };
 </script>

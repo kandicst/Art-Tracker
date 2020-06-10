@@ -1,5 +1,5 @@
 <template>
-  <v-container class="top-cont px-6 pt-2 content-color" v-hotkey="keymap">
+  <v-container class="top-cont px-6 pt-2 content-color">
     <v-row class="mr-3 ml-5">
       <v-spacer></v-spacer>
       <v-btn @click="addPainting" class="mx-5 text-none blue--text" tile>
@@ -12,8 +12,8 @@
       </v-btn-toggle>
     </v-row>
 
-    <PaintingGridView class="mt-12" :hidden="selectedView == 1"/>
-    <PaintingListView :hidden="selectedView == 0"/>
+    <PaintingGridView class="mt-12" :hidden="selectedView == 1" />
+    <PaintingListView :hidden="selectedView == 0" />
 
     <PaintingsDialog />
   </v-container>
@@ -22,14 +22,15 @@
 <script>
 import { mapMutations, mapGetters } from 'vuex';
 import PaintingsDialog from './Dialogs/PaintingsDialog';
-import PaintingGridView from './Grid/PaintingGridView'
-import PaintingListView from './List/PaintingListView'
+import PaintingGridView from './Grid/PaintingGridView';
+import PaintingListView from './List/PaintingListView';
+import { bus } from '@/main';
 
 export default {
   components: {
     PaintingsDialog,
     PaintingGridView,
-    PaintingListView
+    PaintingListView,
   },
 
   data() {
@@ -39,23 +40,16 @@ export default {
   },
 
   methods: {
-    ...mapMutations('paintingsDialog', {
-      openAddDialog: 'openAddDialog',
-    }),
-
     addPainting() {
-      this.openAddDialog();
-      console.log(this.selectedView);
+      bus.$emit('openPaintingDialog', {
+        painting: '',
+        type: 'add',
+        key: '',
+      });
     },
   },
 
   computed: {
-    keymap() {
-      return {
-        'ctrl+alt+n': this.openAddDialog,
-      };
-    },
-
     ...mapGetters({
       artMovements: 'paintings/getArtMovements',
     }),
@@ -67,5 +61,4 @@ export default {
 .top-cont {
   height: 100%;
 }
-
 </style>

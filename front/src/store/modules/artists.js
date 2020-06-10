@@ -13,12 +13,11 @@ const mutations = {
   },
 
   addArtist(state, newArtist) {
-    state.artists.push(newArtist);
+    artistsDB.push(newArtist);
   },
 
-  updateArtist(state, newArtist) {
-    const index = state.artists.findIndex(artist => artist.id == newArtist.id);
-    Object.assign(state.artists[index], newArtist);
+  updateArtist(state, newArtist, key) {
+    artistsDB.child(key).update(newArtist);
   },
 
   moveArtistOnMap(state, payload) {
@@ -30,9 +29,8 @@ const mutations = {
     artistsDB.child(state.artists[index]['.key']).update(newArtist);
   },
 
-  removeArtist(state, artistId) {
-    const index = state.artists.findIndex(artist => artist.id == artistId);
-    state.artists.splice(index, 1);
+  removeArtist(state, key) {
+    artistsDB.child(key).remove();
   },
 };
 

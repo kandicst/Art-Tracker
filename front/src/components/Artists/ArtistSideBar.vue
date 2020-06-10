@@ -1,5 +1,5 @@
 <template>
-  <v-container class="top-cont px-6 pt-1 content-color" v-hotkey="keymap">
+  <v-container class="top-cont px-6 pt-1 content-color">
     <v-row class="mr-3 ml-5">
       <v-spacer></v-spacer>
       <v-btn @click="addArtist" class="mx-5 text-none blue--text" tile>
@@ -24,7 +24,7 @@ import { mapMutations, mapGetters } from 'vuex';
 import ArtistsDialog from './Dialogs/ArtistsDialog';
 import ArtistGridView from './Grid/ArtistGridView';
 import ArtistListView from './List/ArtistListView';
-
+import { bus } from '@/main';
 import { artistsDB } from './../../firebase';
 
 export default {
@@ -41,24 +41,17 @@ export default {
   },
 
   methods: {
-    ...mapMutations('artistsDialog', {
-      openAddDialog: 'openAddDialog',
-      openEditDialog: 'openEditDialog',
-    }),
 
     addArtist() {
-      this.openAddDialog();
-      console.log(this.selectedView);
+      bus.$emit('openArtistDialog', {
+        artist : '',
+        type: 'add',
+        key: '',
+      });
     },
   },
 
   computed: {
-    keymap() {
-      return {
-        'ctrl+alt+n': this.openAddDialog,
-      };
-    },
-
     ...mapGetters({
       artMovements: 'paintings/getArtMovements',
     }),
