@@ -8,19 +8,29 @@ import { bus } from '../../main';
 
 export default {
   data() {
-    return {
-    };
+    return {};
   },
 
   mounted() {
     // listen to any changes to update the lines
     bus.$on('markerChanged', data => this.connectArtistsAndPaintings(data));
 
+    bus.$on('paintingMarkerDeleted', data => this.deletePainting(data));
     // but first initialize all lines
     this.connectArtistsAndPaintings('');
   },
 
   methods: {
+    deletePainting(data) {
+      const { artistName, paintingName } = data;
+      const key = artistName + '|' + paintingName;
+      // delete the line
+      if (this.$store.map.getSource(key)) {
+        this.$store.map.removeLayer(key);
+        this.$store.map.removeSource(key);
+      }
+    },
+
     connectArtistsAndPaintings(changed) {
       for (let artist of this.artists) {
         for (let painting of this.paintings) {
@@ -31,7 +41,7 @@ export default {
             (artist.name == changed ||
               painting.name == changed ||
               changed == '')
-          ){
+          ) {
             this.drawLine(artist, painting);
           }
         }

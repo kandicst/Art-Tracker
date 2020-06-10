@@ -23,12 +23,12 @@ const mutations = {
     state.filter = filter;
   },
   addArtist(state, newArtist) {
-    state.artists.push(newArtist);
+    artistsDB.push(newArtist);
   },
 
-  updateArtist(state, newArtist) {
-    const index = state.artists.findIndex(artist => artist.id == newArtist.id);
-    Object.assign(state.artists[index], newArtist);
+  updateArtist(state, payload) {
+    const {key, newArtist} = payload;
+    artistsDB.child(key).update(newArtist);
   },
 
   moveArtistOnMap(state, payload) {
@@ -40,9 +40,8 @@ const mutations = {
     artistsDB.child(state.artists[index]['.key']).update(newArtist);
   },
 
-  removeArtist(state, artistId) {
-    const index = state.artists.findIndex(artist => artist.id == artistId);
-    state.artists.splice(index, 1);
+  removeArtist(state, key) {
+    artistsDB.child(key).remove();
   },
 };
 
@@ -64,11 +63,7 @@ const actions = {
 
   async addArtistAction({ commit, dispatch }, payload) {
     try {
-      console.log('-----------------');
-      console.log(payload);
-      // request to back-end
-      const data = payload;
-      commit('addArtist', data);
+      commit('addArtist', payload);
     } catch (error) {
       console.log(error);
       dispatch('snackbar/showError', error.response.data, { root: true });
@@ -77,9 +72,7 @@ const actions = {
 
   async updateArtistAction({ commit, dispatch }, payload) {
     try {
-      // request to back-end
-      const data = payload;
-      commit('updateArtist', data);
+      commit('updateArtist', payload);
     } catch (error) {
       dispatch('snackbar/showError', error.response.data, { root: true });
     }
@@ -88,8 +81,7 @@ const actions = {
   async removeArtistAction({ commit, dispatch }, payloadId) {
     try {
       // request to back-end
-      const data = payloadId;
-      commit('removeArtist', data);
+      commit('removeArtist', payloadId);
     } catch (error) {
       dispatch('snackbar/showError', error.response.data, { root: true });
     }
