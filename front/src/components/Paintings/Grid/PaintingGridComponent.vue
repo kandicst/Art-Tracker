@@ -73,6 +73,7 @@
 
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex';
+import {bus} from '@/main'
 
 export default {
   props: ['painting'],
@@ -89,7 +90,9 @@ export default {
 
     openEditDialog() {},
 
-    openDeleteDialog() {},
+    openDeleteDialog() {
+      bus.$emit('onDelete', {type: 'Painting', object: this.painting, key: this.painting['.key']});
+    },
   },
 
   computed: {

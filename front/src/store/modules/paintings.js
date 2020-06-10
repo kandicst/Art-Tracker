@@ -26,15 +26,11 @@ const mutations = {
 
   addPainting(state, newPainting) {
     state.paintings.push(newPainting);
-    console.log(newPainting);
+    paintingsDB.push(newPainting);
   },
 
-  updatePainting(state, newPainting) {
-    // ne radi jos
-    const index = state.paintings.findIndex(
-      painting => painting.id == newPainting.id
-    );
-    paintingsDB.child(state.paintings[index]['.key']).update(newPainting);
+  updatePainting(state, newPainting, key) {
+    paintingsDB.child(key).update(newPainting);
   },
 
   movePaintingOnMap(state, payload) {
@@ -46,11 +42,8 @@ const mutations = {
     paintingsDB.child(state.paintings[index]['.key']).update(newPainting);
   },
 
-  removePainting(state, paintingId) {
-    const index = state.paintings.findIndex(
-      painting => painting.id == paintingId
-    );
-    state.paintings.splice(index, 1);
+  removePainting(state, key) {
+    paintingsDB.child(key).remove();
   },
 };
 
@@ -62,10 +55,7 @@ const actions = {
 
   async addPaintingAction({ commit, dispatch }, payload) {
     try {
-      // request to back-end
-      console.log(payload);
-      const data = payload;
-      commit('addPainting', data);
+      commit('addPainting', payload);
     } catch (error) {
       dispatch('snackbar/showError', error.response.data, { root: true });
     }
@@ -74,18 +64,15 @@ const actions = {
   async updatePaintingAction({ commit, dispatch }, payload) {
     try {
       // request to back-end
-      const data = payload;
-      commit('updatePainting', data);
+      commit('updatePainting', payload);
     } catch (error) {
       dispatch('snackbar/showError', error.response.data, { root: true });
     }
   },
 
-  async removePaintingAction({ commit, dispatch }, payloadId) {
+  async removePaintingAction({ commit, dispatch }, key) {
     try {
-      // request to back-end
-      const data = payloadId;
-      commit('removePainting', data);
+      commit('removePainting', key);
     } catch (error) {
       dispatch('snackbar/showError', error.response.data, { root: true });
     }

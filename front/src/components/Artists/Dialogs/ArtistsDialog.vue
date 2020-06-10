@@ -119,7 +119,6 @@ export default {
 
   data() {
     return {
-      
       valid: true,
       rule: [
           v => !!v || 'Obavezno polje'
@@ -157,7 +156,6 @@ export default {
     },
     
     async add() {
-      console.log(artistsDB)
       this.artist.coords = await this.geocodeForward(this.artist.birthplace);
       this.artist.img = ''
       artistsDB.push(this.artist);
@@ -172,6 +170,8 @@ export default {
     update() {
       console.log('update');
     },
+
+    
   },
 
   computed: {

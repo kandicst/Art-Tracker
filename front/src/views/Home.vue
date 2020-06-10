@@ -131,6 +131,9 @@
     >
       <ShortcutsDialog v-on:zatvori="shortcutDialog = false" />
     </v-dialog>
+
+    <DeleteDialog/>
+
   </v-container>
 </template>
 
@@ -143,6 +146,7 @@ import FilterComponent from './../components/global/FilterComponent';
 import HelpDialog from './../components/global/Dialogs/HelpDialog';
 import ShortcutsDialog from './../components/global/Dialogs/ShortcutsDialog';
 import { mapGetters, mapActions, mapMutations } from 'vuex';
+import DeleteDialog from '../components/global/Dialogs/DeleteDialog'
 
 export default {
   name: 'Home',
@@ -153,6 +157,7 @@ export default {
     HelpDialog,
     ShortcutsDialog,
     FilterComponent,
+    DeleteDialog
   },
 
   data() {
