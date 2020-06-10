@@ -189,7 +189,7 @@ export default {
       await this.addPaintingAction(this.painting);
       bus.$emit('markerChanged', this.painting.name);
       this.reset();
-      this.$refs.form.reset();
+      this.$refs.form.resetValidation();
       document.getElementById('paintingNameInput').focus();
     },
 
@@ -198,7 +198,7 @@ export default {
         key: this.key,
         newPainting: this.painting,
       });
-      this.$refs.form.reset();
+      this.$refs.form.resetValidation();
       this.reset();
       this.close();
     },
@@ -210,7 +210,7 @@ export default {
     close() {
       this.dialog = false;
       this.reset();
-      this.$refs.form.reset();
+      this.$refs.form.resetValidation();
     },
 
     reset() {
