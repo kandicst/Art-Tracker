@@ -6,12 +6,10 @@ const state = {
   paintings: [],
   artMovements: [
     'Classicism',
-    'Post-Impressionism',
     'Impressionism',
     'Cubism',
     'Realism',
     'Romanticism',
-    'Gothic',
     'Baroque',
     'Modern',
     'Renaissance',

@@ -1,6 +1,6 @@
 <template>
   <v-card
-    class="d-inline-block mx-auto rounded-card"
+    class="d-inline-block mx-auto rounded-card fill-height"
     width="275px"
     hover
     @click="
@@ -12,7 +12,7 @@
       show = false;
     "
   >
-    <v-container class="ma-0 pa-0">
+    <v-container class="ma-0 pa-0" fill-height>
       <v-row style="height:200px;">
         <v-col class="ma-0 pa-0">
           <v-img
@@ -45,6 +45,8 @@
       </v-card-subtitle>
 
       <v-card-text>
+        <v-container class="ma-0 pa-0" align="end">
+
         <v-row class="ma-0 pa-0">
           <v-icon class="mr-2" color="red lighten-2">mdi-home-city</v-icon>
           {{ artist.birthplace }}
@@ -60,6 +62,7 @@
             {{ artist.artMovement }}
           </v-col>
         </v-row>
+        </v-container>
       </v-card-text>
       <v-card-actions class="my-0 py-0" v-show="hover">
         <v-btn text @click.stop="openEditDialog" class="text-none">Edit</v-btn>
