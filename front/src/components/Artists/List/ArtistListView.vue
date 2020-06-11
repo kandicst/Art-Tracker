@@ -1,5 +1,5 @@
 <template>
-  <div class="ma-5" >
+  <div class="mx-0 my-5" >
     <v-data-table
       :headers="headers"
       :items="artists"
