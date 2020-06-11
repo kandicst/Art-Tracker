@@ -23,6 +23,7 @@ const mutations = {
     state.filter = filter;
   },
   addArtist(state, newArtist) {
+    console.log(newArtist);
     artistsDB.push(newArtist);
   },
 
