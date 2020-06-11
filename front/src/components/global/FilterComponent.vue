@@ -37,6 +37,7 @@
                       readonly
                       v-bind="attrs"
                       v-on="on"
+                      clearable  
                     ></v-text-field>
                   </template>
                   <v-date-picker v-model="filterArtists.date1" @input="menu1 = false"></v-date-picker>
@@ -62,6 +63,7 @@
                       readonly
                       v-bind="attrs"
                       v-on="on"
+                      clearable
                     ></v-text-field>
                   </template>
                   <v-date-picker v-model="filterArtists.date2" @input="menu2 = false"></v-date-picker>
@@ -92,6 +94,7 @@
                       readonly
                       v-bind="attrs"
                       v-on="on"
+                      clearable
                     ></v-text-field>
                   </template>
                   <v-date-picker v-model="filterArtists.date3" @input="menu5 = false"></v-date-picker>
@@ -117,15 +120,19 @@
                       readonly
                       v-bind="attrs"
                       v-on="on"
+                      clearable
                     ></v-text-field>
                   </template>
                   <v-date-picker v-model="filterArtists.date4" @input="menu6 = false"></v-date-picker>
                 </v-menu>
               </v-col>
             </v-row>
-            <v-select>
-  
-            </v-select>
+            <v-autocomplete
+              v-model = "filterArtists.period"
+              :items="artistsPeriods"
+            >
+
+            </v-autocomplete>
           </v-form>
           </v-container>
          
@@ -192,6 +199,12 @@
                   </v-menu>
                 </v-col>
               </v-row>
+              <v-autocomplete
+                v-model = "filterPaintings.period"
+                :items="paintingsPeriods"
+              >
+
+              </v-autocomplete>
             </v-form>
 
           </v-container>
@@ -231,6 +244,8 @@
 </template>
 
 <script>
+import { mapMutations, mapGetters, mapActions } from 'vuex';
+
 export default {
   data() {
     return {
@@ -244,39 +259,54 @@ export default {
       date1rules:[v=>!this.filterArtists.date2||(new Date(v)<=new Date(this.filterArtists.date2)||"First date must be before second.")],
       date2rules:[v=>!this.filterArtists.date1||(new Date(this.filterArtists.date1)<=new Date(v)||"Second date must be after first.")],
       date3rules:[v=>!this.filterPaintings.date2||(new Date(v)<=new Date(this.filterPaintings.date2)||"First date must be before second.")],
-      date4ndrules:[v=>!this.filterArtists.date1||(new Date(this.filterArtists.date1)<=new Date(v)||"Second date must be after first.")],
+      date4rules:[v=>!this.filterArtists.date1||(new Date(this.filterArtists.date1)<=new Date(v)||"Second date must be after first.")],
       date5rules:[v=>!this.filterPaintings.date5||(new Date(v)<=new Date(this.filterPaintings.date5)||"First date must be before second.")],
-      date6ndrules:[v=>!this.filterArtists.date6||(new Date(this.filterArtists.date6)<=new Date(v)||"Second date must be after first.")],
+      date6rules:[v=>!this.filterArtists.date6||(new Date(this.filterArtists.date6)<=new Date(v)||"Second date must be after first.")],
       filterArtists:{
         date1:null,
         date2:null,
         date3:null,
         date4:null,
+        period:""
       },
       filterPaintings:{
         date1:null,
-        date2:null
-      }
+        date2:null,
+        period:""
+      },
     };
   },
 
+  computed:{
+    ...mapGetters({
+
+      artistsPeriods: 'artists/getAllPeriods',
+      paintingsPeriods: 'paintings/getAllPeriods',
+    }),
+  },
   methods: {
+    mounted(){
+      console.log(this.$store.dispatch("artists/getAllPeriods"));
+      
+    },
     apply(){
       if((!this.$refs.artistsForm||this.$refs.artistsForm.validate())&&(!this.$refs.paintingsForm||this.$refs.paintingsForm.validate())){
-        this.$store.commit("artists/setFilter", this.filterArtists);
-        this.$store.commit("paintings/setFilter", this.filterPaintings);
+        this.$store.commit("artists/setFilter", JSON.parse(JSON.stringify(this.filterArtists)) );
+        this.$store.commit("paintings/setFilter", JSON.parse(JSON.stringify(this.filterPaintings)));
       }
     },
     clear(){
       this.filterArtists={
         date1:null,
         date2:null,
+        date3:null,
         date4:null,
-        date5:null
+        period:""
       };
       this.filterPaintings={
         date1:null,
-        date2:null
+        date2:null,
+        period:""
       };
       this.$store.commit("artists/setFilter", this.filterArtists);
       this.$store.commit("paintings/setFilter", this.filterPaintings);

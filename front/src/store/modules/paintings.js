@@ -100,6 +100,13 @@ const getters = {
       return false;
     });
   },
+  getAllPeriods: state=>{
+    let periods = new Set();
+    for (const p of state.paintings) {
+      periods.add(p.artMovement)
+    }
+    return Array.from(periods);
+  },
 };
 
 export default {

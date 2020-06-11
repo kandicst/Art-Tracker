@@ -89,12 +89,28 @@ const actions = {
 };
 
 const getters = {
+  getAllPeriods:(state)=>{
+    console.log("getPeriods");
+
+    let periods = new Set();
+    console.log(state.artists);
+    
+    for (const artist of state.artists) {
+      console.log(artist.artMovement);
+      
+      periods.add(artist.artMovement)
+    }
+    console.log(Array.from(periods));
+    
+    return Array.from(periods);
+  },
   getAllArtists: state => state.artists,
   getArtistById: state => id =>  state.artists.filter(item => item['.key'] == id)[0],
   // get Artists based on current map
   getArtists: (state, getters, rootState, rootGetters) => {
     const map = rootGetters['map/getSelectedMap'].name;
-    console.log(state.artists);
+    console.log("getArtists");
+    
     let dates = 
     {
       January:0,
@@ -114,14 +130,12 @@ const getters = {
       
       let birthday = new Date(item.birthday.year, dates[item.birthday.month], item.birthday.day);
       let death = new Date(item.death.year, dates[item.death.month], item.death.day);
-      console.log(birthday);
       let afterFirst = !state.filter.date1||new Date(state.filter.date1)<=birthday;
       let beforeSecond = !state.filter.date2||birthday<=new Date(state.filter.date2);
       let afterFirstDeath = !state.filter.date3||new Date(state.filter.date3)<=birthday;
       let beforeSecondDeath = !state.filter.date4||death<=new Date(state.filter.date4);
-      console.log(afterFirst);
-      console.log(beforeSecond);
-      return item.map == map&&item.name.includes(state.search)&&afterFirst&&beforeSecond&&afterFirstDeath&&beforeSecondDeath;
+      let artMovement = !state.filter.period||item.artMovement.indexOf(state.filter.period)>-1;
+      return item.map == map&&item.name.includes(state.search)&&afterFirst&&beforeSecond&&afterFirstDeath&&beforeSecondDeath&&artMovement;
     })
   },
 };
