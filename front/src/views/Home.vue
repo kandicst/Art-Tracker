@@ -19,6 +19,7 @@
                 dense
                 single-line
                 placeholder="Search..."
+                v-model="search"
               >
                 <template slot="prepend-inner">
                   <div class="mt-1 ml-2 mr-4 searchIcon">
@@ -165,9 +166,15 @@ export default {
       tab: null,
       helpDialog: false,
       shortcutDialog: false,
+      search:""
     };
   },
 
+  watch:{
+    search(val){
+      this.$store.commit("artists/setSearch",val);
+    }
+  },
   methods: {
     ...mapActions({
       changeSelectedMapAction: 'map/changeSelectedMapAction',
