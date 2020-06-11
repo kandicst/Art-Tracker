@@ -12,7 +12,7 @@
       show = false;
     "
   >
-    <v-container class="ma-0 pa-0" fill-height>
+    <v-container class="ma-0 pa-0">
       <v-row style="height:200px;">
         <v-col class="ma-0 pa-0">
           <v-img
