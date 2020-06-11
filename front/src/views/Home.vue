@@ -133,8 +133,7 @@
       <ShortcutsDialog v-on:zatvori="shortcutDialog = false" />
     </v-dialog>
 
-    <DeleteDialog/>
-
+    <DeleteDialog />
   </v-container>
 </template>
 
@@ -148,6 +147,7 @@ import HelpDialog from './../components/global/Dialogs/HelpDialog';
 import ShortcutsDialog from './../components/global/Dialogs/ShortcutsDialog';
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import DeleteDialog from '../components/global/Dialogs/DeleteDialog'
+import {bus} from '@/main';
 
 export default {
   name: 'Home',
@@ -158,7 +158,7 @@ export default {
     HelpDialog,
     ShortcutsDialog,
     FilterComponent,
-    DeleteDialog
+    DeleteDialog,
   },
 
   data() {
@@ -166,14 +166,14 @@ export default {
       tab: null,
       helpDialog: false,
       shortcutDialog: false,
-      search:""
+      search: '',
     };
   },
 
-  watch:{
-    search(val){
-      this.$store.commit("artists/setSearch",val);
-    }
+  watch: {
+    search(val) {
+      this.$store.commit('artists/setSearch', val);
+    },
   },
   methods: {
     ...mapActions({
@@ -224,10 +224,19 @@ export default {
     },
 
     openDialog() {
-      if (this.tab == 0) this.openArtistDialog();
-
-      this.openPaintingDialog();
-      console.log('dialog');
+      if (this.tab == 0) {
+        bus.$emit('openArtistDialog', {
+          artist: '',
+          type: 'add',
+          key: '',
+        });
+      } else {
+        bus.$emit('openPaintingDialog', {
+          painting: '',
+          type: 'add',
+          key: '',
+        });
+      }
     },
   },
 
@@ -245,6 +254,7 @@ export default {
         'ctrl+right': this.switchToRightTab,
         'ctrl+alt+s': this.showShorcut,
         'ctrl+alt+h': this.showHelp,
+        'ctrl+alt+n': this.openDialog,
       };
     },
   },
