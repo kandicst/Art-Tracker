@@ -146,7 +146,7 @@
 import ArtistSideBar from './../components/Artists/ArtistSideBar';
 import PaintingSideBar from './../components/Paintings/PaintingSideBar';
 import Map from './../components/global/Map';
-import FilterComponent from './../components/global/V2Filter';
+import FilterComponent from './../components/global/FilterComponent.vue';
 import HelpDialog from './../components/global/Dialogs/HelpDialog';
 import ShortcutsDialog from './../components/global/Dialogs/ShortcutsDialog';
 import { mapGetters, mapActions, mapMutations } from 'vuex';

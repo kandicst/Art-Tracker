@@ -21,8 +21,34 @@
                   <v-checkbox
                     class="ma-0 pt-0"
                     :value="period"
+                    v-model="filterArtists.periods"
                     :label="period"
-                    @click="togglePeriod(period)"
+                  ></v-checkbox>
+                </v-row>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
+        <v-divider></v-divider>
+
+        <v-row>
+          <v-col cols="2">
+            <label class="filter-label">Medium</label>
+          </v-col>
+          <v-col cols="10" class="pl-12 pt-3">
+            <v-row>
+              <v-col
+                cols="4"
+                class="pa-0"
+                v-for="medium in mediums"
+                :key="medium"
+              >
+                <v-row class="pt-0">
+                  <v-checkbox
+                    class="ma-0 pt-0"
+                    v-model="filterPaintings.mediums"
+                    :value="medium"
+                    :label="medium"
                   ></v-checkbox>
                 </v-row>
               </v-col>
@@ -32,61 +58,41 @@
         <v-divider>
           
         </v-divider>
-        <label class="subtitle-1">
-          Date of birth
-        </label>
         <v-row>
-          <v-col
-            cols="6"
-          >
-            <v-menu
-              v-model="menu1"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="290px"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="filterArtists.date1"
-                  :rules="date1rules"
-                  label="First date"
-                  prepend-icon="mdi-calendar"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                  clearable  
-                ></v-text-field>
-              </template>
-              <v-date-picker v-model="filterArtists.date1" @input="menu1 = false"></v-date-picker>
-            </v-menu>
+          <v-col class="pt-8" cols="2">
+            <label class="filter-label">Date</label>
           </v-col>
-          <v-col
-            cols="6"
-          >
-            <v-menu
-              v-model="menu2"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="290px"
-            >
-              <template v-slot:activator="{ on, attrs }">
+
+          <v-col cols="10">
+            <v-row class="pl-4">
+              <v-col cols="5">
                 <v-text-field
-                  v-model="filterArtists.date2"
-                  :rules="date2rules"
-                  label="Second date"
-                  prepend-icon="mdi-calendar"
-                  readonly
-                  v-bind="attrs"
-                  v-on="on"
-                  clearable
+                  v-model="startDate"
+                  placeholder="YYYY-MM-DD"
+                  style="border-radius:0;"
+                  single-line
+                  dense
+                  append-icon="mdi-calendar"
+                  outlined
+                  :rules = "date1rules"
                 ></v-text-field>
-              </template>
-              <v-date-picker v-model="filterArtists.date2" @input="menu2 = false"></v-date-picker>
-            </v-menu>
+              </v-col>
+
+              <span class="headline pt-3">-</span>
+
+              <v-col cols="5">
+                <v-text-field
+                  v-model="endDate"
+                  style="border-radius:0;"
+                  placeholder="Today"
+                  single-line
+                  append-icon="mdi-calendar"
+                  dense
+                  outlined
+                  :rules = "date2rules"
+                ></v-text-field>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
 
@@ -131,44 +137,40 @@ import { mapMutations, mapGetters, mapActions } from 'vuex';
 export default {
   data() {
     return {
+      dateRGX:/-?([0-9]{3}|[0-3][0-9]{3})-([0-9]|1[0-2])-([0-9]|[1][0-9]|[2][0-9]|3[0-1])/,
       menu: false,
-      menu1: false,
-      menu2: false,
-      menu3: false,
-      menu4: false,
-      menu5: false,
-      menu6: false,
-      date1rules:[v=>!this.filterArtists.date2||(new Date(v)<=new Date(this.filterArtists.date2)||"First date must be before second.")],
-      date2rules:[v=>!this.filterArtists.date1||(new Date(this.filterArtists.date1)<=new Date(v)||"Second date must be after first.")],
+      startDate:"",
+      endDate:"",
+      selectedMediums:[],
+      date1rules:[v=>!v||(this.dateRGX.test(v)||"This value must be date") ,v=>!this.endDate||(new Date(v)<=new Date(this.endDate)||"First date must be before second.")],
+      date2rules:[v=>!v||(this.dateRGX.test(v)||"This value must be date"),v=>!this.startDate||(new Date(this.startDate)<=new Date(v)||"Second date must be after first.")],
       filterArtists:{
         date1:null,
-        date2:new Date(Date.now()).toUTCString(),
+        date2:new Date(Date.now()),
         periods:[]
       },
+      filterPaintings:{
+        mediums:[]
+      }
     };
   },
 
   computed:{
     ...mapGetters({
       artMovements: 'paintings/getArtMovements',
+      mediums: 'paintings/getMediums',
     }),
   },
   methods: {
-    togglePeriod(period){
-      if (this.filterArtists.periods.includes(period)) {
-        this.filterArtists.periods = this.filterArtists.periods.filter(p=>p!=period);
-      } else {
-        this.filterArtists.periods.push(period);
-      }
-      console.log(this.filterArtists.periods);
-      
-    },
-    mounted(){
-    },
+   
     apply(){
+      this.filterArtists.date1 = new Date(Date.parse(this.startDate));
+      this.filterArtists.date2 = new Date(Date.parse(this.endDate));
       if(!this.$refs.artistsForm||this.$refs.artistsForm.validate()){
         this.$store.commit("artists/setFilter", JSON.parse(JSON.stringify(this.filterArtists)) );
+        this.$store.commit("paintings/setFilter", JSON.parse(JSON.stringify(this.filterPaintings)));
       }
+      this.menu = false;
     },
     clear(){
       this.filterArtists={
@@ -176,8 +178,12 @@ export default {
         date2:null,
         periods:[]
       };
+      this.filterPaintings={
+        mediums:[]
+      }
       this.$refs.artistsForm.reset();
       this.$store.commit("artists/setFilter", this.filterArtists);
+      this.$store.commit("paintings/setFilter", this.filterPaintings);
     },
     close() {
       console.log(this.menu);

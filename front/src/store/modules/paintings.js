@@ -30,17 +30,13 @@ const state = {
     'Encaustic',
   ],
   filter:{
-    date1:null,
-    date2:null,
+    mediums:[]
   }
 };
 
 const mutations = {
   setPaintings(state, newPaintings) {
     state.paintings = newPaintings;
-  },
-  setFilter(state, filter){
-    state.filter = filter;
   },
   addPainting(state, newPainting) {
     paintingsDB.push(newPainting);
@@ -63,6 +59,9 @@ const mutations = {
   removePainting(state, key) {
     paintingsDB.child(key).remove();
   },
+  setFilter(state, filter){
+    state.filter = filter;
+  }
 };
 
 const actions = {
@@ -110,7 +109,7 @@ const getters = {
     });
 
     return state.paintings.filter(item => {
-      if (item.artist) return item.artist.map == map;
+      if (item.artist) return item.artist.map == map && (state.filter.mediums.length == 0 || state.filter.mediums.includes(item.medium));
       return false;
     });
   },

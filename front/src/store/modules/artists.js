@@ -96,7 +96,6 @@ const getters = {
   // get Artists based on current map
   getArtists: (state, getters, rootState, rootGetters) => {
     const map = rootGetters['map/getSelectedMap'].name;
-    console.log("getArtists");
     
     let dates = 
     {
