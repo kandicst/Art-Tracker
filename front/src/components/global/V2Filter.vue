@@ -32,6 +32,7 @@
               >
                 <v-row class="pt-0">
                   <v-checkbox
+                    v-model="selectedMovements"
                     class="ma-0 pt-0"
                     :value="period"
                     :label="period"
@@ -44,7 +45,34 @@
 
         <v-divider></v-divider>
 
-        <v-row >
+        <v-row>
+          <v-col cols="2">
+            <label class="filter-label">Medium</label>
+          </v-col>
+          <v-col cols="10" class="pl-12 pt-3">
+            <v-row>
+              <v-col
+                cols="4"
+                class="pa-0"
+                v-for="medium in mediums"
+                :key="medium"
+              >
+                <v-row class="pt-0">
+                  <v-checkbox
+                    class="ma-0 pt-0"
+                    v-model="selectedMediums"
+                    :value="medium"
+                    :label="medium"
+                  ></v-checkbox>
+                </v-row>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
+
+        <v-divider></v-divider>
+
+        <v-row>
           <v-col class="pt-8" cols="2">
             <label class="filter-label">Date</label>
           </v-col>
@@ -53,6 +81,7 @@
             <v-row class="pl-4">
               <v-col cols="5">
                 <v-text-field
+                  v-model="startDate"
                   placeholder="YYYY-MM-DD"
                   style="border-radius:0;"
                   single-line
@@ -62,11 +91,12 @@
                 ></v-text-field>
               </v-col>
 
-                <span class="headline pt-3">-</span>
+              <span class="headline pt-3">-</span>
 
               <v-col cols="5">
                 <v-text-field
-                style="border-radius:0;"
+                  v-model="endDate"
+                  style="border-radius:0;"
                   placeholder="Today"
                   single-line
                   append-icon="mdi-calendar"
@@ -78,16 +108,14 @@
           </v-col>
         </v-row>
 
-        <v-text-filed></v-text-filed>
-
         <v-divider></v-divider>
       </v-container>
       <v-card-actions>
         <v-btn class="text-none red--text" text>Clear All Filters</v-btn>
         <v-spacer></v-spacer>
 
-        <v-btn class="text-none" text @click="menu = false">Cancel</v-btn>
-        <v-btn class="text-none" color="primary" text @click="menu = false"
+        <v-btn class="text-none" text @click="resetFilters()">Cancel</v-btn>
+        <v-btn class="text-none" color="primary" text @click="applyFilters()"
           >Apply</v-btn
         >
       </v-card-actions>
@@ -105,6 +133,10 @@ export default {
       menu: false,
       message: false,
       hints: true,
+      selectedMovements: [],
+      selectedMediums: [],
+      startDate: '',
+      endDate: '',
     };
   },
 
@@ -113,11 +145,29 @@ export default {
       console.log(this.menu);
       this.menu = false;
     },
+
+    applyFilters(){
+      this.menu = false;
+
+      // now mutate filters in store
+      console.log(this.selectedMovements);
+      console.log(this.selectedMediums);
+    },
+
+    resetFilters() {
+      this.menu = false;
+      this.selectedMovements = [];
+      this.selectedMediums = [];
+
+      // now reset filters in store
+
+    }
   },
 
   computed: {
     ...mapGetters({
       artMovements: 'paintings/getArtMovements',
+      mediums: 'paintings/getMediums',
     }),
   },
 };
