@@ -1,217 +1,99 @@
 <template>
   <v-menu v-model="menu" offset-y :close-on-content-click="false">
-    <v-tabs>
-      <v-tab>
-        ARTISTS
-      </v-tab>
-      <v-tab>
-        PAINTINGS
-      </v-tab>
-      <v-tab-item>
-        <v-card
-          :flat="true"
-        >
-        <v-container>
-          <v-form ref="artistsForm">
-            <label class="subtitle-1">
-              Date of birth
-            </label>
+    <v-card
+      :flat="true"
+    >
+    <v-container>
+      <v-form ref="artistsForm">
+        <v-row>
+          <v-col cols="2">
+            <label class="filter-label">Period</label>
+          </v-col>
+          <v-col cols="10" class="pl-12 pt-3">
             <v-row>
               <v-col
-                cols="6"
+                cols="4"
+                class="pa-0"
+                v-for="period in artMovements"
+                :key="period"
               >
-                <v-menu
-                  v-model="menu1"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="290px"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      v-model="filterArtists.date1"
-                      :rules="date1rules"
-                      label="First date"
-                      prepend-icon="mdi-calendar"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                      clearable  
-                    ></v-text-field>
-                  </template>
-                  <v-date-picker v-model="filterArtists.date1" @input="menu1 = false"></v-date-picker>
-                </v-menu>
-              </v-col>
-              <v-col
-                cols="6"
-              >
-                <v-menu
-                  v-model="menu2"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="290px"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      v-model="filterArtists.date2"
-                      :rules="date2rules"
-                      label="Second date"
-                      prepend-icon="mdi-calendar"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                      clearable
-                    ></v-text-field>
-                  </template>
-                  <v-date-picker v-model="filterArtists.date2" @input="menu2 = false"></v-date-picker>
-                </v-menu>
+                <v-row class="pt-0">
+                  <v-checkbox
+                    class="ma-0 pt-0"
+                    :value="period"
+                    :label="period"
+                    @click="togglePeriod(period)"
+                  ></v-checkbox>
+                </v-row>
               </v-col>
             </v-row>
-            <label class="subtitle-1">
-              Date of death
-            </label>
-            <v-row>
-              <v-col
-                cols="6"
-              >
-                <v-menu
-                  v-model="menu5"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="290px"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      v-model="filterArtists.date3"
-                      :rules="date5rules"
-                      label="First date"
-                      prepend-icon="mdi-calendar"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                      clearable
-                    ></v-text-field>
-                  </template>
-                  <v-date-picker v-model="filterArtists.date3" @input="menu5 = false"></v-date-picker>
-                </v-menu>
-              </v-col>
-              <v-col
-                cols="6"
-              >
-                <v-menu
-                  v-model="menu6"
-                  :close-on-content-click="false"
-                  :nudge-right="40"
-                  transition="scale-transition"
-                  offset-y
-                  min-width="290px"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-text-field
-                      v-model="filterArtists.date4"
-                      :rules="date6rules"
-                      label="Second date"
-                      prepend-icon="mdi-calendar"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                      clearable
-                    ></v-text-field>
-                  </template>
-                  <v-date-picker v-model="filterArtists.date4" @input="menu6 = false"></v-date-picker>
-                </v-menu>
-              </v-col>
-            </v-row>
-            <v-autocomplete
-              v-model = "filterArtists.period"
-              :items="artistsPeriods"
+          </v-col>
+        </v-row>
+        <v-divider>
+          
+        </v-divider>
+        <label class="subtitle-1">
+          Date of birth
+        </label>
+        <v-row>
+          <v-col
+            cols="6"
+          >
+            <v-menu
+              v-model="menu1"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
             >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="filterArtists.date1"
+                  :rules="date1rules"
+                  label="First date"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                  clearable  
+                ></v-text-field>
+              </template>
+              <v-date-picker v-model="filterArtists.date1" @input="menu1 = false"></v-date-picker>
+            </v-menu>
+          </v-col>
+          <v-col
+            cols="6"
+          >
+            <v-menu
+              v-model="menu2"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="filterArtists.date2"
+                  :rules="date2rules"
+                  label="Second date"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                  clearable
+                ></v-text-field>
+              </template>
+              <v-date-picker v-model="filterArtists.date2" @input="menu2 = false"></v-date-picker>
+            </v-menu>
+          </v-col>
+        </v-row>
 
-            </v-autocomplete>
-          </v-form>
-          </v-container>
-         
-        </v-card>
-      </v-tab-item>
-      <v-tab-item>
-        <v-card
-          :flat="true"
-        >
-          <v-container>
-            <v-form ref="paintingsForm">
-              <label class="subtitle-1">
-                Date of creation
-              </label>
-              <v-row>
-                <v-col
-                  cols="6"
-                >
-                  <v-menu
-                    v-model="menu3"
-                    :close-on-content-click="false"
-                    :nudge-right="40"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="290px"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="filterPaintings.date1"
-                        :rules="date3rules"
-                        label="First date"
-                        prepend-icon="mdi-calendar"
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
-                      ></v-text-field>
-                    </template>
-                    <v-date-picker v-model="filterPaintings.date1" @input="menu3 = false"></v-date-picker>
-                  </v-menu>
-                </v-col>
-                <v-col
-                  cols="6"
-                >
-                  <v-menu
-                    v-model="menu4"
-                    :close-on-content-click="false"
-                    :nudge-right="40"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="290px"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        :rules="date4rules"
-                        v-model="filterPaintings.date2"
-                        label="Second date"
-                        prepend-icon="mdi-calendar"
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
-                      ></v-text-field>
-                    </template>
-                    <v-date-picker v-model="filterPaintings.date2" @input="menu4 = false"></v-date-picker>
-                  </v-menu>
-                </v-col>
-              </v-row>
-              <v-autocomplete
-                v-model = "filterPaintings.period"
-                :items="paintingsPeriods"
-              >
-
-              </v-autocomplete>
-            </v-form>
-
-          </v-container>
-         
-        </v-card>
-      </v-tab-item>
-    </v-tabs>
+      </v-form>
+      </v-container>
+      
+    </v-card>
 
     <template v-slot:activator="{ on }">
       <v-btn
@@ -258,58 +140,44 @@ export default {
       menu6: false,
       date1rules:[v=>!this.filterArtists.date2||(new Date(v)<=new Date(this.filterArtists.date2)||"First date must be before second.")],
       date2rules:[v=>!this.filterArtists.date1||(new Date(this.filterArtists.date1)<=new Date(v)||"Second date must be after first.")],
-      date3rules:[v=>!this.filterPaintings.date2||(new Date(v)<=new Date(this.filterPaintings.date2)||"First date must be before second.")],
-      date4rules:[v=>!this.filterArtists.date1||(new Date(this.filterArtists.date1)<=new Date(v)||"Second date must be after first.")],
-      date5rules:[v=>!this.filterPaintings.date5||(new Date(v)<=new Date(this.filterPaintings.date5)||"First date must be before second.")],
-      date6rules:[v=>!this.filterArtists.date6||(new Date(this.filterArtists.date6)<=new Date(v)||"Second date must be after first.")],
       filterArtists:{
         date1:null,
-        date2:null,
-        date3:null,
-        date4:null,
-        period:""
-      },
-      filterPaintings:{
-        date1:null,
-        date2:null,
-        period:""
+        date2:new Date(Date.now()).toUTCString(),
+        periods:[]
       },
     };
   },
 
   computed:{
     ...mapGetters({
-
-      artistsPeriods: 'artists/getAllPeriods',
-      paintingsPeriods: 'paintings/getAllPeriods',
+      artMovements: 'paintings/getArtMovements',
     }),
   },
   methods: {
-    mounted(){
-      console.log(this.$store.dispatch("artists/getAllPeriods"));
+    togglePeriod(period){
+      if (this.filterArtists.periods.includes(period)) {
+        this.filterArtists.periods = this.filterArtists.periods.filter(p=>p!=period);
+      } else {
+        this.filterArtists.periods.push(period);
+      }
+      console.log(this.filterArtists.periods);
       
     },
+    mounted(){
+    },
     apply(){
-      if((!this.$refs.artistsForm||this.$refs.artistsForm.validate())&&(!this.$refs.paintingsForm||this.$refs.paintingsForm.validate())){
+      if(!this.$refs.artistsForm||this.$refs.artistsForm.validate()){
         this.$store.commit("artists/setFilter", JSON.parse(JSON.stringify(this.filterArtists)) );
-        this.$store.commit("paintings/setFilter", JSON.parse(JSON.stringify(this.filterPaintings)));
       }
     },
     clear(){
       this.filterArtists={
         date1:null,
         date2:null,
-        date3:null,
-        date4:null,
-        period:""
+        periods:[]
       };
-      this.filterPaintings={
-        date1:null,
-        date2:null,
-        period:""
-      };
+      this.$refs.artistsForm.reset();
       this.$store.commit("artists/setFilter", this.filterArtists);
-      this.$store.commit("paintings/setFilter", this.filterPaintings);
     },
     close() {
       console.log(this.menu);

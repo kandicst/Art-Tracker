@@ -15,18 +15,12 @@ const state = {
     'Renaissance',
     'Humanism',
   ],
-  filter:{
-    date1:null,
-    date2:null,
-  }
+ 
 };
 
 const mutations = {
   setPaintings(state, newPaintings) {
     state.paintings = newPaintings;
-  },
-  setFilter(state, filter){
-    state.filter = filter;
   },
   addPainting(state, newPainting) {
     paintingsDB.push(newPainting);
