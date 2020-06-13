@@ -167,10 +167,13 @@ export default {
       this.filterArtists.date1 = new Date(Date.parse(this.startDate));
       this.filterArtists.date2 = new Date(Date.parse(this.endDate));
       if(!this.$refs.artistsForm||this.$refs.artistsForm.validate()){
-        this.$store.commit("artists/setFilter", JSON.parse(JSON.stringify(this.filterArtists)) );
-        this.$store.commit("paintings/setFilter", JSON.parse(JSON.stringify(this.filterPaintings)));
+        this.commitFilters();  
       }
       this.menu = false;
+    },
+    commitFilters(){
+      this.$store.commit("artists/setFilter", JSON.parse(JSON.stringify(this.filterArtists)) );
+      this.$store.commit("paintings/setFilter", JSON.parse(JSON.stringify(this.filterPaintings))); 
     },
     clear(){
       this.filterArtists={
@@ -182,8 +185,7 @@ export default {
         mediums:[]
       }
       this.$refs.artistsForm.reset();
-      this.$store.commit("artists/setFilter", this.filterArtists);
-      this.$store.commit("paintings/setFilter", this.filterPaintings);
+      this.commitFilters();
     },
     close() {
       console.log(this.menu);
