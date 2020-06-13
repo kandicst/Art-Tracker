@@ -22,7 +22,7 @@ const state = {
     'Graffiti',
     'Charcoal ',
     'Oil',
-    'Acril',
+    'Acrylic',
     'Watercolor',
     'Gouache',
     'Tempera',
