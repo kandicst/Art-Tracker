@@ -133,16 +133,15 @@ export default {
       mediums: [
         'Pastel',
         'Colage',
-        'Vitrage',
-        'Tapiserija',
-        'Graffite',
+        'Tapestry',
+        'Graffiti',
         'Ugljen',
         'Oil',
         'Acril',
-        'Aquarel',
-        'Guas',
+        'Watercolor',
+        'Gouache',
         'Tempera',
-        'Mozaik',
+        'Mosaic',
         'Enakustika',
       ],
       valid: true,
@@ -193,11 +192,26 @@ export default {
       document.getElementById('paintingNameInput').focus();
     },
 
-    update() {
-      this.updatePaintingAction({
+    async update() {
+      const oldPainting = this.$store.getters['paintings/getPaintingById'](
+        this.key
+      );
+
+      await this.updatePaintingAction({
         key: this.key,
         newPainting: this.painting,
       });
+
+      // check if artist is changed in case you need to redraw map
+      if (oldPainting.artistId != this.painting.artistId) {
+        const oldArtistName = this.$store.getters['artists/getArtistById'](oldPainting.artistId).name
+        const newArtistName = this.$store.getters['artists/getArtistById'](this.painting.artistId).name
+        bus.$emit('paintingArtistChanged', {
+          key: oldArtistName + '|' + oldPainting.name,
+          newArtistName,
+        });
+      }
+
       this.$refs.form.reset();
       this.reset();
       this.close();

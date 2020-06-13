@@ -15,12 +15,32 @@ const state = {
     'Renaissance',
     'Humanism',
   ],
- 
+  mediums: [
+    'Pastel',
+    'Colage',
+    'Tapestry',
+    'Graffiti',
+    'Charcoal ',
+    'Oil',
+    'Acrylic',
+    'Watercolor',
+    'Gouache',
+    'Tempera',
+    'Mosaic',
+    'Encaustic',
+  ],
+  filter:{
+    date1:null,
+    date2:null,
+  }
 };
 
 const mutations = {
   setPaintings(state, newPaintings) {
     state.paintings = newPaintings;
+  },
+  setFilter(state, filter){
+    state.filter = filter;
   },
   addPainting(state, newPainting) {
     paintingsDB.push(newPainting);
@@ -79,7 +99,9 @@ const actions = {
 
 const getters = {
   getArtMovements: state => state.artMovements,
+  getMediums: state => state.mediums,
   getAllPaintings: state => state.paintings,
+  getPaintingById: state => id =>  state.paintings.filter(item => item['.key'] == id)[0],
   // get paintings by  map
   getPaintings: (state, getters, rootState, rootGetters) => {
     const map = rootGetters['map/getSelectedMap'].name;

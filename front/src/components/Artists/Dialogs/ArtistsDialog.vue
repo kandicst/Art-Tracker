@@ -182,7 +182,12 @@ export default {
     async add() {
       this.artist.coords = await this.geocodeForward(this.artist.birthplace);
       this.artist.img = '';
-      // artistsDB.push(this.artist);
+      if (!this.artist.death.day)
+        this.artist.death = {
+          day: '',
+          month: '',
+          year: ''
+        }
       await this.addArtistAction(this.artist);
 
       //reset input
@@ -205,6 +210,7 @@ export default {
   computed: {
     ...mapGetters({
       artMovements: 'paintings/getArtMovements',
+      mediums: 'paintings/getMediums',
       mapNames: 'map/getMapNames',
       getEntries: 'autocomplete/getEntries',
     }),

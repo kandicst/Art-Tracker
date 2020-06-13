@@ -134,6 +134,10 @@
     </v-dialog>
 
     <DeleteDialog />
+
+    <router-link to="/help" id="help-hyperlink" target="_blank" :hidden="true">
+      Link Text
+    </router-link>
   </v-container>
 </template>
 
@@ -142,12 +146,12 @@
 import ArtistSideBar from './../components/Artists/ArtistSideBar';
 import PaintingSideBar from './../components/Paintings/PaintingSideBar';
 import Map from './../components/global/Map';
-import FilterComponent from './../components/global/FilterComponent';
+import FilterComponent from './../components/global/V2Filter';
 import HelpDialog from './../components/global/Dialogs/HelpDialog';
 import ShortcutsDialog from './../components/global/Dialogs/ShortcutsDialog';
 import { mapGetters, mapActions, mapMutations } from 'vuex';
-import DeleteDialog from '../components/global/Dialogs/DeleteDialog'
-import {bus} from '@/main';
+import DeleteDialog from '../components/global/Dialogs/DeleteDialog';
+import { bus } from '@/main';
 
 export default {
   name: 'Home',
@@ -238,6 +242,14 @@ export default {
         });
       }
     },
+
+    openHelp() {
+      document.getElementById('help-hyperlink').click();
+      // let routeData = this.$router.resolve({
+      //   name: '/about',
+      // });
+      // window.open(routeData.href, '_blank');
+    },
   },
 
   computed: {
@@ -255,6 +267,7 @@ export default {
         'ctrl+alt+s': this.showShorcut,
         'ctrl+alt+h': this.showHelp,
         'ctrl+alt+n': this.openDialog,
+        'ctrl+f1': this.openHelp,
       };
     },
   },
