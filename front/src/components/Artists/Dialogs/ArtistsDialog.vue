@@ -58,6 +58,7 @@
             :rules="rule"
             required
             hide-details
+            
             single-line
             prepend-icon="mdi-map"
           ></v-select>
@@ -66,8 +67,9 @@
             :items="artMovements"
             v-model="artist.artMovement"
             menu-props="auto"
-            label="Art movement"
-            hide-details
+            label="Artist movement"
+            :hint="checkHint()"
+            persistent-hint
             :rules="rule"
             required
             single-line
@@ -127,7 +129,7 @@ export default {
   data() {
     return {
       valid: true,
-      rule: [v => !!v || 'Obavezno polje'],
+      rule: [v => !!v || 'Required field'],
       type: '',
       key: '',
       dialog: false,
@@ -140,13 +142,16 @@ export default {
         artMovement: '',
         death: { day: '', month: '', year: '' },
       },
+      
     };
   },
 
   methods: {
+    checkHint(){
+      return this.hintsMovement[this.artist.artMovement];
+    },
     ...mapActions({
       addArtistAction: 'artists/addArtistAction',
-      updateArtistAction: 'artists/updateArtistAction',
       geocodeForward: 'geocoder/geocodeForward',
     }),
 
@@ -164,10 +169,9 @@ export default {
         await this.update();
     },
 
-    close() {
+    close(){
       this.dialog = false;
-      this.reset();
-      this.$refs.form.reset();
+      this.$refs.form.resetValidation();
     },
 
     reset() {
@@ -195,27 +199,21 @@ export default {
 
       //reset input
       this.reset();
-      this.$refs.form.reset();
+      this.$refs.form.resetValidation();
       document.getElementById('nameInput').focus();
     },
 
     update() {
-      this.updateArtistAction({
-        key: this.key,
-        newArtist: this.artist,
-      });
-      this.$refs.form.reset();
-      this.reset();
-      this.close();
+      console.log('update');
     },
   },
 
   computed: {
     ...mapGetters({
+      hintsMovement: 'paintings/getHintsMovement',
       artMovements: 'paintings/getArtMovements',
       mediums: 'paintings/getMediums',
       mapNames: 'map/getMapNames',
-      getEntries: 'autocomplete/getEntries',
     }),
 
     keymap() {
@@ -228,11 +226,11 @@ export default {
 
   created() {
     bus.$on('openArtistDialog', data => {
-      if (data.artist) this.artist =  {... data.artist};
+      if (data.artist)
+        this.artist = { ...data.artist };
       this.type = data.type;
       this.key = data.key;
       this.dialog = true;
-      this.getEntries.push(this.artist.birthplace)
     });
   },
 };

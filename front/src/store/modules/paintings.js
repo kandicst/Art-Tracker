@@ -15,6 +15,19 @@ const state = {
     'Renaissance',
     'Humanism',
   ],
+  hintArtMovement:{
+    
+    'Classicism' : 'Classicism refers generally to a high regard for a classical period',
+    'Impressionism' : 'Impressionism is a 19th-century art movement characterized by relatively small, thin, yet visible brush strokes',
+    'Cubism' : "Art movement in early 20th century",
+    'Realism' : 'Realism (naturalism) is the attempt to represent subject matter truthfully or implausible, exotic, and supernatural elements',
+    'Romanticism' : ' Romanticism was characterized by its emphasis on emotion and individualism as well as glorification of all the past and nature',
+    'Baroque' : 'Baroque is a style that flourished in Europe from the early 17th century until the 1740s',
+    'Modern' : 'Modern art denotes the styles and philosophy of the art produced during that era',
+    'Renaissance' : 'Renaissance (meaning "rebirth") art, perceived as the noblest of ancient traditions',
+    'Humanism' : 'Humanism refers to a perspective that affirms some notion of human freedom and progress',
+    '' : '',
+  },
   mediums: [
     'Pastel',
     'Colage',
@@ -30,17 +43,13 @@ const state = {
     'Encaustic',
   ],
   filter:{
-    date1:null,
-    date2:null,
+    mediums:[]
   }
 };
 
 const mutations = {
   setPaintings(state, newPaintings) {
     state.paintings = newPaintings;
-  },
-  setFilter(state, filter){
-    state.filter = filter;
   },
   addPainting(state, newPainting) {
     paintingsDB.push(newPainting);
@@ -63,6 +72,9 @@ const mutations = {
   removePainting(state, key) {
     paintingsDB.child(key).remove();
   },
+  setFilter(state, filter){
+    state.filter = filter;
+  }
 };
 
 const actions = {
@@ -98,6 +110,7 @@ const actions = {
 };
 
 const getters = {
+  getHintsMovement: state => state.hintArtMovement,
   getArtMovements: state => state.artMovements,
   getMediums: state => state.mediums,
   getAllPaintings: state => state.paintings,
@@ -110,7 +123,7 @@ const getters = {
     });
 
     return state.paintings.filter(item => {
-      if (item.artist) return item.artist.map == map;
+      if (item.artist) return item.artist.map == map && (state.filter.mediums.length == 0 || state.filter.mediums.includes(item.medium));
       return false;
     });
   },

@@ -5,7 +5,7 @@
         v-model="dayProp"
         :prepend-icon="icon"
         :hint="hint"
-        :rules="rule"
+        :rules="ruleDay"
         type="number"
         label="Day"
       />
@@ -14,7 +14,7 @@
       <v-select :items="monthsOfYear" v-model="monthProp" label="Month" :rules="rule" />
     </v-col>
     <v-col>
-      <v-text-field v-model="yearProp" label="Year" type="number" :rules="rule" />
+      <v-text-field v-model="yearProp" label="Year" type="number" :rules="ruleYear" />
     </v-col>
   </v-row>
 </template>
@@ -24,6 +24,13 @@ export default {
   props: ['day', 'month', 'year', 'icon', 'hint','rule'],
   data() {
     return {
+      ruleDay: [
+        v => !!v || 'Required field',
+        v => v > 0 && v < 32 || "Incorrect number of days"
+      ],
+      ruleYear: [
+        v => !!v || 'Required field'
+      ],
       monthsOfYear: [
         'January',
         'February',
