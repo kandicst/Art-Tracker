@@ -16,11 +16,24 @@ export default {
     bus.$on('markerChanged', data => this.connectArtistsAndPaintings(data));
 
     bus.$on('paintingMarkerDeleted', data => this.deletePainting(data));
+
+    bus.$on('paintingArtistChanged', data => this.deleteLayer(data));
     // but first initialize all lines
     this.connectArtistsAndPaintings('');
   },
 
   methods: {
+    deleteLayer(data){
+      console.log('uppppppooo')
+      const {key, newArtistName} = data;
+      console.log(key);
+      if (this.$store.map.getSource(key)) {
+        this.$store.map.removeLayer(key);
+        this.$store.map.removeSource(key);
+      }
+      this.connectArtistsAndPaintings(newArtistName);
+    },
+
     deletePainting(data) {
       const { artistName, paintingName } = data;
       const key = artistName + '|' + paintingName;

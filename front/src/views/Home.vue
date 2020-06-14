@@ -19,6 +19,7 @@
                 dense
                 single-line
                 placeholder="Search..."
+                v-model="search"
               >
                 <template slot="prepend-inner">
                   <div class="mt-1 ml-2 mr-4 searchIcon">
@@ -125,15 +126,18 @@
 
     <v-dialog
       v-model="shortcutDialog"
-      width="50%"
+      width="750"
       @click:outside="shortcutDialog = false"
       :retain-focus="false"
     >
       <ShortcutsDialog v-on:zatvori="shortcutDialog = false" />
     </v-dialog>
 
-    <DeleteDialog/>
+    <DeleteDialog />
 
+    <router-link to="/help" id="help-hyperlink" target="_blank" :hidden="true">
+      Link Text
+    </router-link>
   </v-container>
 </template>
 
@@ -142,11 +146,12 @@
 import ArtistSideBar from './../components/Artists/ArtistSideBar';
 import PaintingSideBar from './../components/Paintings/PaintingSideBar';
 import Map from './../components/global/Map';
-import FilterComponent from './../components/global/FilterComponent';
+import FilterComponent from './../components/global/FilterComponent.vue';
 import HelpDialog from './../components/global/Dialogs/HelpDialog';
 import ShortcutsDialog from './../components/global/Dialogs/ShortcutsDialog';
 import { mapGetters, mapActions, mapMutations } from 'vuex';
-import DeleteDialog from '../components/global/Dialogs/DeleteDialog'
+import DeleteDialog from '../components/global/Dialogs/DeleteDialog';
+import { bus } from '@/main';
 
 export default {
   name: 'Home',
@@ -157,7 +162,7 @@ export default {
     HelpDialog,
     ShortcutsDialog,
     FilterComponent,
-    DeleteDialog
+    DeleteDialog,
   },
 
   data() {
@@ -165,9 +170,15 @@ export default {
       tab: null,
       helpDialog: false,
       shortcutDialog: false,
+      search: '',
     };
   },
 
+  watch: {
+    search(val) {
+      this.$store.commit('artists/setSearch', val);
+    },
+  },
   methods: {
     ...mapActions({
       changeSelectedMapAction: 'map/changeSelectedMapAction',
@@ -217,10 +228,27 @@ export default {
     },
 
     openDialog() {
-      if (this.tab == 0) this.openArtistDialog();
+      if (this.tab == 0) {
+        bus.$emit('openArtistDialog', {
+          artist: '',
+          type: 'add',
+          key: '',
+        });
+      } else {
+        bus.$emit('openPaintingDialog', {
+          painting: '',
+          type: 'add',
+          key: '',
+        });
+      }
+    },
 
-      this.openPaintingDialog();
-      console.log('dialog');
+    openHelp() {
+      document.getElementById('help-hyperlink').click();
+      // let routeData = this.$router.resolve({
+      //   name: '/about',
+      // });
+      // window.open(routeData.href, '_blank');
     },
   },
 
@@ -238,6 +266,8 @@ export default {
         'ctrl+right': this.switchToRightTab,
         'ctrl+alt+s': this.showShorcut,
         'ctrl+alt+h': this.showHelp,
+        'ctrl+alt+n': this.openDialog,
+        'ctrl+f1': this.openHelp,
       };
     },
   },

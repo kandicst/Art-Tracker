@@ -6,24 +6,38 @@ const state = {
   paintings: [],
   artMovements: [
     'Classicism',
-    'Post-Impressionism',
     'Impressionism',
     'Cubism',
     'Realism',
     'Romanticism',
-    'Gothic',
     'Baroque',
     'Modern',
     'Renaissance',
     'Humanism',
   ],
+  mediums: [
+    'Pastel',
+    'Colage',
+    'Tapestry',
+    'Graffiti',
+    'Charcoal ',
+    'Oil',
+    'Acrylic',
+    'Watercolor',
+    'Gouache',
+    'Tempera',
+    'Mosaic',
+    'Encaustic',
+  ],
+  filter:{
+    mediums:[]
+  }
 };
 
 const mutations = {
   setPaintings(state, newPaintings) {
     state.paintings = newPaintings;
   },
-
   addPainting(state, newPainting) {
     paintingsDB.push(newPainting);
   },
@@ -45,6 +59,9 @@ const mutations = {
   removePainting(state, key) {
     paintingsDB.child(key).remove();
   },
+  setFilter(state, filter){
+    state.filter = filter;
+  }
 };
 
 const actions = {
@@ -81,7 +98,9 @@ const actions = {
 
 const getters = {
   getArtMovements: state => state.artMovements,
+  getMediums: state => state.mediums,
   getAllPaintings: state => state.paintings,
+  getPaintingById: state => id =>  state.paintings.filter(item => item['.key'] == id)[0],
   // get paintings by  map
   getPaintings: (state, getters, rootState, rootGetters) => {
     const map = rootGetters['map/getSelectedMap'].name;
@@ -90,9 +109,16 @@ const getters = {
     });
 
     return state.paintings.filter(item => {
-      if (item.artist) return item.artist.map == map;
+      if (item.artist) return item.artist.map == map && (state.filter.mediums.length == 0 || state.filter.mediums.includes(item.medium));
       return false;
     });
+  },
+  getAllPeriods: state=>{
+    let periods = new Set();
+    for (const p of state.paintings) {
+      periods.add(p.artMovement)
+    }
+    return Array.from(periods);
   },
 };
 

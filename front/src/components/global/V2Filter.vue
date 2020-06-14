@@ -1,10 +1,23 @@
 <template>
   <v-menu v-model="menu" offset-y :close-on-content-click="false">
-    <v-card
-      :flat="true"
-    >
-    <v-container>
-      <v-form ref="artistsForm">
+    <template v-slot:activator="{ on }">
+      <v-btn
+        class="text-none filterBtn"
+        depressed
+        outlined
+        dense
+        tile
+        v-on="on"
+        min-height="40px"
+      >
+        Filter
+        <div class="ml-4 mt-1 filterIcon">
+          <span class="iconify" data-icon="bx:bx-slider-alt"></span>
+        </div>
+      </v-btn>
+    </template>
+    <v-card class="px-4" width="600px">
+      <v-container>
         <v-row>
           <v-col cols="2">
             <label class="filter-label">Period</label>
@@ -19,9 +32,9 @@
               >
                 <v-row class="pt-0">
                   <v-checkbox
+                    v-model="selectedMovements"
                     class="ma-0 pt-0"
                     :value="period"
-                    v-model="filterArtists.periods"
                     :label="period"
                   ></v-checkbox>
                 </v-row>
@@ -29,6 +42,7 @@
             </v-row>
           </v-col>
         </v-row>
+
         <v-divider></v-divider>
 
         <v-row>
@@ -46,7 +60,7 @@
                 <v-row class="pt-0">
                   <v-checkbox
                     class="ma-0 pt-0"
-                    v-model="filterPaintings.mediums"
+                    v-model="selectedMediums"
                     :value="medium"
                     :label="medium"
                   ></v-checkbox>
@@ -55,9 +69,9 @@
             </v-row>
           </v-col>
         </v-row>
-        <v-divider>
-          
-        </v-divider>
+
+        <v-divider></v-divider>
+
         <v-row>
           <v-col class="pt-8" cols="2">
             <label class="filter-label">Date</label>
@@ -74,7 +88,6 @@
                   dense
                   append-icon="mdi-calendar"
                   outlined
-                  :rules = "date1rules"
                 ></v-text-field>
               </v-col>
 
@@ -89,41 +102,20 @@
                   append-icon="mdi-calendar"
                   dense
                   outlined
-                  :rules = "date2rules"
                 ></v-text-field>
               </v-col>
             </v-row>
           </v-col>
         </v-row>
 
-      </v-form>
+        <v-divider></v-divider>
       </v-container>
-      
-    </v-card>
-
-    <template v-slot:activator="{ on }">
-      <v-btn
-        class="text-none filterBtn"
-        depressed
-        outlined
-        dense
-        tile
-        v-on="on"
-        min-height="40px"
-      >
-        Filter
-        <div class="ml-4 mt-1 filterIcon">
-          <span class="iconify" data-icon="bx:bx-slider-alt"></span>
-        </div>
-      </v-btn>
-    </template>
-    <v-card class="px-4" :flat="true">
       <v-card-actions>
-        <v-btn class="text-none red--text" text @click="clear">Clear All Filters</v-btn>
+        <v-btn class="text-none red--text" text>Clear All Filters</v-btn>
         <v-spacer></v-spacer>
 
-        <v-btn class="text-none" text @click="menu = false">Cancel</v-btn>
-        <v-btn class="text-none" color="primary" text @click="apply"
+        <v-btn class="text-none" text @click="resetFilters()">Cancel</v-btn>
+        <v-btn class="text-none" color="primary" text @click="applyFilters()"
           >Apply</v-btn
         >
       </v-card-actions>
@@ -132,65 +124,51 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 
 export default {
   data() {
     return {
-      dateRGX:/-?([0-9]{3}|[0-3][0-9]{3})-([0-9]|1[0-2])-([0-9]|[1][0-9]|[2][0-9]|3[0-1])/,
+      fav: true,
       menu: false,
-      startDate:"",
-      endDate:"",
-      selectedMediums:[],
-      date1rules:[v=>!v||(this.dateRGX.test(v)||"This value must be date") ,v=>!this.endDate||(new Date(v)<=new Date(this.endDate)||"First date must be before second.")],
-      date2rules:[v=>!v||(this.dateRGX.test(v)||"This value must be date"),v=>!this.startDate||(new Date(this.startDate)<=new Date(v)||"Second date must be after first.")],
-      filterArtists:{
-        date1:null,
-        date2:new Date(Date.now()),
-        periods:[]
-      },
-      filterPaintings:{
-        mediums:[]
-      }
+      message: false,
+      hints: true,
+      selectedMovements: [],
+      selectedMediums: [],
+      startDate: '',
+      endDate: '',
     };
   },
 
-  computed:{
-    ...mapGetters({
-      artMovements: 'paintings/getArtMovements',
-      mediums: 'paintings/getMediums',
-    }),
-  },
   methods: {
-   
-    apply(){
-      this.filterArtists.date1 = new Date(Date.parse(this.startDate));
-      this.filterArtists.date2 = new Date(Date.parse(this.endDate));
-      if(!this.$refs.artistsForm||this.$refs.artistsForm.validate()){
-        this.commitFilters();  
-      }
-      this.menu = false;
-    },
-    commitFilters(){
-      this.$store.commit("artists/setFilter", JSON.parse(JSON.stringify(this.filterArtists)) );
-      this.$store.commit("paintings/setFilter", JSON.parse(JSON.stringify(this.filterPaintings))); 
-    },
-    clear(){
-      this.filterArtists={
-        date1:null,
-        date2:null,
-        periods:[]
-      };
-      this.filterPaintings={
-        mediums:[]
-      }
-      this.$refs.artistsForm.reset();
-      this.commitFilters();
-    },
     close() {
       console.log(this.menu);
       this.menu = false;
     },
+
+    applyFilters(){
+      this.menu = false;
+
+      // now mutate filters in store
+      console.log(this.selectedMovements);
+      console.log(this.selectedMediums);
+    },
+
+    resetFilters() {
+      this.menu = false;
+      this.selectedMovements = [];
+      this.selectedMediums = [];
+
+      // now reset filters in store
+
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      artMovements: 'paintings/getArtMovements',
+      mediums: 'paintings/getMediums',
+    }),
   },
 };
 </script>
@@ -206,6 +184,6 @@ export default {
   /* color: #616161 !important; */
   border-color: grey;
   /* border-left: none; */
-  color: black!important;
+  color: black !important;
 }
 </style>

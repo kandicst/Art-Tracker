@@ -5,14 +5,26 @@ import {artistsDB} from '@/firebase'
 const state = {
   artists: [
   ],
+  search:"",
+  filter:{
+    date1:null,
+    date2:null,
+    periods:[]
+  }
 };
 
 const mutations = {
   setArtist(state, newArtists) {
     state.artists = newArtists;
   },
-
+  setSearch(state, search){
+    state.search = search;
+  },
+  setFilter(state, filter){
+    state.filter = filter;
+  },
   addArtist(state, newArtist) {
+    console.log(newArtist);
     artistsDB.push(newArtist);
   },
 
@@ -84,8 +96,30 @@ const getters = {
   // get Artists based on current map
   getArtists: (state, getters, rootState, rootGetters) => {
     const map = rootGetters['map/getSelectedMap'].name;
-
-    return state.artists.filter(item => item.map == map);
+    
+    let dates = 
+    {
+      January:0,
+      February:1,
+      March:2,
+      April:3,
+      May:4,
+      June:5,
+      July:6,
+      August:7,
+      September:8,
+      October:9,
+      November:10,
+      December:11
+    };
+    return state.artists.filter(item => {
+      let birthday = new Date(item.birthday.year, dates[item.birthday.month], item.birthday.day);
+      let death = new Date(item.death.year, dates[item.death.month], item.death.day);
+      let afterFirst = !state.filter.date1||new Date(state.filter.date1)<=birthday;
+      let beforeSecond = !state.filter.date2||death<=new Date(state.filter.date2);
+      let artMovement = state.filter.periods.length==0||state.filter.periods.includes(item.artMovement);
+      return item.map == map&&item.name.includes(state.search)&&afterFirst&&beforeSecond&&artMovement;
+    })
   },
 };
 
