@@ -58,6 +58,7 @@
             :rules="rule"
             required
             hide-details
+            
             single-line
             prepend-icon="mdi-map"
           ></v-select>
@@ -66,8 +67,9 @@
             :items="artMovements"
             v-model="artist.artMovement"
             menu-props="auto"
-            label="Art movement"
-            hide-details
+            label="Artist movement"
+            :hint="checkHint()"
+            persistent-hint
             :rules="rule"
             required
             single-line
@@ -127,7 +129,7 @@ export default {
   data() {
     return {
       valid: true,
-      rule: [v => !!v || 'Obavezno polje'],
+      rule: [v => !!v || 'Required field'],
       type: '',
       key: '',
       dialog: false,
@@ -140,10 +142,14 @@ export default {
         artMovement: '',
         death: { day: '', month: '', year: '' },
       },
+      
     };
   },
 
   methods: {
+    checkHint(){
+      return this.hintsMovement[this.artist.artMovement];
+    },
     ...mapActions({
       addArtistAction: 'artists/addArtistAction',
       geocodeForward: 'geocoder/geocodeForward',
@@ -201,6 +207,7 @@ export default {
 
   computed: {
     ...mapGetters({
+      hintsMovement: 'paintings/getHintsMovement',
       artMovements: 'paintings/getArtMovements',
       mediums: 'paintings/getMediums',
       mapNames: 'map/getMapNames',

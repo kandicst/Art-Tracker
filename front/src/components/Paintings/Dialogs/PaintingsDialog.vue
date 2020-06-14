@@ -58,12 +58,13 @@
 
           <v-select
             :items="artMovements"
-            :rules="rule"
             required
             v-model="painting.artMovement"
             menu-props="auto"
             label="Art movement"
-            hide-details
+            :hint="checkHint()"
+            persistent-hint
+            :rules="rule"
             single-line
             prepend-icon="mdi-timer-sand"
           ></v-select>
@@ -163,6 +164,10 @@ export default {
   },
 
   methods: {
+    checkHint(){
+      return this.hintsMovement[this.painting.artMovement];
+    },
+
     ...mapActions({
       addPaintingAction: 'paintings/addPaintingAction',
       geocodeForward: 'geocoder/geocodeForward',
@@ -243,6 +248,7 @@ export default {
 
   computed: {
     ...mapGetters({
+      hintsMovement: 'paintings/getHintsMovement',
       artMovements: 'paintings/getArtMovements',
       artists: 'artists/getArtists',
       getAllArtists: 'artists/getAllArtists',
