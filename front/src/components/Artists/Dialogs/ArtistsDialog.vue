@@ -158,7 +158,10 @@ export default {
       );
       if (!this.valid) return;
 
-      await this.add();
+      if(this.type == 'add')
+        await this.add();
+      else
+        await this.update();
     },
 
     close() {
