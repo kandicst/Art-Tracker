@@ -142,7 +142,6 @@ export default {
 
   methods: {
     close() {
-      console.log(this.menu);
       this.menu = false;
     },
 
@@ -150,8 +149,6 @@ export default {
       this.menu = false;
 
       // now mutate filters in store
-      console.log(this.selectedMovements);
-      console.log(this.selectedMediums);
     },
 
     resetFilters() {

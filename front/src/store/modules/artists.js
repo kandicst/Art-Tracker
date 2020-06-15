@@ -76,7 +76,6 @@ const actions = {
     try {
       commit('addArtist', payload);
     } catch (error) {
-      console.log(error);
       dispatch('snackbar/showError', error, { root: true });
     }
   },

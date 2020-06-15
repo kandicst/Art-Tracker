@@ -112,7 +112,6 @@ const actions = {
     try {
       commit('updatePainting', payload);
     } catch (error) {
-      console.log(error);
       dispatch('snackbar/showError', error.response.data, { root: true });
     }
   },
@@ -144,7 +143,6 @@ const actions = {
       payload.location = city + ', ' + country;
       commit('movePaintingOnMap', payload);
     } catch (error) {
-      console.log(error);
       dispatch('snackbar/showError', 'Are you sure that paintings can swim?', {
         root: true,
       });

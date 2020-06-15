@@ -14,7 +14,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue" @click="cancel()" text>Cancel</v-btn>
+        <v-btn @click="cancel()" text>Cancel</v-btn>
         <v-btn color="blue" @click="deleteEntity" text>Delete</v-btn>
       </v-card-actions>
     </v-card>
@@ -86,7 +86,6 @@ export default {
 
   computed: {
     artistById() {
-      // console.log(this.object.artistById)
       return this.$store.getters['artists/getArtistById'](this.object.artistId)
         .name;
     },

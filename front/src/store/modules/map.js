@@ -22,8 +22,7 @@ const actions = {
     try {
       commit('changeSelectedMap', data);
     } catch (error) {
-      console.log(error);
-      // dispatch("snackbar/showError", "No such map!");
+      dispatch("snackbar/showError", "No such map!");
     }
   },
 };

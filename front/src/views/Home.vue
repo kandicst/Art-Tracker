@@ -126,8 +126,6 @@
                 
               <v-list>
                 
-                <v-header></v-header>
-                
                 <v-list-item
                   @click="addArtist = !addArtist"
                 >

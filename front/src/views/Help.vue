@@ -121,7 +121,7 @@
                 This is the UI for our application, before you start doing any
                 serious work, we suggest you get familiar with it first. Also,
                 since this is a one-page appliaction, everything you need to use
-                is just a few clicks (or shortcuts) away.
+                is just a few clicks (or one shortcut) away.
               </p>
 
               <p>
@@ -199,8 +199,8 @@
 
               <p class="mt-6">
                 After filter, comes the select component used to toggle the map.
-                Right now, our application supports 4 predefined maps: World,
-                Europe, USA and <strong>Serbia</strong>. Every map has its own
+                Right now, our application supports 4 predefined maps: <strong>World</strong>,
+                <strong>Europe</strong>, <strong>USA</strong> and <strong>Serbia</strong>. Every map has its own
                 data, and by toggling the current map, that data will be
                 displayed on the Grid/List view and on the Map component.
               </p>

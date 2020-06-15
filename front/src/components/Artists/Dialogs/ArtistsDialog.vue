@@ -207,6 +207,8 @@ export default {
 
     async add() {
       if (!(await this.$refs.form.validate())) return;
+      if(!this.deathOkay()) return;
+
       this.artist.coords = await this.geocodeForward(this.artist.birthplace);
       this.artist.img = '';
       if (!this.artist.death.day)
@@ -237,6 +239,8 @@ export default {
 
     async update() {
       if (!(await this.$refs.form.validate())) return;
+      if(!this.deathOkay()) return;
+
       const oldArtist = this.$store.getters['artists/getArtistById'](this.key);
 
       // if change birthplace get new coords
@@ -271,6 +275,15 @@ export default {
 
       this.close();
     },
+
+    deathOkay(){
+      const death = this.artist.death;
+
+      if(death.day && death.month && death.year) return true;
+      if(!death.day && !death.month && !death.year) return true;
+
+      return false;
+    }
   },
 
   computed: {
