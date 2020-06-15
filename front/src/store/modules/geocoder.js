@@ -1,7 +1,6 @@
 import Vue from 'vue';
 
 const state = {
-  cageApiKey: '0153a27f5a664fe284e2b88db6bc44c7',
   entries: [],
 };
 
@@ -30,14 +29,14 @@ const mutations = {
 const actions = {
 
   async geocodeForward({commit}, city){
-    const url = `https://api.opencagedata.com/geocode/v1/json?q=${city}&key=${state.cageApiKey}`
+    const url = `https://api.opencagedata.com/geocode/v1/json?q=${city}&key=${Vue.prototype.$cageApiKey}`
     const { data } = await Vue.$axios.get(url);
     const coords = data.results[0].geometry;
     return [coords.lng, coords.lat]
   },
 
   async geocodeReverse({commit}, city){
-    const url = `https://api.opencagedata.com/geocode/v1/json?q=${city}&key=${state.cageApiKey}`
+    const url = `https://api.opencagedata.com/geocode/v1/json?q=${city}&key=${Vue.prototype.$cageApiKey}`
     const { data } = await Vue.$axios.get(url);
     const coords = data.results[0].geometry;
     return [coords.lat, coords.lng]

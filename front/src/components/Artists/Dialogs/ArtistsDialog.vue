@@ -36,7 +36,7 @@
           <CityAutocomplete
             :location="artist.birthplace"
             @locationChanged="artist.birthplace = $event"
-            v-bind:rule="rule"
+            :rule="rule"
             required
             id="homeTownAutocomplete"
           />
@@ -154,6 +154,10 @@ export default {
       geocodeForward: 'geocoder/geocodeForward',
     }),
 
+    ...mapMutations({
+      updatePaintingArtistName: 'paintings/updatePaintingArtistName',
+    }),
+
     async enterPressed() {
       // if focused element is autocomplete allow enter to choose city
       // else user is trying to finish changes so call add
@@ -167,6 +171,7 @@ export default {
     },
 
     close() {
+      this.reset();
       this.dialog = false;
       this.$refs.form.resetValidation();
     },
@@ -200,15 +205,27 @@ export default {
       document.getElementById('nameInput').focus();
     },
 
-    update() {
+    async update() {
+      const oldArtist = this.$store.getters['artists/getArtistById'](this.key);
 
-      const oldArtist = this.$store.getters['artists/getArtistById'](
-        this.key
-      );
-      this.updateArtistAction({
+      // if change birthplace get new coords
+      if (oldArtist.birthplace !== this.artist.birthplace)
+        this.artist.coords = await this.geocodeForward(this.artist.birthplace);
+
+      await this.updateArtistAction({
         key: this.key,
         newArtist: this.artist,
       });
+
+      // if change name update paintings
+      if (oldArtist.name !== this.artist.name) {
+        alert('TO STE PROMEENUUUUUULI');
+        this.updatePaintingArtistName({
+          oldName: oldArtist.name,
+          newName: this.artist.name,
+        });
+      }
+
       bus.$emit('resetMap');
 
       this.$refs.form.reset();

@@ -32,8 +32,14 @@
 
       <v-card-text>
         <v-row class="ma-0 pa-0">
-          <v-icon class="mr-2" color="red lighten-2">mdi-map-marker</v-icon>
-          {{ painting.location }}
+          <!-- <v-icon class="mr-2" color="red lighten-2">mdi-map-marker</v-icon>
+          {{ painting.location }} -->
+          <v-col class="ma-0 pa-0" cols="1" align="begin">
+            <v-icon class="mr-2" color="red lighten-2">mdi-map-marker</v-icon>
+          </v-col>
+          <v-col class="ma-0 pa-0 ml-3" align="start">
+            {{ painting.location }}
+          </v-col>
         </v-row>
 
         <v-row class="ma-0 pa-0 mt-2">
@@ -88,7 +94,7 @@ export default {
     ...mapMutations({
       addEntry: 'autocomplete/addEntry',
     }),
-    
+
     async openEditDialog() {
       await this.addEntry(this.painting.location);
       bus.$emit('openPaintingDialog', {

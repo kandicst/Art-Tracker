@@ -67,6 +67,13 @@ const mutations = {
     paintingsDB.child(key).update(newPainting);
   },
 
+  updatePaintingArtistName(state, payload) {
+    const {oldName, newName} = payload;
+    state.paintings.forEach(paint => {
+      if (paint.artist?.name == oldName) paint.artist.name = newName;
+    })
+  },
+
   movePaintingOnMap(state, payload) {
     const index = state.paintings.findIndex(
       painting => painting.name == payload.name
@@ -125,14 +132,18 @@ const actions = {
       const country = info.components.country;
       if (!country) throw new Error();
 
-      const type = info.components._type;
-      const city = info.components[type] || 'Unknown';
-      console.log(info.components);
+      const city =
+        info.components.city ||
+        info.components.town ||
+        info.components.village ||
+        info.components.county ||
+        info.components.state ||
+        'Unknown';
       payload.location = city + ', ' + country;
       commit('movePaintingOnMap', payload);
     } catch (error) {
       console.log(error);
-      // dispatch('snackbar/showError', error.response.data, { root: true });
+      dispatch('snackbar/showError', 'Are you sure that paintings can swim?', { root: true });
       throw new Error('cannot place on location');
     }
   },

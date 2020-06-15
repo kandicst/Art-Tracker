@@ -1,47 +1,59 @@
-const state = {
-    show: false,
-    color: "",
+const getInitialState = () => {
+  return {
     text: "",
-    orientation: "bottom",
+    snackbar: false,
+    color: ""
+  }
 }
 
-const actions = {
-    showSnackbar({commit}, params){
-        commit("setSnackBar", params);
-        setTimeout(() =>{
-            commit("hideSnackBar");
-        }, 3000)
-    },
-
-    hide({commit}){
-        commit("hideSnackBar");
-    }
-}
+const state = getInitialState();
 
 const mutations = {
-    setSnackBar(state, params){
-        state.text = params[0];
-        state.color = params[1];
-        state.orientation = params[2];
-        state.show = true;
-    },
+  resetState(state) {
+    state = getInitialState();
+  },
 
-    hideSnackBar(state){
-        state.color = "";
-        state.text = "";
-        state.orientation = "bottom"
-        state.show = false;
-    }
-}
+  showSnackbar(state, data) {
+    state.text = data.text;
+    state.snackbar = true;
+    state.color = data.color;
+  },
+
+  closeSnackbar(state) {
+    state.text = "";
+    state.snackbar = false;
+    state.color = "";
+  },
+
+  setSnackbar(state, value) {
+    state.snackbar = value;
+  }
+};
+
+const actions = {
+  closeSnackbar({ commit }) {
+    commit("closeSnackbar");
+  },
+
+  showError({ commit }, text) {
+    commit("showSnackbar", { text, color: "error" });
+  },
+
+  showSuccess({ commit }, text) {
+    commit("showSnackbar", { text, color: "success" });
+  }
+};
 
 const getters = {
-    getSnackBar: state => state.show,
-    getSnackBarColor: state => state.color,
-    getSnackBarText: state => state.text,
-    getSnackBarOrientation : state => state.orientation,
-}
+  getSnackbar: state => state.snackbar,
+  getText: state => state.text,
+  getColor: state => state.color
+};
 
 export default {
-    namespaced: true,
-    state, mutations, getters, actions
-}
+  namespaced: true,
+  state,
+  mutations,
+  actions,
+  getters
+};

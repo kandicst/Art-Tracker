@@ -1,13 +1,11 @@
 <template>
-  <!-- v-model="cities" -->
-  <!-- class="overfl" -->
   <v-autocomplete
     v-model="locationProp"
     :disabled="isUpdating"
     :items="getEntries"
     :search-input.sync="search"
     :loading="isLoading"
-    :rules="rule"
+    :rules="ruleRequired"
     hide-no-data
     hide-selected
     label="Location"
@@ -21,9 +19,10 @@
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
-  props: ['location','rule'],
+  props: ['location', ],
   data() {
     return {
+      ruleRequired: [v => !!v || 'Required field'],
       isLoading: false,
       isUpdating: false,
       model: null,
@@ -68,7 +67,7 @@ export default {
     async location(val) {
       if (val && this.getEntries.filter(loc => loc == val).length == 0)
         await this.getEntries.push(val);
-    }
+    },
   },
 };
 </script>

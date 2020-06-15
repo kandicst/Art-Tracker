@@ -47,8 +47,12 @@
       <v-card-text>
         <v-container class="ma-0 pa-0" align="end">
           <v-row class="ma-0 pa-0">
-            <v-icon class="mr-2" color="red lighten-2">mdi-home-city</v-icon>
-            {{ artist.birthplace }}
+            <v-col class="ma-0 pa-0" cols="1" align="begin">
+              <v-icon class="mr-2" color="red lighten-2">mdi-home-city</v-icon>
+            </v-col>
+            <v-col class="ma-0 pa-0 ml-3" align="start">
+              {{ artist.birthplace }}
+            </v-col>
           </v-row>
 
           <v-row class="ma-0 pa-0 mt-2">

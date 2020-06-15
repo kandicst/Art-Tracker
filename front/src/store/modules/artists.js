@@ -25,7 +25,6 @@ const mutations = {
   addArtist(state, newArtist) {
     artistsDB.push(newArtist);
   },
-
   updateArtist(state, payload) {
     const { key, newArtist } = payload;
     artistsDB.child(key).update(newArtist);
@@ -44,6 +43,10 @@ const mutations = {
   removeArtist(state, key) {
     artistsDB.child(key).remove();
   },
+
+  // nameExists(state, name) {
+  //   if(state.artists.filter(art => art.name == name).length > 0;
+  // }
 };
 
 const actions = {
@@ -86,15 +89,18 @@ const actions = {
       const country = info.components.country;
       if (!country) throw new Error();
 
-      const type = info.components._type;
-      const city = info.components[type] || 'Unknown';
-      console.log(info.components);
+      const city =
+        info.components.city ||
+        info.components.town ||
+        info.components.village ||
+        info.components.county ||
+        info.components.state ||
+        'Unknown';
       payload.birthplace = city + ', ' + country;
       // payload.birthplace.replace("Municipality", "")
       commit('moveArtistOnMap', payload);
     } catch (error) {
-      console.log(error);
-      // dispatch('snackbar/showError', error.response.data, { root: true });
+      dispatch('snackbar/showError', 'Invalid location', { root: true });
       throw new Error('cannot place on location');
     }
   },
