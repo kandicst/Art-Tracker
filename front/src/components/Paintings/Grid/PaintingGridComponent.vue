@@ -85,9 +85,12 @@ export default {
   },
 
   methods: {
-    ...mapGetters({}),
-
-    openEditDialog() {
+    ...mapMutations({
+      addEntry: 'autocomplete/addEntry',
+    }),
+    
+    async openEditDialog() {
+      await this.addEntry(this.painting.location);
       bus.$emit('openPaintingDialog', {
         painting: this.painting,
         type: 'edit',

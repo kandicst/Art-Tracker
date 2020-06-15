@@ -15,6 +15,7 @@
         :coordinates.sync="artist.coords"
         :key="artist['.key']"
         @dragend="artistMarkerDragEnd"
+        @dragstart="onMarkerDragStart"
         :draggable="true"
         anchor="center"
       >
@@ -54,6 +55,7 @@
         :coordinates.sync="painting.coords"
         :key="painting['.key']"
         @dragend="paintingMarkerDragEnd"
+        @dragstart="onMarkerDragStart"
         :draggable="true"
         anchor="center"
       >
@@ -106,11 +108,11 @@ export default {
   },
   data() {
     return {
-      // geoCoder : nodeGeocoder({provider: 'openstreetmap'}),
       accessToken:
         'pk.eyJ1Ijoic3N0ZWYiLCJhIjoiY2thMDEzMXBpMGNpYjNmcG11Y2ozYTlucCJ9.GDzoIBfJMXOLfL1vxMuGnw',
       mapStyle: 'mapbox://styles/mapbox/streets-v9',
       markerCoordinates: [50, 50],
+      oldCoords: [0, 0],
       bool: false,
       changed: '',
     };
@@ -133,7 +135,9 @@ export default {
     ...mapActions({
       geocodeForward: 'geocoder/geocodeForward',
       bindArtists: 'artists/bindArtists',
-      bindPaintings: 'paintings/bindPaintings'
+      bindPaintings: 'paintings/bindPaintings',
+      movePaintingAction: 'paintings/movePaintingAction',
+      moveArtistAction: 'artists/moveArtistAction',
     }),
 
     ...mapMutations({
@@ -151,27 +155,6 @@ export default {
 
       await this.bindArtists();
       await this.bindPaintings();
-
-      // let artists = [];
-      // let paintings = [];
-
-      // const snap = await artistsDB.once('value');
-      // const items = snap.val();
-      // for (let key in items) {
-      //   items[key].id = key;
-      //   artists.push(items[key]);
-      // }
-      // this.setArtist(artists);
-
-      // const snap2 = await paintingsDB.once('value');
-      // const items2 = snap2.val();
-      // for (let key in items2) {
-      //   items2[key].id = key;
-      //   paintings.push(items2[key]);
-      // }
-      // await this.setPaintings(paintings);
-
-      
       bus.$emit('markerChanged', '');
     },
 
@@ -185,34 +168,41 @@ export default {
     async artistMarkerDragEnd(event) {
       const name = event.component.$el.id;
       const coords = event.marker._lngLat;
-      const url = `https://api.opencagedata.com/geocode/v1/json?q=${coords.lat}+${coords.lng}&key=${this.$cageApiKey}`;
-      const { data } = await Vue.$axios.get(url);
-      let payload = {
-        name,
-        coords,
-      };
-      this.moveArtistOnMap(payload);
-      this.emitMarkerChanged(name);
+      // move optimistically
+      bus.$emit('markerChanged', name);
+      try {
+        await this.moveArtistAction({ name, coords });
+      } catch {
+        // if failed change to old coords and return back
+        await this.moveArtistAction({
+          name,
+          coords: this.oldCoords,
+          revert: true,
+        });
+        bus.$emit('markerChanged', name);
+      }
+    },
+
+    async onMarkerDragStart(event) {
+      this.oldCoords = event.marker._lngLat;
     },
 
     async paintingMarkerDragEnd(event) {
       const name = event.component.$el.id;
       const coords = event.marker._lngLat;
-      const url = `https://api.opencagedata.com/geocode/v1/json?q=${coords.lat}+${coords.lng}&key=${this.$cageApiKey}`;
-      const { data } = await Vue.$axios.get(url);
-      let payload = {
-        name,
-        coords,
-      };
-      console.log("COOOOOOORDS: ")
-      console.log(coords)
-
-      this.movePaintingOnMap(payload);
-      this.emitMarkerChanged(name);
-    },
-
-    emitMarkerChanged(data) {
-      bus.$emit('markerChanged', data);
+      // move optimistically
+      bus.$emit('markerChanged', name);
+      try {
+        await this.movePaintingAction({ name, coords });
+      } catch {
+        // if failed change to old coords and return back
+        await this.movePaintingAction({
+          name,
+          coords: this.oldCoords,
+          revert: true,
+        });
+        bus.$emit('markerChanged', name);
+      }
     },
   },
 };

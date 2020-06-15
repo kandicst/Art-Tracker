@@ -58,7 +58,6 @@
             :rules="rule"
             required
             hide-details
-            
             single-line
             prepend-icon="mdi-map"
           ></v-select>
@@ -142,16 +141,16 @@ export default {
         artMovement: '',
         death: { day: '', month: '', year: '' },
       },
-      
     };
   },
 
   methods: {
-    checkHint(){
+    checkHint() {
       return this.hintsMovement[this.artist.artMovement];
     },
     ...mapActions({
       addArtistAction: 'artists/addArtistAction',
+      updateArtistAction: 'artists/updateArtistAction',
       geocodeForward: 'geocoder/geocodeForward',
     }),
 
@@ -163,13 +162,11 @@ export default {
       );
       if (!this.valid) return;
 
-      if(this.type == 'add')
-        await this.add();
-      else
-        await this.update();
+      if (this.type == 'add') await this.add();
+      else await this.update();
     },
 
-    close(){
+    close() {
       this.dialog = false;
       this.$refs.form.resetValidation();
     },
@@ -193,8 +190,8 @@ export default {
         this.artist.death = {
           day: '',
           month: '',
-          year: ''
-        }
+          year: '',
+        };
       await this.addArtistAction(this.artist);
 
       //reset input
@@ -204,7 +201,19 @@ export default {
     },
 
     update() {
-      console.log('update');
+
+      const oldArtist = this.$store.getters['artists/getArtistById'](
+        this.key
+      );
+      this.updateArtistAction({
+        key: this.key,
+        newArtist: this.artist,
+      });
+      bus.$emit('resetMap');
+
+      this.$refs.form.reset();
+      this.reset();
+      this.close();
     },
   },
 
@@ -226,8 +235,7 @@ export default {
 
   created() {
     bus.$on('openArtistDialog', data => {
-      if (data.artist)
-        this.artist = { ...data.artist };
+      if (data.artist) this.artist = { ...data.artist };
       this.type = data.type;
       this.key = data.key;
       this.dialog = true;

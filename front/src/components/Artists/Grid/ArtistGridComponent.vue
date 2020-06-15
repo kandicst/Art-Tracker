@@ -46,22 +46,21 @@
 
       <v-card-text>
         <v-container class="ma-0 pa-0" align="end">
+          <v-row class="ma-0 pa-0">
+            <v-icon class="mr-2" color="red lighten-2">mdi-home-city</v-icon>
+            {{ artist.birthplace }}
+          </v-row>
 
-        <v-row class="ma-0 pa-0">
-          <v-icon class="mr-2" color="red lighten-2">mdi-home-city</v-icon>
-          {{ artist.birthplace }}
-        </v-row>
-
-        <v-row class="ma-0 pa-0 mt-2">
-          <v-col cols="5" align="start" class="ma-0 pa-0">
-            <v-icon class="mr-1" color="red lighten-2">mdi-flag</v-icon>
-            {{ artist.nationality }}
-          </v-col>
-          <v-col cols="7" class="ma-0 pa-0">
-            <v-icon class="mr-0" color="red lighten-2">mdi-timer-sand</v-icon>
-            {{ artist.artMovement }}
-          </v-col>
-        </v-row>
+          <v-row class="ma-0 pa-0 mt-2">
+            <v-col cols="5" align="start" class="ma-0 pa-0">
+              <v-icon class="mr-1" color="red lighten-2">mdi-flag</v-icon>
+              {{ artist.nationality }}
+            </v-col>
+            <v-col cols="7" class="ma-0 pa-0">
+              <v-icon class="mr-0" color="red lighten-2">mdi-timer-sand</v-icon>
+              {{ artist.artMovement }}
+            </v-col>
+          </v-row>
         </v-container>
       </v-card-text>
       <v-card-actions class="my-0 py-0" v-show="hover">
@@ -92,9 +91,14 @@ export default {
   },
 
   methods: {
-    ...mapGetters({}),
+    ...mapMutations({
+      addEntry: 'autocomplete/addEntry',
+    }),
 
-    openEditDialog() {
+    async openEditDialog() {
+      // add location to autocomplete entries
+      await this.addEntry(this.artist.birthplace);
+
       bus.$emit('openArtistDialog', {
         artist: this.artist,
         type: 'edit',
@@ -109,6 +113,12 @@ export default {
         key: this.artist['.key'],
       });
     },
+  },
+
+  computed: {
+    ...mapGetters({
+      getEntries: 'autocomplete/getEntries',
+    }),
   },
 };
 </script>

@@ -18,14 +18,16 @@ export default {
     bus.$on('paintingMarkerDeleted', data => this.deletePainting(data));
 
     bus.$on('paintingArtistChanged', data => this.deleteLayer(data));
+
+    bus.$on('resetMap', data => this.resetMap());
+
     // but first initialize all lines
     this.connectArtistsAndPaintings('');
   },
 
   methods: {
-    deleteLayer(data){
-      console.log('uppppppooo')
-      const {key, newArtistName} = data;
+    deleteLayer(data) {
+      const { key, newArtistName } = data;
       console.log(key);
       if (this.$store.map.getSource(key)) {
         this.$store.map.removeLayer(key);
@@ -94,12 +96,27 @@ export default {
         },
       });
     },
+
+    resetMap() {
+      for (let artist of this.allArtists) {
+        for (let painting of this.allPaintings) {
+          if (artist.name == painting.artist.name)
+            this.deletePainting({
+              artistName: artist.name,
+              paintingName: painting.name,
+            });
+        }
+      }
+      this.connectArtistsAndPaintings('');
+    },
   },
 
   computed: {
     ...mapGetters({
       artists: 'artists/getArtists',
+      allArtists: 'artists/getAllArtists',
       paintings: 'paintings/getPaintings',
+      allPaintings: 'paintings/getAllPaintings',
     }),
   },
 };

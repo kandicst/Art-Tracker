@@ -8,7 +8,10 @@ const mutations = {
   addEntries(state, newEntries) {
     state.entries.push(...newEntries);
   },
-
+  addEntry(state, newEntry) {
+    if(!state.entries.includes(newEntry))
+      state.entries.push(newEntry)
+  },
   deleteEntry(state, name) {
     state.entries = state.cities.filter(city => city.name !== name);
   },

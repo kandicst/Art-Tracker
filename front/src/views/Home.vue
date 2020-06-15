@@ -177,6 +177,7 @@ export default {
   watch: {
     search(val) {
       this.$store.commit('artists/setSearch', val);
+      bus.$emit('resetMap');
     },
   },
   methods: {
@@ -245,10 +246,6 @@ export default {
 
     openHelp() {
       document.getElementById('help-hyperlink').click();
-      // let routeData = this.$router.resolve({
-      //   name: '/about',
-      // });
-      // window.open(routeData.href, '_blank');
     },
   },
 
