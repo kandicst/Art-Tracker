@@ -258,7 +258,7 @@ export default {
       }
 
       bus.$emit('resetMap');
-      this.$store.dispatch('snackbar/showSuccess', 'Uspešno ste izmenili slikara.')
+      this.$store.dispatch('snackbar/showSuccess', 'Artist was successfully updated.')
 
       this.close();
     },

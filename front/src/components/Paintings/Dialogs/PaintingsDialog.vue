@@ -243,7 +243,7 @@ export default {
       
       bus.$emit('resetMap');
       this.close();
-      this.$store.dispatch('snackbar/showSuccess', 'Uspešno ste izmenili sliku.')
+      this.$store.dispatch('snackbar/showSuccess', 'Painting was successfully updated')
     },
 
     emitPaintingChanged(data) {
