@@ -10,6 +10,20 @@ const state = {
     date2: null,
     periods: [],
   },
+  dates : {
+    January: 0,
+    February: 1,
+    March: 2,
+    April: 3,
+    May: 4,
+    June: 5,
+    July: 6,
+    August: 7,
+    September: 8,
+    October: 9,
+    November: 10,
+    December: 11,
+  },
 };
 
 const mutations = {
@@ -116,6 +130,8 @@ const actions = {
 };
 
 const getters = {
+  getSearch: state => state.search,
+  getFilterPeriods: state => state.filter.periods,
   getAllArtists: state => state.artists,
   getArtistById: state => id =>
     state.artists.filter(item => item['.key'] == id)[0],
@@ -123,29 +139,15 @@ const getters = {
   getArtists: (state, getters, rootState, rootGetters) => {
     const map = rootGetters['map/getSelectedMap'].name;
 
-    let dates = {
-      January: 0,
-      February: 1,
-      March: 2,
-      April: 3,
-      May: 4,
-      June: 5,
-      July: 6,
-      August: 7,
-      September: 8,
-      October: 9,
-      November: 10,
-      December: 11,
-    };
     return state.artists.filter(item => {
       let birthday = new Date(
         item.birthday.year,
-        dates[item.birthday.month],
+        state.dates[item.birthday.month],
         item.birthday.day
       );
       let death = new Date(
         item.death.year,
-        dates[item.death.month],
+        state.dates[item.death.month],
         item.death.day
       );
       let afterFirst =
@@ -157,7 +159,7 @@ const getters = {
         state.filter.periods.includes(item.artMovement);
       return (
         item.map == map &&
-        item.name.includes(state.search) &&
+        item.name.toUpperCase().includes(state.search.toUpperCase()) &&
         afterFirst &&
         beforeSecond &&
         artMovement

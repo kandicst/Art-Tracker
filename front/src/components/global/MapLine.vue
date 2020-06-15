@@ -98,16 +98,6 @@ export default {
     },
 
     resetMap() {
-      // for (let artist of this.allArtists) {
-      //   for (let painting of this.allPaintings) {
-      //     if (artist.name == painting.artist.name)
-      //       this.deletePainting({
-      //         artistName: artist.name,
-      //         paintingName: painting.name,
-      //       });
-      //   }
-      // }
-
       for (let source in this.$store.map.getStyle().sources) {
         if (source != 'composite') {
           this.$store.map.removeLayer(source);

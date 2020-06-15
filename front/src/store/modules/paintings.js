@@ -68,10 +68,10 @@ const mutations = {
   },
 
   updatePaintingArtistName(state, payload) {
-    const {oldName, newName} = payload;
+    const { oldName, newName } = payload;
     state.paintings.forEach(paint => {
       if (paint.artist?.name == oldName) paint.artist.name = newName;
-    })
+    });
   },
 
   movePaintingOnMap(state, payload) {
@@ -143,7 +143,9 @@ const actions = {
       commit('movePaintingOnMap', payload);
     } catch (error) {
       console.log(error);
-      dispatch('snackbar/showError', 'Are you sure that paintings can swim?', { root: true });
+      dispatch('snackbar/showError', 'Are you sure that paintings can swim?', {
+        root: true,
+      });
       throw new Error('cannot place on location');
     }
   },
@@ -167,14 +169,28 @@ const getters = {
   // get paintings by  map
   getPaintings: (state, getters, rootState, rootGetters) => {
     const map = rootGetters['map/getSelectedMap'].name;
+    const search = rootGetters['artists/getSearch'];
+    const filterPeriods = rootGetters['artists/getFilterPeriods'];
     state.paintings.map(painting => {
       painting.artist = rootGetters['artists/getArtistById'](painting.artistId);
     });
+
+    // if painting artist satisfies filter
+    // of painting itself
+    const periodExp = painting => {
+      return (
+        filterPeriods.length == 0 ||
+        filterPeriods.includes(painting.artMovement) ||
+        filterPeriods.includes(painting.artist.artMovement) 
+      );
+    };
 
     return state.paintings.filter(item => {
       if (item.artist)
         return (
           item.artist.map == map &&
+          periodExp(item) &&
+          item.artist.name.toUpperCase().includes(search.toUpperCase()) &&
           (state.filter.mediums.length == 0 ||
             state.filter.mediums.includes(item.medium))
         );
