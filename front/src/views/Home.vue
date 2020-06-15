@@ -71,26 +71,53 @@
               </template>
               <span>Keyboard Shortcuts</span>
             </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  v-on="on"
-                  @click.stop="helpDialog = true"
-                  id="help"
-                  class="hidden-md-and-down ml-4"
-                  height="40px"
-                  icon
-                >
-                  <span
-                    class="iconify"
-                    data-icon="bx:bx-help-circle"
-                    data-inline="false"
-                  ></span>
-                </v-btn>
+            <v-menu>
+              <template v-slot:activator="{ on:onMenu, attrs }">
+                
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on: onTooltip }">
+                    <v-btn
+                      v-bind="attrs"
+                      v-on="{ ...onMenu, ...onTooltip }"
+                      id="help"
+                      class="hidden-md-and-down ml-4"
+                      height="40px"
+                      icon
+                    >
+                      <span
+                        class="iconify"
+                        data-icon="bx:bx-help-circle"
+                        data-inline="false"
+                      ></span>
+                    </v-btn>
+                  </template>
+                  <span>Demo mode</span>
+                </v-tooltip>
               </template>
-              <span>Demo mode</span>
-            </v-tooltip>
+              <v-list>
+                <v-subheader>
+
+                  <v-btn
+                    @click="openHelp"
+                  >
+                    <span
+                        class="iconify"
+                        data-icon="bx:bx-help-circle"
+                        data-inline="false"
+                      ></span>
+                  </v-btn>
+                </v-subheader>
+
+                <v-list-item
+                >
+                  <v-list-item-title>Dodavanje slikara</v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                >
+                  <v-list-item-title>Dodavanje slike</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
           </v-row>
         </v-col>
       </v-row>
