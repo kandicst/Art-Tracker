@@ -103,17 +103,10 @@
       <v-card-actions class="mr-8">
         <v-spacer></v-spacer>
         <v-btn @click="close" text>Cancel</v-btn>
-        <v-btn
-          v-if="type === 'add'"
-          color="primary"
-          @click="add"
-          text
+        <v-btn v-if="type === 'add'" color="primary" @click="add" text
           >Add</v-btn
         >
-          <!-- :disabled="!valid" -->
-        <v-btn v-else color="primary" @click="update" text :disabled="!valid"
-          >Update</v-btn
-        >
+        <v-btn v-else color="primary" @click="update" text>Update</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -209,7 +202,7 @@ export default {
     },
 
     async add() {
-      if (! await this.$refs.form.validate()) return;
+      if (!(await this.$refs.form.validate())) return;
       this.artist.coords = await this.geocodeForward(this.artist.birthplace);
       this.artist.img = '';
       if (!this.artist.death.day)
@@ -235,7 +228,7 @@ export default {
     },
 
     async update() {
-      if (! await this.$refs.form.validate()) return;
+      if (!(await this.$refs.form.validate())) return;
       const oldArtist = this.$store.getters['artists/getArtistById'](this.key);
 
       // if change birthplace get new coords
