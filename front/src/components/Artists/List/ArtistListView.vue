@@ -13,7 +13,6 @@
         <span v-else>Alive</span>
       </template> -->
 
-
       <template v-slot:item.actions="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)">
           mdi-pencil
@@ -28,6 +27,8 @@
 
 <script>
 import { mapMutations, mapGetters, mapActions } from 'vuex';
+import { bus } from '@/main';
+
 export default {
   data() {
     return {
@@ -54,20 +55,28 @@ export default {
   },
 
   methods: {
-    ...mapMutations('artistsDialog', {
-      openEditDialog: 'openEditDialog',
+    ...mapMutations({
+      openEditDialog: 'artistsDialog/openEditDialog',
+      addEntry: 'autocomplete/addEntry',
     }),
 
-    ...mapActions({
-      removeArtistAction: 'artists/removeArtistAction',
-    }),
+    async editItem(item) {
+      // add location to autocomplete entries
+      await this.addEntry(item.birthplace);
 
-    editItem(item) {
-      this.openEditDialog(item);
+      bus.$emit('openArtistDialog', {
+        artist: item,
+        type: 'edit',
+        key: item['.key'],
+      });
     },
 
     deleteItem(item) {
-      this.removeArtistAction(Object.assign({}, this.item));
+      bus.$emit('onDelete', {
+        type: 'Artist',
+        object: item,
+        key: item['.key'],
+      });
     },
 
     close() {

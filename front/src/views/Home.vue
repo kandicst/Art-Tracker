@@ -126,7 +126,7 @@
 
     <v-dialog
       v-model="shortcutDialog"
-      width="750"
+      width="800"
       @click:outside="shortcutDialog = false"
       :retain-focus="false"
     >

@@ -1,6 +1,22 @@
 <template>
   <v-menu v-model="menu" offset-y :close-on-content-click="false">
-    <v-card :flat="true">
+    <template v-slot:activator="{ on }">
+      <v-btn
+        class="text-none filterBtn"
+        depressed
+        outlined
+        dense
+        tile
+        v-on="on"
+        min-height="40px"
+      >
+        Filter
+        <div class="ml-4 mt-1 filterIcon">
+          <span class="iconify" data-icon="bx:bx-slider-alt"></span>
+        </div>
+      </v-btn>
+    </template>
+    <v-card :flat="true" class="px-4" width="600px">
       <v-container>
         <v-form ref="artistsForm">
           <v-row>
@@ -71,6 +87,7 @@
                     append-icon="mdi-calendar"
                     outlined
                     :rules="date1rules"
+                    validate-on-blur
                   ></v-text-field>
                 </v-col>
 
@@ -86,32 +103,16 @@
                     dense
                     outlined
                     :rules="date2rules"
+                    validate-on-blur
                   ></v-text-field>
                 </v-col>
               </v-row>
             </v-col>
           </v-row>
         </v-form>
+        <v-divider></v-divider>
       </v-container>
-    </v-card>
 
-    <template v-slot:activator="{ on }">
-      <v-btn
-        class="text-none filterBtn"
-        depressed
-        outlined
-        dense
-        tile
-        v-on="on"
-        min-height="40px"
-      >
-        Filter
-        <div class="ml-4 mt-1 filterIcon">
-          <span class="iconify" data-icon="bx:bx-slider-alt"></span>
-        </div>
-      </v-btn>
-    </template>
-    <v-card class="px-4" :flat="true">
       <v-card-actions>
         <v-btn class="text-none red--text" text @click="clear"
           >Clear All Filters</v-btn
@@ -129,29 +130,25 @@
 
 <script>
 import { mapMutations, mapGetters, mapActions } from 'vuex';
-import {bus} from '@/main'
+import { bus } from '@/main';
+import moment from 'moment'
 
 export default {
   data() {
     return {
-      dateRGX: /-?([0-9]{3}|[0-3][0-9]{3})-([0-9]|1[0-2])-([0-9]|[1][0-9]|[2][0-9]|3[0-1])/,
       menu: false,
       startDate: '',
-      endDate: '',
+      endDate: moment().format("YYYY-MM-DD"),
       selectedMediums: [],
       date1rules: [
-        v => !v || this.dateRGX.test(v) || 'This value must be date',
+        v => !v || moment(v, "YYYY-MM-DD").isValid() || 'This value must be date',
         v =>
           !this.endDate ||
           new Date(v) <= new Date(this.endDate) ||
-            'First date must be before second.',
+          'First date must be before second.',
       ],
       date2rules: [
-        v => !v || this.dateRGX.test(v) || 'This value must be date',
-        v =>
-          !this.startDate ||
-          new Date(this.startDate) <= new Date(v) ||
-            'Second date must be after first.',
+        v => !v || moment(v, "YYYY-MM-DD").isValid() || 'This value must be date',
       ],
       filterArtists: {
         date1: null,
@@ -172,6 +169,8 @@ export default {
   },
   methods: {
     apply() {
+      if(!this.$refs.artistsForm.validate()) return;
+
       this.filterArtists.date1 = new Date(Date.parse(this.startDate));
       this.filterArtists.date2 = new Date(Date.parse(this.endDate));
       if (!this.$refs.artistsForm || this.$refs.artistsForm.validate()) {
@@ -193,7 +192,7 @@ export default {
       );
     },
 
-    clear() {
+    async clear() {
       this.filterArtists = {
         date1: null,
         date2: null,
@@ -202,8 +201,9 @@ export default {
       this.filterPaintings = {
         mediums: [],
       };
-      this.$refs.artistsForm.reset();
+      await this.$refs.artistsForm.reset();
       this.commitFilters();
+      this.endDate = moment().format("YYYY-MM-DD");
       bus.$emit('resetMap');
     },
     close() {
