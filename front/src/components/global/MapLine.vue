@@ -28,7 +28,6 @@ export default {
   methods: {
     deleteLayer(data) {
       const { key, newArtistName } = data;
-      console.log(key);
       if (this.$store.map.getSource(key)) {
         this.$store.map.removeLayer(key);
         this.$store.map.removeSource(key);

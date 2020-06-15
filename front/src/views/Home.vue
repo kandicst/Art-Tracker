@@ -74,7 +74,7 @@
             <v-menu
                 :offset-y="true"
                 :close-on-content-click="false"
-
+                v-model="helpDialog"
 
             >
               <template v-slot:activator="{ on:onMenu, attrs }">
@@ -360,14 +360,6 @@
       <iframe width="682" height="480" src="https://www.youtube.com/embed/eZ3xCNIqgt8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </v-dialog>
 
-    <v-dialog
-      v-model="helpDialog"
-      width="35%"
-      @click:outside="helpDialog = false"
-      :retain-focus="false"
-    >
-      <HelpDialog v-on:zatvori="shortcutDialog = false" />
-    </v-dialog>
 
     <v-dialog
       v-model="shortcutDialog"
@@ -392,7 +384,6 @@ import ArtistSideBar from './../components/Artists/ArtistSideBar';
 import PaintingSideBar from './../components/Paintings/PaintingSideBar';
 import Map from './../components/global/Map';
 import FilterComponent from './../components/global/FilterComponent.vue';
-import HelpDialog from './../components/global/Dialogs/HelpDialog';
 import ShortcutsDialog from './../components/global/Dialogs/ShortcutsDialog';
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import DeleteDialog from '../components/global/Dialogs/DeleteDialog';
@@ -404,7 +395,6 @@ export default {
     ArtistSideBar,
     PaintingSideBar,
     Map,
-    HelpDialog,
     ShortcutsDialog,
     FilterComponent,
     DeleteDialog,
@@ -520,6 +510,7 @@ export default {
         'ctrl+alt+h': this.showHelp,
         'ctrl+alt+n': this.openDialog,
         'ctrl+f1': this.openHelp,
+        'esc': () => {this.helpDialog = false}
       };
     },
   },
