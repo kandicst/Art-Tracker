@@ -25,7 +25,7 @@
             <li><a href="#toolbar">Toolbar</a></li>
             <li><a href="#artists" class="#artists">Artists</a></li>
             <li><a href="#paintings" class="#paintings">Paintings</a></li>
-            <li><a href="#line4">Map</a></li>
+            <li><a href="#map">Map</a></li>
           </ul>
         </nav>
       </v-col>
@@ -45,7 +45,7 @@
                       <strong>Description : </strong>
                       Software for visualizing artists and their paintings
                     </li>
-                    <li><strong>Version : </strong> v 1.0</li>
+                    <li><strong>Version : </strong> v1.0</li>
                     <li>
                       <strong>Authors : </strong>
                       <a href="https://github.com/ssttefann" target="_blank"
@@ -70,45 +70,27 @@
                 <hr />
                 <div>
                   <p>
-                    First of all, Thank you so much for purchasing this template
-                    and for being my loyal customer.
-                    <strong>You are awesome!</strong>
-                    <br />
-                    You are entitled to get free lifetime updates to this
-                    product + exceptional support from the author directly.
-                  </p>
-
-                  <p>
                     This documentation is to help you regarding each step of
-                    customization. Please go through the documentation carefully
-                    to understand how this template is made and how to edit this
-                    properly. Basic HTML and CSS knowledge is required to
-                    customize this template. You may learn basics
-                    <a href="http://www.w3schools.com/" target="_blank">here</a
-                    >,
-                    <a href="https://developer.mozilla.org/" target="_blank"
-                      >here</a
-                    >
-                    and
-                    <a
-                      href="http://learn.shayhowe.com/html-css/building-your-first-web-page/"
-                      target="_blank"
-                      >here</a
-                    >.
+                    using the application. Please go through the documentation
+                    carefully to understand how it works so you can use it
+                    efficiently.
                   </p>
 
                   <h4>Requirements</h4>
                   <p>
-                    You will need the following to use our software:
+                    You will need the following:
                   </p>
                   <ol>
                     <li>
-                      Web Browser for testing (eg: Google Chrome or Mozilla
-                      Firefox)
+                      <p>
+                        Web Browser (eg: Google Chrome or Mozilla Firefox)
+                      </p>
                     </li>
                     <li>
-                      Internet connection so that you can access remote Firebase
-                      database.
+                      <p>
+                        Internet connection so that you can access remote
+                        Firebase database.
+                      </p>
                     </li>
                   </ol>
                 </div>
@@ -130,9 +112,9 @@
 
           <v-row>
             <v-col cols="12">
-              <p class="headline">
+              <p>
                 When you first start the application you'll be presented with
-                this view.
+                this view:
               </p>
               <v-img
                 width="800"
@@ -147,13 +129,13 @@
 
               <p>
                 By default, on grid view you'll see all artists for the World
-                map. If you want to switch to paintings click Paintings tab at
-                the top left of your screen.
+                map. If you want to switch to paintings click
+                <strong>Paintings</strong> tab at the top left of your screen.
               </p>
 
               <v-img
-                width="500"
-                src="https://www.talkwalker.com/images/2020/blog-headers/image-analysis.png"
+                width="250"
+                src="https://firebasestorage.googleapis.com/v0/b/hci-grupni.appspot.com/o/docs%2Ftabs.png?alt=media&token=b35374a4-8901-4442-8e7f-0ad65c3fd636"
               ></v-img>
 
               <p>
@@ -162,8 +144,8 @@
               </p>
 
               <v-img
-                width="500"
-                src="https://www.talkwalker.com/images/2020/blog-headers/image-analysis.png"
+                width="300"
+                src="https://firebasestorage.googleapis.com/v0/b/hci-grupni.appspot.com/o/docs%2Fgrid_list.png?alt=media&token=9e99b062-0787-4352-9755-734f24ae2fed"
               ></v-img>
             </v-col>
           </v-row>
@@ -191,45 +173,60 @@
                 src="https://firebasestorage.googleapis.com/v0/b/hci-grupni.appspot.com/o/docs%2Ftoolbar.png?alt=media&token=1cc6cc12-64e2-4092-b3b9-8144ee7a151d"
               ></v-img>
 
-              <p class="mt-10">
-                Starting from left-to-right first thing you can see are the
-                Artists and Paintings tabs.
-                <v-img
-                  width="500"
-                  src="https://www.talkwalker.com/images/2020/blog-headers/image-analysis.png"
-                ></v-img>
-                By default this is set to Artists, but changing it to Paintings
-                will yield in change of the items shown in the grid view.
-                Instead of Artists you will see all Paintings.
+              <p class="mt-6">
+                First element is the search field. You can use search to find
+                artists by their name.
               </p>
 
-              <p class="mt-6">
-                Next up is the search field. You can use search to find artists
-                by their name.
-              </p>
+              <v-img
+                width="500"
+                src="https://firebasestorage.googleapis.com/v0/b/hci-grupni.appspot.com/o/docs%2Fsearch.png?alt=media&token=07b512f0-130b-47a0-9e9a-813953cea4ca"
+              ></v-img>
 
               <p>
-                Tightly connect to search is the filter button. Clicking it will
-                open a drop down menu which you can use to filter currently
-                selected artists and paintings by their art movements, mediums
-                or even time periods. TIPTIOPThis functionality can be jointly
-                used with search.
+                Connect to search is the <strong>Filter</strong> button.
+                Clicking it will open a drop down menu which you can use to
+                filter currently selected artists and paintings by their art
+                movements, mediums or even time periods.
               </p>
+
+              <v-img
+                width="500"
+                src="https://firebasestorage.googleapis.com/v0/b/hci-grupni.appspot.com/o/docs%2Ffilter.png?alt=media&token=020576d9-3faf-4d17-a10f-d50d0c9bd857"
+              ></v-img>
+
+              <div class="intro1 px-2 py-3">
+                <strong>Tip: </strong>
+                Filter functionality can be jointly used with search.
+              </div>
 
               <p class="mt-6">
                 After filter, comes the select component used to toggle the map.
                 Right now, our application supports 4 predefined maps: World,
-                Europe, USA and Serbia. Every map has its own data, and by
-                toggling the current map, that data will be displayed on the
-                Grid/List view and on the Map itself.
+                Europe, USA and <strong>Serbia</strong>. Every map has its own
+                data, and by toggling the current map, that data will be
+                displayed on the Grid/List view and on the Map component.
               </p>
 
+              <v-img
+                width="200"
+                src="https://firebasestorage.googleapis.com/v0/b/hci-grupni.appspot.com/o/docs%2Fmap_select.png?alt=media&token=45a9cc85-55d1-4581-ab14-de346a0c6b8e"
+              ></v-img>
+
               <p class="mt-6">
-                And finally, on the far-right there are Keyboard shortcuts
-                button and Help Menu. Clicking on the Keyboard shortcuts will
-                display a dialog showcasing all the shortcuts available in the
-                application. If you really want to be productive while using
-                this application, we suggest you to learn and use them.
+                And finally, on the far-right there are
+                <strong>Keyboard shortcuts</strong> button and
+                <strong>Help Menu</strong>. Clicking on the Keyboard shortcuts
+                will display a dialog showcasing all the shortcuts available in
+                the application.
+              </p>
+              <v-img
+                width="500"
+                src="https://firebasestorage.googleapis.com/v0/b/hci-grupni.appspot.com/o/docs%2Fshortcuts.png?alt=media&token=d0517aa5-5712-4383-8fce-c7c083dfb8f3"
+              ></v-img>
+              <p>
+                If you really want to be productive while using this
+                application, we suggest you to learn and use them.
               </p>
 
               <p>
@@ -237,6 +234,11 @@
                 help menu that will give you practical examples of all important
                 features of the app.
               </p>
+
+              <v-img
+                width="250"
+                src="https://firebasestorage.googleapis.com/v0/b/hci-grupni.appspot.com/o/docs%2Fhelp.png?alt=media&token=83a988d1-2c83-4aa0-9826-932f4754fda4"
+              ></v-img>
             </v-col>
           </v-row>
         </section>
@@ -265,21 +267,29 @@
                 form for all important information.
               </p>
 
+              <v-img
+                width="500"
+                src="https://firebasestorage.googleapis.com/v0/b/hci-grupni.appspot.com/o/docs%2Fadd_artist.png?alt=media&token=95d4fbbb-1ed3-4d54-ad69-bca5f48855f4"
+              ></v-img>
               <div class="intro1 px-2 py-3">
                 <strong>Note: </strong>
                 If artist is alive you don't need to fill death fields
               </div>
 
-              <p class="title">Edit existing artist artist</p>
+              <p class="title">Edit existing artist</p>
               <p>
                 In case you need to change already existing artist, you don't
                 have to delete him and then add again, you can just click on him
                 in Grid View and select <strong>Edit</strong> option.
               </p>
-              <v-img></v-img>
+              <v-img
+                width="300"
+                src="https://firebasestorage.googleapis.com/v0/b/hci-grupni.appspot.com/o/docs%2Fedit_artist1.png?alt=media&token=61312342-168c-4316-86cf-87f9ff273527"
+              ></v-img>
               <p>
-                After you've finished updating the fields and submitted, all
-                changes will be immediately visible.
+                Now, a dialog similar to add dialog will open. After you've
+                finished updating the fields and submitted, all changes will be
+                immediately visible.
               </p>
 
               <p class="title">Delete artist</p>
@@ -290,6 +300,10 @@
                 option. A dialog will open that you will need to confirm in
                 order to complete the deletion.
               </p>
+              <v-img
+                width="400"
+                src="https://firebasestorage.googleapis.com/v0/b/hci-grupni.appspot.com/o/docs%2Fdelete_artist.png?alt=media&token=11e11288-859c-49a8-aded-41311395abf7"
+              ></v-img>
               <div class="intro1 px-2 py-3">
                 <strong>Note: </strong>
                 You can't delete an artist who has paintings, you will need to
@@ -317,24 +331,32 @@
           <v-row>
             <v-col cols="12">
               <p>
-                Second entity in the system are paintings.
-                They are directly connected to one artist, and can't be created without them.
+                Second entity in the system are paintings. They are directly
+                connected to one artist, and can't be created without them.
               </p>
 
               <p class="title">Add new painting</p>
               <p>
-                You can add a new painting by clicking a Add New Painting button on
-                the toolbar shown before. After that, a dialog will open with a
-                form for all important information.
+                You can add a new painting by clicking a Add New Painting button
+                on the toolbar shown before. After that, a dialog will open with
+                a form for all important information.
               </p>
+
+              <v-img
+                width="500"
+                src="https://firebasestorage.googleapis.com/v0/b/hci-grupni.appspot.com/o/docs%2Fadd_painting.png?alt=media&token=65fe4809-82c5-4cb3-803e-3ac0c4114295"
+              ></v-img>
 
               <p class="title">Edit existing painting</p>
               <p>
                 In case you need to change already existing painting, you don't
-                have to delete it and then add it again, you can just click on him
-                in Grid View and select <strong>Edit</strong> option.
+                have to delete it and then add it again, you can just click on
+                him in Grid View and select <strong>Edit</strong> option.
               </p>
-              <v-img></v-img>
+              <v-img
+                width="300"
+                src="https://firebasestorage.googleapis.com/v0/b/hci-grupni.appspot.com/o/docs%2Fedit_painting.png?alt=media&token=b9c4becb-30c2-4c16-96c6-18941cd14da7"
+              ></v-img>
               <p>
                 After you've finished updating the fields and submitted, all
                 changes will be immediately visible.
@@ -342,12 +364,16 @@
 
               <p class="title">Delete painting</p>
               <p>
-                The process is similar to editing, you click on painting
-                you want to delete in Grid View, and now instead of
+                The process is similar to editing, you click on painting you
+                want to delete in Grid View, and now instead of
                 <strong>Edit</strong> you choose <strong>Delete</strong>
                 option. A dialog will open that you will need to confirm in
                 order to complete the deletion.
               </p>
+              <v-img
+                width="400"
+                src="https://firebasestorage.googleapis.com/v0/b/hci-grupni.appspot.com/o/docs%2Fdelete_painting.png?alt=media&token=b0e2439e-1c00-4740-9de3-747430b453e7"
+              ></v-img>
               <div class="intro1 px-2 py-3">
                 <strong>IMPORTANT: </strong>
                 This will permanently delete the painting from database.
@@ -357,7 +383,7 @@
           </v-row>
         </section>
 
-        <section id="line1" class="section">
+        <section id="map" class="section">
           <v-row>
             <v-col cols="12">
               <div class="dark-text display-2">
@@ -368,7 +394,24 @@
           </v-row>
 
           <v-row>
-            <v-col cols="12"> </v-col>
+            <v-col cols="12">
+              <p>
+                Instead of updating artist's or paintings' location using the
+                update form, you can directly manipulate them on the map.
+              </p>
+
+              <p>
+                Artists and paintings are represented on map with markers, and
+                you can't drag and drop those markers across the map, updating
+                entitity's location and connections with other entities in
+                real-time.
+              </p>
+              <div class="intro1 px-2 py-3">
+                <strong>IMPORTANT: </strong>
+                We know that maps are cool and stuff, but if you want accuracy,
+                geocoding using geographical names is the way to go.
+              </div>
+            </v-col>
           </v-row>
         </section>
       </v-col>
@@ -397,4 +440,8 @@ export default {
 @import '../css/style.css';
 @import '../css/custom.css';
 @import '../css/animate.css';
+
+p {
+  font-size: 16px !important;
+}
 </style>

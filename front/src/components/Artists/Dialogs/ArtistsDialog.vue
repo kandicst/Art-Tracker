@@ -69,7 +69,7 @@
             :items="artMovements"
             v-model="artist.artMovement"
             menu-props="auto"
-            label="Artist movement"
+            label="Period"
             :hint="checkHint()"
             persistent-hint
             :rules="rule"
@@ -223,7 +223,11 @@ export default {
         this.img = null;
       }
 
-      await this.addArtistAction(this.artist);
+      try{
+        await this.addArtistAction(this.artist);
+      } catch {
+        return;
+      }
 
       //reset input
       this.reset();

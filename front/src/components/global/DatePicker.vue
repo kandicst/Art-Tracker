@@ -6,7 +6,7 @@
         v-model="dayProp"
         :prepend-icon="icon"
         :hint="hint"
-        :rules="ruleDay.concat(ruleEmpty)"
+        :rules="ruleDay"
         @change="resetValidationDay()"
         type="number"
         label="Day"
@@ -19,7 +19,7 @@
       v-model="monthProp"  
       @change="resetValidationMonth()" 
       label="Month" 
-      :rules="rule.concat(ruleEmpty)" 
+      :rules="rule" 
       />
     </v-col>
     <v-col>
@@ -29,7 +29,7 @@
       @change="resetValidationYear()" 
       label="Year" 
       type="number" 
-      :rules="ruleYear.concat(ruleEmpty)" 
+      :rules="ruleYear" 
       />
     </v-col>
   </v-row>
@@ -54,11 +54,11 @@ export default {
         'November',
         'December',
       ],
-      ruleEmpty: [
-        v => (this.day !== '' && this.month !== "" && this.year !== "" ||
-              this.day === '' && this.month === "" && this.year === ""
-              ) || "All fields of date must be aquired"
-      ]
+      // ruleEmpty: [
+      //   v => (this.day !== '' && this.month !== "" && this.year !== "" ||
+      //         this.day === '' && this.month === "" && this.year === ""
+      //         ) || "All fields of date must be aquired"
+      // ]
     };
   },
   methods:{
