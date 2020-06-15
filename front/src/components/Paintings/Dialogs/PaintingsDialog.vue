@@ -101,7 +101,7 @@
             v-model="img"
             accept="image/*"
             label="Image"
-            :rules="rule"
+            :rules="type === 'add' ? rule : []"
             prepend-icon="mdi-camera"
           ></v-file-input>
         </v-form>
