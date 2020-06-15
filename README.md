@@ -7,7 +7,7 @@
   
 ## Project setup
 
-Application is currently deployed on Firebase [here](https://hci-grupni.firebaseapp.com/).
+Application is currently deployed on Firebase [here](https://hci-grupni.web.app/).
 
 Or if you want to run it locally, navigate to front-end folder and install node.js dependencies
 ```
