@@ -24,6 +24,7 @@ const state = {
     November: 10,
     December: 11,
   },
+  context: '',
 };
 
 const mutations = {
@@ -35,6 +36,9 @@ const mutations = {
   },
   setFilter(state, filter) {
     state.filter = filter;
+  },
+  setContext(state, newContext) {
+    state.context = newContext;
   },
   addArtist(state, newArtist) {
     if (state.artists.filter(art => art.name == newArtist.name).length > 0)
@@ -129,6 +133,7 @@ const actions = {
 };
 
 const getters = {
+  getContext: state => state.context,
   getSearch: state => state.search,
   getFilterPeriods: state => state.filter.periods,
   getAllArtists: state => state.artists,

@@ -2,7 +2,7 @@
   <v-dialog
     v-model="dialog"
     width="400px"
-    @click:outside="dialog = false"
+    @click:outside="cancel()"
     :retain-focus="false"
   >
     <v-card>
@@ -14,7 +14,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue" @click="dialog = false" text>Cancel</v-btn>
+        <v-btn color="blue" @click="cancel()" text>Cancel</v-btn>
         <v-btn color="blue" @click="deleteEntity" text>Delete</v-btn>
       </v-card-actions>
     </v-card>
@@ -40,10 +40,20 @@ export default {
       removePaintingAction: 'paintings/removePaintingAction',
     }),
 
+    ...mapMutations({
+      setContext: 'artists/setContext',
+    }),
+
+    cancel(){
+      this.dialog = false;
+      this.setContext('');
+    },
+
     async deleteEntity() {
       if (this.type == 'Artist') {
+        // check if artist has paintings
+        // if he has he can't be deleted
         await this.removeArtistAction(this.key);
-        // bus.$emit('markerChanged', this.object.name);
       } else {
         await this.removePaintingAction(this.key);
         bus.$emit('paintingMarkerDeleted', {
@@ -52,7 +62,7 @@ export default {
         });
       }
 
-      this.dialog = false;
+      this.cancel();
     },
   },
 
@@ -62,6 +72,7 @@ export default {
       this.type = data.type;
       this.key = data.key;
       this.dialog = true;
+      this.setContext(`#${this.type.toLowerCase()}s`);
     });
   },
 

@@ -176,6 +176,10 @@ export default {
       updatePaintingAction: 'paintings/updatePaintingAction',
     }),
 
+    ...mapMutations({
+      setContext: 'artists/setContext'
+    }),
+
     async enterPressed() {
       // if focused element is autocomplete allow enter to choose city
       // else user is trying to finish changes so call add
@@ -246,14 +250,11 @@ export default {
       this.$store.dispatch('snackbar/showSuccess', 'Painting was successfully updated')
     },
 
-    emitPaintingChanged(data) {
-      bus.$emit('markerChanged', data);
-    },
-
     close() {
       if (this.$refs.form) this.$refs.form.resetValidation();
       this.dialog = false;
       this.reset();
+      this.setContext('');
     },
 
     reset() {
@@ -293,6 +294,7 @@ export default {
       this.type = data.type;
       this.key = data.key;
       this.dialog = true;
+      this.setContext('#paintings')
     });
   },
 };

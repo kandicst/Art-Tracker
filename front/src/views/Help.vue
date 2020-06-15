@@ -22,14 +22,15 @@
         >
           <ul class="nav headline">
             <li><a href="#line1">Getting Started</a></li>
-            <li><a href="#line2">Artists</a></li>
-            <li><a href="#line3">Paintings</a></li>
+            <li><a href="#toolbar">Toolbar</a></li>
+            <li><a href="#artists" class="#artists">Artists</a></li>
+            <li><a href="#paintings" class="#paintings">Paintings</a></li>
             <li><a href="#line4">Map</a></li>
           </ul>
         </nav>
       </v-col>
 
-      <v-col cols="9">
+      <v-col cols="9" lg="7" class="pr-6">
         <v-row>
           <v-col cols="12">
             <h2 class="dark-text display-2">
@@ -134,18 +135,20 @@
                 this view.
               </p>
               <v-img
-                width="500"
-                src="https://www.talkwalker.com/images/2020/blog-headers/image-analysis.png"
+                width="800"
+                src="https://firebasestorage.googleapis.com/v0/b/hci-grupni.appspot.com/o/docs%2Fwhole_window.png?alt=media&token=bc948bf3-e5c7-4fac-b0a2-d80510f86eae"
               ></v-img>
               <p>
-                Since this is a one-page appliaction, everything you need to use
+                This is the UI for our application, before you start doing any
+                serious work, we suggest you get familiar with it first. Also,
+                since this is a one-page appliaction, everything you need to use
                 is just a few clicks (or shortcuts) away.
               </p>
 
               <p>
                 By default, on grid view you'll see all artists for the World
-                map. If you want to switch to paintings click
-                <bold> Paintings </bold> tab at the top left of your screen.
+                map. If you want to switch to paintings click Paintings tab at
+                the top left of your screen.
               </p>
 
               <v-img
@@ -155,7 +158,7 @@
 
               <p>
                 Additionally, if you want to switch from grid view of
-                Artists/Paintings you'll need to click the list button.
+                artists/paintings you'll need to click the list button.
               </p>
 
               <v-img
@@ -166,7 +169,7 @@
           </v-row>
         </section>
 
-        <section id="line1" class="section">
+        <section id="toolbar" class="section">
           <v-row>
             <v-col cols="12">
               <div class="dark-text display-2">
@@ -184,11 +187,11 @@
                 the page and contains several useful features.
               </p>
               <v-img
-                width="500"
-                src="https://www.talkwalker.com/images/2020/blog-headers/image-analysis.png"
+                width="800"
+                src="https://firebasestorage.googleapis.com/v0/b/hci-grupni.appspot.com/o/docs%2Ftoolbar.png?alt=media&token=1cc6cc12-64e2-4092-b3b9-8144ee7a151d"
               ></v-img>
 
-              <p>
+              <p class="mt-10">
                 Starting from left-to-right first thing you can see are the
                 Artists and Paintings tabs.
                 <v-img
@@ -238,7 +241,7 @@
           </v-row>
         </section>
 
-        <section id="line1" class="section">
+        <section id="artists" class="section">
           <v-row>
             <v-col cols="12">
               <div class="dark-text display-2">
@@ -249,11 +252,59 @@
           </v-row>
 
           <v-row>
-            <v-col cols="12"> </v-col>
+            <v-col cols="12">
+              <p>
+                One of the entities that can be directly manipulared are
+                Artists. You can add new ones, edit existing or delete them.
+              </p>
+
+              <p class="title">Add new artist</p>
+              <p>
+                You can add a new artist by clicking a Add New Artist button on
+                the toolbar shown before. After that, a dialog will open with a
+                form for all important information.
+              </p>
+
+              <div class="intro1 px-2 py-3">
+                <strong>Note: </strong>
+                If artist is alive you don't need to fill death fields
+              </div>
+
+              <p class="title">Edit existing artist artist</p>
+              <p>
+                In case you need to change already existing artist, you don't
+                have to delete him and then add again, you can just click on him
+                in Grid View and select <strong>Edit</strong> option.
+              </p>
+              <v-img></v-img>
+              <p>
+                After you've finished updating the fields and submitted, all
+                changes will be immediately visible.
+              </p>
+
+              <p class="title">Delete artist</p>
+              <p>
+                The process is similar to editing an artist, you click on artist
+                you want to delete in Grid View, and now instead of
+                <strong>Edit</strong> you choose <strong>Delete</strong>
+                option. A dialog will open that you will need to confirm in
+                order to complete the deletion.
+              </p>
+              <div class="intro1 px-2 py-3">
+                <strong>Note: </strong>
+                You can't delete an artist who has paintings, you will need to
+                delete them first.
+              </div>
+              <div class="intro1 px-2 py-3">
+                <strong>IMPORTANT: </strong>
+                This will permanently delete an artist from database.
+              </div>
+              <v-img></v-img>
+            </v-col>
           </v-row>
         </section>
 
-        <section id="line1" class="section">
+        <section id="paintings" class="section">
           <v-row>
             <v-col cols="12">
               <div class="dark-text display-2">
@@ -264,7 +315,45 @@
           </v-row>
 
           <v-row>
-            <v-col cols="12"> </v-col>
+            <v-col cols="12">
+              <p>
+                Second entity in the system are paintings.
+                They are directly connected to one artist, and can't be created without them.
+              </p>
+
+              <p class="title">Add new painting</p>
+              <p>
+                You can add a new painting by clicking a Add New Painting button on
+                the toolbar shown before. After that, a dialog will open with a
+                form for all important information.
+              </p>
+
+              <p class="title">Edit existing painting</p>
+              <p>
+                In case you need to change already existing painting, you don't
+                have to delete it and then add it again, you can just click on him
+                in Grid View and select <strong>Edit</strong> option.
+              </p>
+              <v-img></v-img>
+              <p>
+                After you've finished updating the fields and submitted, all
+                changes will be immediately visible.
+              </p>
+
+              <p class="title">Delete painting</p>
+              <p>
+                The process is similar to editing, you click on painting
+                you want to delete in Grid View, and now instead of
+                <strong>Edit</strong> you choose <strong>Delete</strong>
+                option. A dialog will open that you will need to confirm in
+                order to complete the deletion.
+              </p>
+              <div class="intro1 px-2 py-3">
+                <strong>IMPORTANT: </strong>
+                This will permanently delete the painting from database.
+              </div>
+              <v-img></v-img>
+            </v-col>
           </v-row>
         </section>
 
@@ -272,7 +361,7 @@
           <v-row>
             <v-col cols="12">
               <div class="dark-text display-2">
-                Just in case <a href="#top">#back to top</a>
+                Map <a href="#top">#back to top</a>
                 <hr />
               </div>
             </v-col>
@@ -286,6 +375,23 @@
     </v-row>
   </v-container>
 </template>
+
+<script>
+import { mapGetters, mapActions, mapMutations } from 'vuex';
+
+export default {
+  data() {
+    return {
+      context: '',
+    };
+  },
+  mounted() {
+    this.context = this.$route.hash;
+    if (!this.context) return;
+    document.getElementsByClassName(this.context)[0].click();
+  },
+};
+</script>
 
 <style scoped>
 @import '../css/style.css';
