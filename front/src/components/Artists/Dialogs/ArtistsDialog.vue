@@ -168,9 +168,10 @@ export default {
     ...mapMutations({
       updatePaintingArtistName: 'paintings/updatePaintingArtistName',
     }),
-    ...mapActions([
-     'snackbar/showSuccess'
-    ]),
+    ...mapMutations({
+      setContext: 'artists/setContext',
+    }),
+    ...mapActions(['snackbar/showSuccess']),
     async enterPressed() {
       // if focused element is autocomplete allow enter to choose city
       // else user is trying to finish changes so call add
@@ -187,6 +188,7 @@ export default {
       this.reset();
       if (this.$refs.form) this.$refs.form.resetValidation();
       this.dialog = false;
+      this.setContext('');
     },
 
     reset() {
@@ -258,7 +260,10 @@ export default {
       }
 
       bus.$emit('resetMap');
-      this.$store.dispatch('snackbar/showSuccess', 'Artist was successfully updated.')
+      this.$store.dispatch(
+        'snackbar/showSuccess',
+        'Artist was successfully updated.'
+      );
 
       this.close();
     },
@@ -286,6 +291,7 @@ export default {
       this.type = data.type;
       this.key = data.key;
       this.dialog = true;
+      this.setContext('#artists');
     });
   },
 };

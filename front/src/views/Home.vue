@@ -382,7 +382,7 @@
 
     <DeleteDialog />
 
-    <router-link to="/help" id="help-hyperlink" target="_blank" :hidden="true">
+    <router-link :to="'/help' + context" id="help-hyperlink" target="_blank" :hidden="true">
       Link Text
     </router-link>
   </v-container>
@@ -509,6 +509,7 @@ export default {
     ...mapGetters({
       mapOptions: 'map/getMapOptions',
       selectedMap: 'map/getSelectedMap',
+      context: 'artists/getContext'
     }),
 
     keymap() {

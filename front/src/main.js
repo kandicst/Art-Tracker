@@ -14,6 +14,8 @@ let geoCoder = nodeGeocoder(options);
 Vue.prototype.$geoCoder = geoCoder;
 Vue.prototype.$cageApiKey = '0153a27f5a664fe284e2b88db6bc44c7'
 
+Vue.prototype.context = '';
+
 Vue.use(VueHotkey)
 // Vue.use(firestorePlugin)
 Vue.$axios = Axios;
