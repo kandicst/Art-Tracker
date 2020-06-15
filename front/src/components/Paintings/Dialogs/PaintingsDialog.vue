@@ -247,8 +247,9 @@ export default {
           newArtistName,
         });
       }
-
+      
       this.close();
+      this.$store.dispatch('snackbar/showSuccess', 'Uspešno ste izmenili sliku.')
     },
 
     emitPaintingChanged(data) {

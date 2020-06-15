@@ -175,7 +175,9 @@ export default {
     ...mapMutations({
       updatePaintingArtistName: 'paintings/updatePaintingArtistName',
     }),
-
+    ...mapActions([
+     'snackbar/showSuccess'
+    ]),
     async enterPressed() {
       // if focused element is autocomplete allow enter to choose city
       // else user is trying to finish changes so call add
@@ -256,7 +258,6 @@ export default {
 
       // if change name update paintings
       if (oldArtist.name !== this.artist.name) {
-        alert('TO STE PROMEENUUUUUULI');
         this.updatePaintingArtistName({
           oldName: oldArtist.name,
           newName: this.artist.name,
@@ -264,6 +265,7 @@ export default {
       }
 
       bus.$emit('resetMap');
+      this.$store.dispatch('snackbar/showSuccess', 'Uspešno ste izmenili slikara.')
 
       this.close();
     },

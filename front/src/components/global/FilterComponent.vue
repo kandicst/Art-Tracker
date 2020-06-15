@@ -143,9 +143,9 @@ export default {
       date1rules: [
         v => !v || moment(v, "YYYY-MM-DD").isValid() || 'This value must be date',
         v =>
-          !this.endDate ||
-          new Date(v) <= new Date(this.endDate) ||
-          'First date must be before second.',
+          !this.endDate || (!this.startDate||(new Date(v) <= new Date(this.endDate) ||
+          'First date must be before second.'))
+          ,
       ],
       date2rules: [
         v => !v || moment(v, "YYYY-MM-DD").isValid() || 'This value must be date',
