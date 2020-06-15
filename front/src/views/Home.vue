@@ -287,8 +287,8 @@
         dark
       >
         <v-toolbar-title>Update painting</v-toolbar-title>
-        <iframe width="682" height="480" src="https://www.youtube.com/embed/w8-k308hIj0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </v-app-bar>
+      <iframe width="682" height="480" src="https://www.youtube.com/embed/w8-k308hIj0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </v-dialog>
 
     <v-dialog
