@@ -84,7 +84,6 @@
 
           <v-textarea
             v-model="painting.description"
-            :rules="rule"
             required
             class="mt-5"
             label="Description"
@@ -97,6 +96,7 @@
             v-model="img"
             accept="image/*"
             label="Image"
+            :rules="rule"
             prepend-icon="mdi-camera"
           ></v-file-input>
         </v-form>
@@ -149,7 +149,7 @@ export default {
         'Mosaic',
         'Enakustika',
       ],
-      valid: true,
+      valid: false,
       rule: [v => !!v || 'Requred field'],
       type: '',
       key: '',
@@ -184,19 +184,19 @@ export default {
       const autocompleteElement = document.getElementById(
         'locationAutocomplete'
       );
-      if (!this.valid) return;
-
-      await this.add();
+      if (await !this.$refs.form.validate()) return;
+      if (this.type == 'add') await this.add();
+      else await this.update();
     },
 
     async add() {
+      if (!this.$refs.form.validate()) return;
       this.painting.coords = await this.geocodeForward(this.painting.location);
-      if(this.img != null){
-        var storageRef = firebase.storage().ref(this.img.name);
-        var snapshot = await storageRef.put(this.img)
-        this.painting.img = await snapshot.ref.getDownloadURL();
-        this.img = null;
-      }
+
+      var storageRef = firebase.storage().ref(this.img.name);
+      var snapshot = await storageRef.put(this.img)
+      this.painting.img = await snapshot.ref.getDownloadURL();
+      this.img = null;
       
       await this.addPaintingAction(this.painting);
       bus.$emit('markerChanged', this.painting.name);
@@ -210,7 +210,11 @@ export default {
         this.key
       );
 
+      if (oldPainting.location !== this.painting.location)
+        this.painting.coords = await this.geocodeForward(this.painting.location);
+
       if(this.img != null){
+
         var storageRef = firebase.storage().ref(this.img.name);
         var snapshot = await storageRef.put(this.img)
         this.painting.img = await snapshot.ref.getDownloadURL();
@@ -248,6 +252,7 @@ export default {
     },
 
     reset() {
+      this.img = null;
       this.painting = {
         name: '',
         artistId: '',

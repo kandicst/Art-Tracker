@@ -181,8 +181,7 @@ export default {
       const autocompleteElement = document.getElementById(
         'homeTownAutocomplete'
       );
-      if (!this.valid) return;
-
+      if (await !this.$refs.form.validate()) return;
       if (this.type == 'add') await this.add();
       else await this.update();
     },
@@ -194,6 +193,7 @@ export default {
     },
 
     reset() {
+      this.img = null;
       this.artist = {
         name: '',
         birthday: { day: '', month: '', year: '' },
