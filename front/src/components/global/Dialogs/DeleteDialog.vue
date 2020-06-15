@@ -36,14 +36,21 @@ export default {
 
   methods: {
     ...mapActions({
+      
       removeArtistAction: 'artists/removeArtistAction',
       removePaintingAction: 'paintings/removePaintingAction',
     }),
-
+    
     async deleteEntity() {
       if (this.type == 'Artist') {
+        for(let painting of this.getAllPaintings){
+          if(painting.artistId == this.key){
+            this.dialog = false;
+            this.$store.dispatch('snackbar/showError', 'Artist has paintings. Can not be deleted.')
+            return;
+          }
+        }
         await this.removeArtistAction(this.key);
-        // bus.$emit('markerChanged', this.object.name);
       } else {
         await this.removePaintingAction(this.key);
         bus.$emit('paintingMarkerDeleted', {
@@ -71,6 +78,9 @@ export default {
       return this.$store.getters['artists/getArtistById'](this.object.artistId)
         .name;
     },
+    ...mapGetters({
+      getAllPaintings: 'paintings/getAllPaintings',
+    }),
   },
 };
 </script>
