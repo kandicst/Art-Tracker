@@ -44,15 +44,23 @@ export default {
       setContext: 'artists/setContext',
     }),
 
-    cancel(){
+    cancel() {
       this.dialog = false;
       this.setContext('');
     },
 
     async deleteEntity() {
       if (this.type == 'Artist') {
-        // check if artist has paintings
-        // if he has he can't be deleted
+        for (let painting of this.getAllPaintings) {
+          if (painting.artistId == this.key) {
+            this.dialog = false;
+            this.$store.dispatch(
+              'snackbar/showError',
+              'Artist has paintings. Can not be deleted.'
+            );
+            return;
+          }
+        }
         await this.removeArtistAction(this.key);
       } else {
         await this.removePaintingAction(this.key);
@@ -82,6 +90,9 @@ export default {
       return this.$store.getters['artists/getArtistById'](this.object.artistId)
         .name;
     },
+    ...mapGetters({
+      getAllPaintings: 'paintings/getAllPaintings',
+    }),
   },
 };
 </script>
