@@ -113,7 +113,7 @@ export default {
               action: 'Switch to previous map',
             },
             { combination: 'Ctrl + Alt + N', action: 'Add artist/painting' },
-            { combination: 'Ctrl + Alt + H', action: 'Show help dialog' },
+            { combination: 'Ctrl + Alt + H', action: 'Show help dropdown' },
             { combination: 'Ctrl + Alt + S', action: 'Show shortcuts dialog' },
             { combination: 'Ctrl + F1', action: 'Show context help' },
           ],
