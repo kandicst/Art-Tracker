@@ -59,6 +59,8 @@ const mutations = {
     state.paintings = newPaintings;
   },
   addPainting(state, newPainting) {
+    if (state.paintings.filter(art => art.name == newPainting.name).length > 0)
+      throw new Error('Painting with that name already exists!');
     paintingsDB.push(newPainting);
   },
 
@@ -102,7 +104,7 @@ const actions = {
     try {
       commit('addPainting', payload);
     } catch (error) {
-      dispatch('snackbar/showError', error.response.data, { root: true });
+      dispatch('snackbar/showError', error, { root: true });
     }
   },
 
@@ -181,7 +183,7 @@ const getters = {
       return (
         filterPeriods.length == 0 ||
         filterPeriods.includes(painting.artMovement) ||
-        filterPeriods.includes(painting.artist.artMovement) 
+        filterPeriods.includes(painting.artist.artMovement)
       );
     };
 

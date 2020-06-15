@@ -10,7 +10,7 @@ const state = {
     date2: null,
     periods: [],
   },
-  dates : {
+  dates: {
     January: 0,
     February: 1,
     March: 2,
@@ -37,6 +37,8 @@ const mutations = {
     state.filter = filter;
   },
   addArtist(state, newArtist) {
+    if (state.artists.filter(art => art.name == newArtist.name).length > 0)
+      throw new Error('Artist with that name already exists!');
     artistsDB.push(newArtist);
   },
   updateArtist(state, payload) {
@@ -58,9 +60,6 @@ const mutations = {
     artistsDB.child(key).remove();
   },
 
-  // nameExists(state, name) {
-  //   if(state.artists.filter(art => art.name == name).length > 0;
-  // }
 };
 
 const actions = {
@@ -74,7 +73,7 @@ const actions = {
       commit('addArtist', payload);
     } catch (error) {
       console.log(error);
-      dispatch('snackbar/showError', error.response.data, { root: true });
+      dispatch('snackbar/showError', error, { root: true });
     }
   },
 
