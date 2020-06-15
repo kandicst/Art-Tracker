@@ -71,7 +71,12 @@
               </template>
               <span>Keyboard Shortcuts</span>
             </v-tooltip>
-            <v-menu>
+            <v-menu
+                :offset-y="true"
+                :close-on-content-click="false"
+
+
+            >
               <template v-slot:activator="{ on:onMenu, attrs }">
                 
                 <v-tooltip bottom>
@@ -91,30 +96,121 @@
                       ></span>
                     </v-btn>
                   </template>
-                  <span>Demo mode</span>
+                  <span>Visual help</span>
                 </v-tooltip>
               </template>
+              
+
+              <v-toolbar
+                color="teal"
+                dark
+              >
+                <v-toolbar-title>VISUAL HELP</v-toolbar-title>
+                <v-spacer>
+                </v-spacer>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+
+                    <v-btn @click="openHelp" color="teal lighten-3" v-on="on">
+                      <v-icon>
+                        mdi-help
+                      </v-icon>
+                      
+                    </v-btn>
+                    </template> 
+                    <span>
+                      Context help
+                    </span>
+                </v-tooltip>  
+              </v-toolbar>
+                
               <v-list>
-                <v-subheader>
-
-                  <v-btn
-                    @click="openHelp"
-                  >
-                    <span
-                        class="iconify"
-                        data-icon="bx:bx-help-circle"
-                        data-inline="false"
-                      ></span>
-                  </v-btn>
-                </v-subheader>
-
+                
+                <v-header></v-header>
+                
                 <v-list-item
+                  @click="addArtist = !addArtist"
                 >
-                  <v-list-item-title>Dodavanje slikara</v-list-item-title>
+                  <v-list-item-icon>
+                    <v-icon>mdi-account</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Add artist</v-list-item-title>
+                  
                 </v-list-item>
                 <v-list-item
+                  @click="addPainting = !addPainting"
                 >
-                  <v-list-item-title>Dodavanje slike</v-list-item-title>
+                  <v-list-item-icon>
+                    <v-icon>mdi-image</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Add painting</v-list-item-title>
+                  
+                </v-list-item>
+                <v-list-item
+                  @click="updateArtist = !updateArtist"
+                >
+                  <v-list-item-icon>
+                    <v-icon>mdi-account</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Update artist</v-list-item-title>
+                </v-list-item>
+                <v-list-item
+                  @click="updatePainting = !updatePainting"
+                >
+                  <v-list-item-icon>
+                    <v-icon>mdi-image</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Update painting</v-list-item-title>
+                  
+                </v-list-item>
+
+                <v-list-item
+                  @click="deleteArtist = !deleteArtist"
+                >
+                  <v-list-item-icon>
+                    <v-icon>mdi-account</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Delete artist</v-list-item-title>
+                  
+                </v-list-item>
+
+                <v-list-item
+                  @click="deletePainting= !deletePainting"
+                >
+                  <v-list-item-icon>
+                    <v-icon>mdi-image</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Delete painting</v-list-item-title>
+                  
+                </v-list-item>
+
+                <v-list-item
+                  @click="filter = !filter"
+                >
+                  <v-list-item-icon>
+                    <v-icon>mdi-filter</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Filter and search</v-list-item-title>
+                  
+                </v-list-item>
+
+                <v-list-item
+                  @click="seqArtists = !seqArtists"
+                >
+                  <v-list-item-icon>
+                    <v-icon>mdi-account</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Adding multiple artists</v-list-item-title>
+                </v-list-item>
+
+                <v-list-item
+                  @click="seqPaintings = !seqPaintings"
+                >
+                  <v-list-item-icon>
+                    <v-icon>mdi-image</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-title>Adding multiple paintings</v-list-item-title>
+                  
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -142,6 +238,130 @@
     </v-row>
 
     <!-- DIALOGS -->
+    <v-dialog
+      v-model="addArtist"
+    >
+      <v-app-bar
+        color="teal lighten-3"
+        dense
+        dark
+      >
+        <v-toolbar-title>Add artist</v-toolbar-title>
+
+      </v-app-bar>
+      <iframe width="1381" height="480" src="https://www.youtube.com/embed/bZnyu0cm_LA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </v-dialog>
+
+    <v-dialog
+      v-model="addPainting"
+    >
+      <v-app-bar
+        color="teal lighten-3"
+        dense
+        dark
+      >
+        <v-toolbar-title>Add painting</v-toolbar-title>
+
+      </v-app-bar>
+      <iframe width="1381" height="480" src="https://www.youtube.com/embed/CijBhGIyQMg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>    </v-dialog>
+    
+    <v-dialog
+      v-model="updateArtist"
+    >
+      <v-app-bar
+        color="teal lighten-3"
+        dense
+        dark
+      >
+        <v-toolbar-title>Update artist</v-toolbar-title>
+      </v-app-bar>
+      <iframe width="682" height="480" src="https://www.youtube.com/embed/NLcJ9yeRIrk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </v-dialog>
+
+    <v-dialog
+      v-model="updatePainting"
+    >
+      <v-app-bar
+        color="teal lighten-3"
+        dense
+        dark
+      >
+        <v-toolbar-title>Update painting</v-toolbar-title>
+        <iframe width="682" height="480" src="https://www.youtube.com/embed/w8-k308hIj0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </v-app-bar>
+    </v-dialog>
+
+    <v-dialog
+      v-model="deleteArtist"
+    >
+      <v-app-bar
+        color="teal lighten-3"
+        dense
+        dark
+      >
+        <v-toolbar-title>Delete artist</v-toolbar-title>
+
+      </v-app-bar>
+      <iframe width="682" height="480" src="https://www.youtube.com/embed/f8kxCFxnJxs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </v-dialog>
+
+    <v-dialog
+      v-model="deletePainting"
+    >
+      <v-app-bar
+        color="teal lighten-3"
+        dense
+        dark
+      >
+        <v-toolbar-title>Delete painting</v-toolbar-title>
+
+      </v-app-bar>
+      <iframe width="682" height="480" src="https://www.youtube.com/embed/BAmQ36jUeWI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </v-dialog>
+
+    <v-dialog
+      v-model="filter"
+    >
+      <v-app-bar
+        color="teal lighten-3"
+        dense
+        dark
+      >
+        <v-toolbar-title>Filter and search</v-toolbar-title>
+
+      </v-app-bar>
+      <iframe width="682" height="480" src="https://www.youtube.com/embed/ef4dY9bpf-g" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </v-dialog>
+
+
+    <v-dialog
+      v-model="seqArtists"
+    >
+      <v-app-bar
+        color="teal lighten-3"
+        dense
+        dark
+      >
+        <v-toolbar-title>Adding multiple artists</v-toolbar-title>
+
+      </v-app-bar>
+      <iframe width="682" height="480" src="https://www.youtube.com/embed/re0knIc-5Aw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </v-dialog>
+    
+    <v-dialog
+      v-model="seqPaintings"
+    >
+      <v-app-bar
+        color="teal lighten-3"
+        dense
+        dark
+      >
+        <v-toolbar-title>Adding multiple paintings</v-toolbar-title>
+
+      </v-app-bar>
+      <iframe width="682" height="480" src="https://www.youtube.com/embed/eZ3xCNIqgt8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </v-dialog>
+
     <v-dialog
       v-model="helpDialog"
       width="35%"
@@ -198,6 +418,15 @@ export default {
       helpDialog: false,
       shortcutDialog: false,
       search: '',
+      addArtist:false,
+      addPainting:false,
+      deleteArtist:false,
+      deletePainting:false,
+      updateArtist:false,
+      updatePainting:false,
+      seqArtists:false,
+      seqPaintings:false,
+      filter:false
     };
   },
 
