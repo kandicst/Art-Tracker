@@ -19,6 +19,7 @@
             required
             prepend-icon="mdi-account"
             autofocus
+            validate-on-blur
           ></v-text-field>
 
           <DatePicker
@@ -92,7 +93,6 @@
           />
 
           <v-file-input
-
             v-model="img"
             accept="image/*"
             label="Image"
@@ -108,9 +108,9 @@
           color="primary"
           @click="add"
           text
-          :disabled="!valid"
           >Add</v-btn
         >
+          <!-- :disabled="!valid" -->
         <v-btn v-else color="primary" @click="update" text :disabled="!valid"
           >Update</v-btn
         >
@@ -125,7 +125,7 @@ import DatePicker from './../../global/DatePicker';
 import firebase from 'firebase/app';
 import 'firebase/storage';
 import CityAutocomplete from './../../global/CityAutocomplete';
-import { artistsDB,app } from './../../../firebase';
+import { artistsDB, app } from './../../../firebase';
 import { bus } from '@/main';
 
 export default {
@@ -150,13 +150,14 @@ export default {
         map: '',
         artMovement: '',
         death: { day: '', month: '', year: '' },
-        img: ''
+        img: '',
       },
       ruleDay: [
-        v => v == "" || v > 0 && v < 32 || "Incorrect number of days"
+        v => v == '' || (v > 0 && v < 32) || 'Incorrect number of days',
       ],
       ruleYear: [
-        v => v == "" || v >= 0 && v <= 2020 || 'Year must be in range 0 - 2020'
+        v =>
+          v == '' || (v >= 0 && v <= 2020) || 'Year must be in range 0 - 2020',
       ],
     };
   },
@@ -182,14 +183,15 @@ export default {
         'homeTownAutocomplete'
       );
       if (await !this.$refs.form.validate()) return;
+
       if (this.type == 'add') await this.add();
       else await this.update();
     },
 
     close() {
       this.reset();
+      if (this.$refs.form) this.$refs.form.resetValidation();
       this.dialog = false;
-      this.$refs.form.resetValidation();
     },
 
     reset() {
@@ -202,11 +204,12 @@ export default {
         map: '',
         artMovement: '',
         death: { day: '', month: '', year: '' },
-        img: ''
+        img: '',
       };
     },
 
     async add() {
+      if (! await this.$refs.form.validate()) return;
       this.artist.coords = await this.geocodeForward(this.artist.birthplace);
       this.artist.img = '';
       if (!this.artist.death.day)
@@ -215,10 +218,10 @@ export default {
           month: '',
           year: '',
         };
-      
-      if(this.img != null){
+
+      if (this.img != null) {
         var storageRef = firebase.storage().ref(this.img.name);
-        var snapshot = await storageRef.put(this.img)
+        var snapshot = await storageRef.put(this.img);
         this.artist.img = await snapshot.ref.getDownloadURL();
         this.img = null;
       }
@@ -232,15 +235,16 @@ export default {
     },
 
     async update() {
+      if (! await this.$refs.form.validate()) return;
       const oldArtist = this.$store.getters['artists/getArtistById'](this.key);
 
       // if change birthplace get new coords
       if (oldArtist.birthplace !== this.artist.birthplace)
         this.artist.coords = await this.geocodeForward(this.artist.birthplace);
 
-      if(this.img != null){
+      if (this.img != null) {
         var storageRef = firebase.storage().ref(this.img.name);
-        var snapshot = await storageRef.put(this.img)
+        var snapshot = await storageRef.put(this.img);
         this.artist.img = await snapshot.ref.getDownloadURL();
         this.img = null;
       }
@@ -261,8 +265,6 @@ export default {
 
       bus.$emit('resetMap');
 
-      this.$refs.form.reset();
-      this.reset();
       this.close();
     },
   },

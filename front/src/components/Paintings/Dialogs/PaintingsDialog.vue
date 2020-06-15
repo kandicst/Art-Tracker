@@ -19,6 +19,7 @@
             id="paintingNameInput"
             prepend-icon="mdi-rename-box"
             autofocus
+            validate-on-blur
           >
           </v-text-field>
 
@@ -39,7 +40,11 @@
 
           <v-text-field
             v-model="painting.created"
-            :rules="rule.concat([v => v >= 0 && v <= 2020 || 'Must be in range 0 - 2020'])"
+            :rules="
+              rule.concat([
+                v => (v >= 0 && v <= 2020) || 'Must be in range 0 - 2020',
+              ])
+            "
             required
             class="mt-5"
             label="Created"
@@ -109,9 +114,9 @@
           color="primary"
           @click="add"
           text
-          :disabled="!valid"
           >Add</v-btn
         >
+          <!-- :disabled="!valid" -->
         <v-btn v-else color="primary" @click="update" text :disabled="!valid"
           >Update</v-btn
         >
@@ -168,7 +173,7 @@ export default {
   },
 
   methods: {
-    checkHint(){
+    checkHint() {
       return this.hintsMovement[this.painting.artMovement];
     },
 
@@ -185,6 +190,7 @@ export default {
         'locationAutocomplete'
       );
       if (await !this.$refs.form.validate()) return;
+
       if (this.type == 'add') await this.add();
       else await this.update();
     },
@@ -193,11 +199,12 @@ export default {
       if (!this.$refs.form.validate()) return;
       this.painting.coords = await this.geocodeForward(this.painting.location);
 
-      var storageRef = firebase.storage().ref(this.img.name);
-      var snapshot = await storageRef.put(this.img)
-      this.painting.img = await snapshot.ref.getDownloadURL();
-      this.img = null;
-      
+      if (this.img != null) {
+        var storageRef = firebase.storage().ref(this.img.name);
+        var snapshot = await storageRef.put(this.img);
+        this.painting.img = await snapshot.ref.getDownloadURL();
+        this.img = null;
+      }
       await this.addPaintingAction(this.painting);
       bus.$emit('markerChanged', this.painting.name);
       this.reset();
@@ -206,6 +213,7 @@ export default {
     },
 
     async update() {
+      if (! await this.$refs.form.validate()) return;
       const oldPainting = this.$store.getters['paintings/getPaintingById'](
         this.key
       );
@@ -216,7 +224,7 @@ export default {
       if(this.img != null){
 
         var storageRef = firebase.storage().ref(this.img.name);
-        var snapshot = await storageRef.put(this.img)
+        var snapshot = await storageRef.put(this.img);
         this.painting.img = await snapshot.ref.getDownloadURL();
         this.img = null;
       }
@@ -228,16 +236,18 @@ export default {
 
       // check if artist is changed in case you need to redraw map
       if (oldPainting.artistId != this.painting.artistId) {
-        const oldArtistName = this.$store.getters['artists/getArtistById'](oldPainting.artistId).name
-        const newArtistName = this.$store.getters['artists/getArtistById'](this.painting.artistId).name
+        const oldArtistName = this.$store.getters['artists/getArtistById'](
+          oldPainting.artistId
+        ).name;
+        const newArtistName = this.$store.getters['artists/getArtistById'](
+          this.painting.artistId
+        ).name;
         bus.$emit('paintingArtistChanged', {
           key: oldArtistName + '|' + oldPainting.name,
           newArtistName,
         });
       }
 
-      this.$refs.form.resetValidation();
-      this.reset();
       this.close();
     },
 
@@ -246,9 +256,9 @@ export default {
     },
 
     close() {
+      if (this.$refs.form) this.$refs.form.resetValidation();
       this.dialog = false;
       this.reset();
-      this.$refs.form.resetValidation();
     },
 
     reset() {
