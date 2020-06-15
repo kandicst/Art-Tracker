@@ -60,10 +60,7 @@
                         >Nikola Papic
                       </a>
                     </li>
-                    <li>
-                      <strong>License : </strong>
-                      <a href="#" target="_blank">GNU License</a>
-                    </li>
+
                   </ul>
                 </div>
 
@@ -230,7 +227,7 @@
               </p>
 
               <p>
-                If you are still confused, you can find tutorial videos in the
+                However, If you are still confused, you can find tutorial videos in the
                 help menu that will give you practical examples of all important
                 features of the app.
               </p>
