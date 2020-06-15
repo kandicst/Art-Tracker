@@ -2,35 +2,44 @@
   <v-row >
     <v-col >
       <v-text-field
+        ref="days"
         v-model="dayProp"
         :prepend-icon="icon"
         :hint="hint"
-        :rules="ruleDay"
+        :rules="ruleDay.concat(ruleEmpty)"
+        @change="resetValidationDay()"
         type="number"
         label="Day"
       />
     </v-col>
     <v-col>
-      <v-select :items="monthsOfYear" v-model="monthProp" label="Month" :rules="rule" />
+      <v-select 
+      ref="mo" 
+      :items="monthsOfYear" 
+      v-model="monthProp"  
+      @change="resetValidationMonth()" 
+      label="Month" 
+      :rules="rule.concat(ruleEmpty)" 
+      />
     </v-col>
     <v-col>
-      <v-text-field v-model="yearProp" label="Year" type="number" :rules="ruleYear" />
+      <v-text-field 
+      ref="years" 
+      v-model="yearProp" 
+      @change="resetValidationYear()" 
+      label="Year" 
+      type="number" 
+      :rules="ruleYear.concat(ruleEmpty)" 
+      />
     </v-col>
   </v-row>
 </template>
 
 <script>
 export default {
-  props: ['day', 'month', 'year', 'icon', 'hint','rule'],
+  props: ['day', 'month', 'year', 'icon', 'hint','rule','ruleDay','ruleYear'],
   data() {
     return {
-      ruleDay: [
-        v => !!v || 'Required field',
-        v => v > 0 && v < 32 || "Incorrect number of days"
-      ],
-      ruleYear: [
-        v => !!v || 'Required field'
-      ],
       monthsOfYear: [
         'January',
         'February',
@@ -45,7 +54,26 @@ export default {
         'November',
         'December',
       ],
+      ruleEmpty: [
+        v => (this.day !== '' && this.month !== "" && this.year !== "" ||
+              this.day === '' && this.month === "" && this.year === ""
+              ) || "All fields of date must be aquired"
+      ]
     };
+  },
+  methods:{
+    resetValidationYear(){
+      this.$refs.days.resetValidation();
+      this.$refs.mo.resetValidation();
+    },
+    resetValidationDay(){
+      this.$refs.years.resetValidation();
+      this.$refs.mo.resetValidation();
+    },
+    resetValidationMonth(){
+      this.$refs.days.resetValidation();
+      this.$refs.years.resetValidation();
+    }
   },
   computed: {
     dayProp: {

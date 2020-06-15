@@ -24,6 +24,8 @@
           <DatePicker
             :day="artist.birthday.day"
             v-bind:rule="rule"
+            v-bind:ruleDay="rule.concat(ruleDay)"
+            v-bind:ruleYear="rule.concat(ruleYear)"
             @dayChanged="artist.birthday.day = $event"
             :month="artist.birthday.month"
             @monthChanged="artist.birthday.month = $event"
@@ -77,6 +79,9 @@
 
           <DatePicker
             :day="artist.death.day"
+            v-bind:rule="[]"
+            v-bind:ruleDay="ruleDay"
+            v-bind:ruleYear="ruleYear"
             @dayChanged="artist.death.day = $event"
             :month="artist.death.month"
             @monthChanged="artist.death.month = $event"
@@ -141,6 +146,12 @@ export default {
         artMovement: '',
         death: { day: '', month: '', year: '' },
       },
+      ruleDay: [
+        v => v == "" || v > 0 && v < 32 || "Incorrect number of days"
+      ],
+      ruleYear: [
+        v => v == "" || v >= 0 && v <= 2020 || 'Year must be in range 0 - 2020'
+      ],
     };
   },
 

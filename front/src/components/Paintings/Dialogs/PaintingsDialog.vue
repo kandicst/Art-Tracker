@@ -39,7 +39,7 @@
 
           <v-text-field
             v-model="painting.created"
-            :rules="rule"
+            :rules="rule.concat([v => v >= 0 && v <= 2020 || 'Must be in range 0 - 2020'])"
             required
             class="mt-5"
             label="Created"
@@ -146,7 +146,7 @@ export default {
         'Enakustika',
       ],
       valid: true,
-      rule: [v => !!v || 'Obavezno polje'],
+      rule: [v => !!v || 'Requred field'],
       type: '',
       key: '',
       dialog: '',
