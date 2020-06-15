@@ -109,17 +109,10 @@
       <v-card-actions class="mr-8">
         <v-spacer></v-spacer>
         <v-btn @click="close" text>Cancel</v-btn>
-        <v-btn
-          v-if="type === 'add'"
-          color="primary"
-          @click="add"
-          text
+        <v-btn v-if="type === 'add'" color="primary" @click="add" text
           >Add</v-btn
         >
-          <!-- :disabled="!valid" -->
-        <v-btn v-else color="primary" @click="update" text :disabled="!valid"
-          >Update</v-btn
-        >
+        <v-btn v-else color="primary" @click="update" text>Update</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -196,7 +189,7 @@ export default {
     },
 
     async add() {
-      if (!this.$refs.form.validate()) return;
+      if (!(await this.$refs.form.validate())) return;
       this.painting.coords = await this.geocodeForward(this.painting.location);
 
       if (this.img != null) {
@@ -213,16 +206,16 @@ export default {
     },
 
     async update() {
-      if (! await this.$refs.form.validate()) return;
+      if (!(await this.$refs.form.validate())) return;
       const oldPainting = this.$store.getters['paintings/getPaintingById'](
         this.key
       );
 
+      // if change birthplace get new coords
       if (oldPainting.location !== this.painting.location)
         this.painting.coords = await this.geocodeForward(this.painting.location);
 
-      if(this.img != null){
-
+      if (this.img != null) {
         var storageRef = firebase.storage().ref(this.img.name);
         var snapshot = await storageRef.put(this.img);
         this.painting.img = await snapshot.ref.getDownloadURL();
@@ -248,6 +241,7 @@ export default {
         });
       }
       
+      bus.$emit('resetMap');
       this.close();
       this.$store.dispatch('snackbar/showSuccess', 'Uspešno ste izmenili sliku.')
     },

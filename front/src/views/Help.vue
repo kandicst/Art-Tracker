@@ -201,20 +201,85 @@
               </p>
 
               <p class="mt-6">
-                Next up is the search field.
-
-                You can use search to find artists by their name.
+                Next up is the search field. You can use search to find artists
+                by their name.
               </p>
 
               <p>
-                Tightly connect to search is the filter button. 
-                Clicking it will open a drop down menu which you can use to filter 
-                currently selected artists and paintings by their art movements, 
-                mediums or even time periods.
+                Tightly connect to search is the filter button. Clicking it will
+                open a drop down menu which you can use to filter currently
+                selected artists and paintings by their art movements, mediums
+                or even time periods. TIPTIOPThis functionality can be jointly
+                used with search.
+              </p>
 
-                TIPTIOPThis functionality can be jointly used with search.
+              <p class="mt-6">
+                After filter, comes the select component used to toggle the map.
+                Right now, our application supports 4 predefined maps: World,
+                Europe, USA and Serbia. Every map has its own data, and by
+                toggling the current map, that data will be displayed on the
+                Grid/List view and on the Map itself.
+              </p>
+
+              <p class="mt-6">
+                And finally, on the far-right there are Keyboard shortcuts
+                button and Help Menu. Clicking on the Keyboard shortcuts will
+                display a dialog showcasing all the shortcuts available in the
+                application. If you really want to be productive while using
+                this application, we suggest you to learn and use them.
+              </p>
+
+              <p>
+                If you are still confused, you can find tutorial videos in the
+                help menu that will give you practical examples of all important
+                features of the app.
               </p>
             </v-col>
+          </v-row>
+        </section>
+
+        <section id="line1" class="section">
+          <v-row>
+            <v-col cols="12">
+              <div class="dark-text display-2">
+                Artists <a href="#top">#back to top</a>
+                <hr />
+              </div>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col cols="12"> </v-col>
+          </v-row>
+        </section>
+
+        <section id="line1" class="section">
+          <v-row>
+            <v-col cols="12">
+              <div class="dark-text display-2">
+                Paintings <a href="#top">#back to top</a>
+                <hr />
+              </div>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col cols="12"> </v-col>
+          </v-row>
+        </section>
+
+        <section id="line1" class="section">
+          <v-row>
+            <v-col cols="12">
+              <div class="dark-text display-2">
+                Just in case <a href="#top">#back to top</a>
+                <hr />
+              </div>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col cols="12"> </v-col>
           </v-row>
         </section>
       </v-col>
