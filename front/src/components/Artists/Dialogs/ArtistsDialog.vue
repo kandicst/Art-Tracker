@@ -92,6 +92,8 @@
           />
 
           <v-file-input
+
+            v-model="img"
             accept="image/*"
             label="Image"
             prepend-icon="mdi-camera"
@@ -120,8 +122,10 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import DatePicker from './../../global/DatePicker';
+import firebase from 'firebase/app';
+import 'firebase/storage';
 import CityAutocomplete from './../../global/CityAutocomplete';
-import { artistsDB } from './../../../firebase';
+import { artistsDB,app } from './../../../firebase';
 import { bus } from '@/main';
 
 export default {
@@ -137,6 +141,7 @@ export default {
       type: '',
       key: '',
       dialog: false,
+      img: null,
       artist: {
         name: '',
         birthday: { day: '', month: '', year: '' },
@@ -145,6 +150,7 @@ export default {
         map: '',
         artMovement: '',
         death: { day: '', month: '', year: '' },
+        img: ''
       },
       ruleDay: [
         v => v == "" || v > 0 && v < 32 || "Incorrect number of days"
@@ -196,6 +202,7 @@ export default {
         map: '',
         artMovement: '',
         death: { day: '', month: '', year: '' },
+        img: ''
       };
     },
 
@@ -208,6 +215,14 @@ export default {
           month: '',
           year: '',
         };
+      
+      if(this.img != null){
+        var storageRef = firebase.storage().ref(this.img.name);
+        var snapshot = await storageRef.put(this.img)
+        this.artist.img = await snapshot.ref.getDownloadURL();
+        this.img = null;
+      }
+
       await this.addArtistAction(this.artist);
 
       //reset input
@@ -222,6 +237,13 @@ export default {
       // if change birthplace get new coords
       if (oldArtist.birthplace !== this.artist.birthplace)
         this.artist.coords = await this.geocodeForward(this.artist.birthplace);
+
+      if(this.img != null){
+        var storageRef = firebase.storage().ref(this.img.name);
+        var snapshot = await storageRef.put(this.img)
+        this.artist.img = await snapshot.ref.getDownloadURL();
+        this.img = null;
+      }
 
       await this.updateArtistAction({
         key: this.key,

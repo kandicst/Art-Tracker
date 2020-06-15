@@ -94,6 +94,7 @@
 
           <!-- v-model="painting.image" -->
           <v-file-input
+            v-model="img"
             accept="image/*"
             label="Image"
             prepend-icon="mdi-camera"
@@ -122,6 +123,8 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex';
 import CityAutocomplete from './../../global/CityAutocomplete';
+import firebase from 'firebase/app';
+import 'firebase/storage';
 import { bus } from '../../../main';
 import { paintingsDB } from './../../../firebase';
 
@@ -131,6 +134,7 @@ export default {
   },
   data() {
     return {
+      img: null,
       mediums: [
         'Pastel',
         'Colage',
@@ -187,9 +191,13 @@ export default {
 
     async add() {
       this.painting.coords = await this.geocodeForward(this.painting.location);
-      this.painting.img =
-        'https://i.ytimg.com/vi/IwtuO6kkMTA/maxresdefault.jpg';
-      // paintingsDB.push(this.painting);
+      if(this.img != null){
+        var storageRef = firebase.storage().ref(this.img.name);
+        var snapshot = await storageRef.put(this.img)
+        this.painting.img = await snapshot.ref.getDownloadURL();
+        this.img = null;
+      }
+      
       await this.addPaintingAction(this.painting);
       bus.$emit('markerChanged', this.painting.name);
       this.reset();
@@ -201,6 +209,13 @@ export default {
       const oldPainting = this.$store.getters['paintings/getPaintingById'](
         this.key
       );
+
+      if(this.img != null){
+        var storageRef = firebase.storage().ref(this.img.name);
+        var snapshot = await storageRef.put(this.img)
+        this.painting.img = await snapshot.ref.getDownloadURL();
+        this.img = null;
+      }
 
       await this.updatePaintingAction({
         key: this.key,
